@@ -65,15 +65,18 @@
       }
     },
     mounted () {
+      console.log(this.$store)
       this.id = this.$route.params.id
-      this.$http.get(`http://www.zhixuanvip.com/top_list?idx=${this.id}`)
+      const that = this
+      this.$http.get(`http://localhost:3000/top_list?idx=${this.id}`)
         .then(function (res) {
-          this.data = res.data.result
+          console.log(res.data.result)
+          that.data = res.data.result
         })
     },
     methods: {
       playMusic (id, ind) {
-        // this.$store.dispatch('getUrlList', this.id)
+        this.$store.dispatch('clearMusicList')
         for (var i = 0; i < this.data.tracks.length; i++) {
           let musicObj = {
             url: this.data.tracks[i].mp3Url,
@@ -81,9 +84,22 @@
             artists: this.data.tracks[i].artists,
             imgUrl: this.data.tracks[i].album.picUrl
           }
-          this.$store.state.musicUrlList.push(musicObj)
+          console.log(this.$store.state)
+          this.$store.dispatch('getMusicList', musicObj)
+          // this.$store.state.musicUrlList.push(musicObj)
         }
-        this.$store.state.nowMusicUrl = this.$store.state.musicUrlList[ind].url
+        const obj = {
+          ind: ind,
+          nowMusicUrl: this.$store.state.musicUrlList[ind].url,
+          nowName: this.$store.state.musicUrlList[ind].name,
+          nowArtists: this.$store.state.musicUrlList[ind].artists,
+          nowImgurl: this.$store.state.musicUrlList[ind].imgUrl
+        }
+        this.$store.dispatch('changeMusic', obj)
+        // this.$store.state.nowMusicUrl = this.$store.state.musicUrlList[ind].url
+        // this.$store.state.nowName = this.$store.state.musicUrlList[ind].name
+        // this.$store.state.nowArtists = this.$store.state.musicUrlList[ind].artists
+        // this.$store.state.nowImgurl = this.$store.state.musicUrlList[ind].imgUrl
         this.$router.push({path: `/music/${id}`})
       }
     }

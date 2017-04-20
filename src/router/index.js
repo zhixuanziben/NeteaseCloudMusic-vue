@@ -6,6 +6,7 @@ import personalAdvice from '../components/personalAdvice'
 import list from '../components/list'
 import listContent from '../components/listContent'
 import music from '../components/music'
+import mine from '../components/mine'
 
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
       path: '/listContent/:id',
       name: 'listContent',
       component: listContent
+    },
+    {
+      path: '/user',
+      name: 'mine',
+      component: mine
     },
     {
       path: '/music/:id',

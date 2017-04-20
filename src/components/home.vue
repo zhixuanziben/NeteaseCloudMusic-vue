@@ -2,7 +2,7 @@
   <div class="home-wrap">
     <header class="home-header">
       <div @click="showLibrary">音乐馆</div>
-      <div>我的</div>
+      <div @click="mine">我的</div>
       <div>
         <icon name="serch" class="icon"></icon>
       </div>
@@ -16,6 +16,9 @@
     methods: {
       showLibrary () {
         this.$router.push({path: '/musicLibrary'})
+      },
+      mine () {
+        this.$router.push({path: '/user'})
       }
     }
   }

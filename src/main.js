@@ -3,13 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import vueResource from 'vue-resource'
+// import vueResource from 'vue-resource'
+import axios from 'axios'
 import store from './vuex/store.js'
 import Icon from 'vue-svg-icon/Icon.vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
-Vue.use(vueResource)
+Vue.prototype.$http = axios
+axios.defaults.withCredentials = true
+// Vue.use(vueResource)
 Vue.use(ElementUI)
 Vue.component('icon', Icon)
 

@@ -1,6 +1,5 @@
 <template>
   <div class="music-audio-wrap">
-    <audio :src="musicUrl" controls="controls" id="audio" autoplay volume="0.1" @ended="toNext" @loadedmetadata="getFullTime" @timeupdate="getCurrentTime"></audio>
     <div>
       <div>
         {{musicName}}
@@ -15,7 +14,7 @@
         <span>{{fullMin}}:{{fullSec}}</span>
       </div>
       <div>
-        <div @click="changePattern">模式</div>
+        <div>模式</div>
         <div @click="prew">
           <icon name="prewmusic"></icon>
         </div>
@@ -38,101 +37,104 @@
   export default {
     data () {
       return {
-        value1: 0,
+        // value1: 0,
         musicUrl: '',
-        isPlaying: true,
+        // isPlaying: true,
         urlArr: [],
         // ind是播放的曲目，在当前播放列表的序列
         ind: null,
-        musicName: '',
         artistsArr: [],
-        artists: '',
-        imgUrl: '',
+        // artists: '',
+        // imgUrl: '',
         // pattern,0代表列表循环模式，1代表随机播放，2代表单曲循环
-        pattern: 0,
-        fullTime: 0,
-        fullMin: 0,
-        fullSec: 0,
-        currentTime: 0,
-        currentMin: 0,
-        currentSec: 0
+        pattern: 0
+        // fullTime: 0,
+        // fullMin: 0,
+        // fullSec: 0,
+        // currentTime: 0,
+        // currentMin: 0,
+        // currentSec: 0
       }
     },
     mounted () {
-      this.$http.get(`http://www.zhixuanvip.com/music/url?id=${this.$route.params.id}`)
-        .then(function (res) {
-          this.musicUrl = this.$store.state.nowMusicUrl
-          for (var i = 0; i < this.$store.state.musicUrlList.length; i++) {
-            if (this.$store.state.musicUrlList[i].url === this.musicUrl) {
-              this.ind = i
-              this.musicName = this.$store.state.musicUrlList[i].name
-              this.artists = this.$store.state.musicUrlList[i].artists
-              this.imgUrl = this.$store.state.musicUrlList[i].imgUrl
-            }
-          }
-        })
+      console.log(this.$store.state)
+      this.currentMin = this.$store.state.currentMin
+      this.currentSec = this.$store.state.currentSec
+      this.currentTime = this.$store.state.currentTime
+      this.fullMin = this.$store.state.fullMin
+      this.fullSec = this.$store.state.fullSec
+      this.fullTime = this.$store.state.fullTime
     },
-    filters: {
-      filter (val) {
-        if (val[val.length - 1] === '/') {
-          val.splice(val.length - 1, 1)
-        }
-        return val
+    computed: {
+      musicName () {
+        return this.$store.state.nowMusic.nowName
+      },
+      artists () {
+        return this.$store.state.nowMusic.nowArtists
+      },
+      imgUrl () {
+        return this.$store.state.nowMusic.nowImgurl
+      },
+      currentMin () {
+        return this.$store.state.current.currentMin
+      },
+      currentSec () {
+        return this.$store.state.current.currentSec
+      },
+      fullMin () {
+        return this.$store.state.full.fullMin
+      },
+      fullSec () {
+        return this.$store.state.full.fullSec
+      },
+      value1 () {
+        return this.$store.state.current.value1
+      },
+      isPlaying () {
+        return this.$store.state.isPlaying
       }
     },
     methods: {
-      changePattern () {
-
-      },
       play () {
         console.log('play click')
         const audio = document.querySelector('#audio')
-        if (!this.isPlaying) {
+        if (!this.$store.state.isPlaying) {
           audio.play()
-          this.isPlaying = true
+          // this.isPlaying = true
+          this.$store.dispatch('changePlayStatus')
         } else {
           audio.pause()
-          this.isPlaying = false
+          // this.isPlaying = false
+          this.$store.dispatch('changePlayStatus')
         }
       },
       prew () {
-        this.musicUrl = this.$store.state.musicUrlList[this.ind - 1].url
-        this.ind = this.ind - 1
-        this.musicName = this.$store.state.musicUrlList[this.ind].name
-        this.artists = this.$store.state.musicUrlList[this.ind].artists
-        this.imgUrl = this.$store.state.musicUrlList[this.ind].imgUrl
+        const ind = this.$store.state.nowMusic.ind === 0 ? this.$store.state.musicUrlList.length : this.$store.state.nowMusic.ind
+        const obj1 = {
+          ind: ind - 1,
+          nowMusicUrl: this.$store.state.musicUrlList[ind - 1].url,
+          nowName: this.$store.state.musicUrlList[ind - 1].name,
+          nowArtists: this.$store.state.musicUrlList[ind - 1].artists,
+          nowImgurl: this.$store.state.musicUrlList[ind - 1].imgUrl
+        }
+        this.$store.dispatch('changeMusic', obj1)
       },
       next () {
-        console.log('next click')
-        this.musicUrl = this.$store.state.musicUrlList[this.ind + 1].url
-        this.ind += 1
-        this.musicName = this.$store.state.musicUrlList[this.ind].name
-        this.artists = this.$store.state.musicUrlList[this.ind].artists
-        this.imgUrl = this.$store.state.musicUrlList[this.ind].imgUrl
-        console.log(this.musicUrl)
-      },
-      toNext () {
-        console.log('hi')
-        this.next()
-      },
-      getFullTime () {
-        const audio = document.querySelector('#audio')
-        this.fullTime = audio.duration
-        this.fullMin = Math.floor(this.fullTime / 60)
-        this.fullSec = Math.floor(this.fullTime % 60) < 10 ? '0' + Math.floor(this.fullTime % 60) : Math.floor(this.fullTime % 60)
-      },
-      getCurrentTime () {
-        const audio = document.querySelector('#audio')
-        this.currentTime = audio.currentTime
-        this.value1 = (audio.currentTime / this.fullTime) * 100
-        this.currentMin = Math.floor(this.currentTime / 60)
-        this.currentSec = Math.floor(this.currentTime % 60) < 10 ? '0' + Math.floor(this.currentTime % 60) : Math.floor(this.currentTime % 60)
+        const ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
+        const obj1 = {
+          ind: ind + 1,
+          nowMusicUrl: this.$store.state.musicUrlList[ind + 1].url,
+          nowName: this.$store.state.musicUrlList[ind + 1].name,
+          nowArtists: this.$store.state.musicUrlList[ind + 1].artists,
+          nowImgurl: this.$store.state.musicUrlList[ind + 1].imgUrl
+        }
+        this.$store.dispatch('changeMusic', obj1)
       }
     }
   }
 </script>
 
-<style scope>
+<style scoped>
   .music-audio-wrap {
     background-color: gray;
   }
