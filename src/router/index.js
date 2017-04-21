@@ -5,8 +5,10 @@ import musicLibrary from '../components/musicLibrary'
 import personalAdvice from '../components/personalAdvice'
 import list from '../components/list'
 import listContent from '../components/listContent'
+import playList from '../components/playList'
 import music from '../components/music'
 import mine from '../components/mine'
+import comment from '../components/comment'
 
 Vue.use(Router)
 
@@ -42,6 +44,11 @@ export default new Router({
       component: listContent
     },
     {
+      path: '/playList/:id',
+      name: 'playList',
+      component: playList
+    },
+    {
       path: '/user',
       name: 'mine',
       component: mine
@@ -50,6 +57,11 @@ export default new Router({
       path: '/music/:id',
       name: 'music',
       component: music
+    },
+    {
+      path: '/comment/:id',
+      name: 'comment',
+      component: comment
     }
   ]
 })

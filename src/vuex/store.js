@@ -7,6 +7,7 @@ const store = new vuex.Store({
     isPlaying: true,
     nowMusic: {
       ind: '',
+      id: '',
       nowMusicUrl: 'http://m2.music.126.net/7o5D4dA6271VktgawcbZFA==/18665309393829604.mp3',
       nowName: '',
       nowArtists: '',
@@ -32,8 +33,12 @@ const store = new vuex.Store({
     newMusicList (state, obj) {
       state.musicUrlList.push(obj)
     },
+    musicPush (state, obj) {
+      state.musicUrlList.push(obj)
+    },
     nowMusicUrl (state, obj) {
       state.nowMusic.ind = obj.ind
+      state.nowMusic.id = obj.id
       state.nowMusic.nowMusicUrl = obj.nowMusicUrl
       state.nowMusic.nowName = obj.nowName
       state.nowMusic.nowArtists = obj.nowArtists
@@ -72,6 +77,9 @@ const store = new vuex.Store({
     },
     changePlayStatus (context) {
       context.commit('play')
+    },
+    pushMusic (context, obj) {
+      context.commit('musicPush', obj)
     }
   }
 })

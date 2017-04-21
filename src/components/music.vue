@@ -14,6 +14,9 @@
         <span>{{fullMin}}:{{fullSec}}</span>
       </div>
       <div>
+        <span @click="getComment">评论</span>
+      </div>
+      <div>
         <div>模式</div>
         <div @click="prew">
           <icon name="prewmusic"></icon>
@@ -129,6 +132,9 @@
           nowImgurl: this.$store.state.musicUrlList[ind + 1].imgUrl
         }
         this.$store.dispatch('changeMusic', obj1)
+      },
+      getComment () {
+        this.$router.push({path: `/comment/${this.$store.state.nowMusic.id}`})
       }
     }
   }
