@@ -3,7 +3,7 @@
     <header class="home-header">
       <div @click="showLibrary">音乐馆</div>
       <div @click="mine">我的</div>
-      <div>
+      <div @click="serch">
         <icon name="serch" class="icon"></icon>
       </div>
     </header>
@@ -19,6 +19,9 @@
       },
       mine () {
         this.$router.push({path: '/user'})
+      },
+      serch () {
+        this.$router.push({path: '/serchPage'})
       }
     }
   }

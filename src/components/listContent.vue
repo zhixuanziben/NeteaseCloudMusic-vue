@@ -99,7 +99,7 @@
         // this.$store.state.nowName = this.$store.state.musicUrlList[ind].name
         // this.$store.state.nowArtists = this.$store.state.musicUrlList[ind].artists
         // this.$store.state.nowImgurl = this.$store.state.musicUrlList[ind].imgUrl
-        this.$router.push({path: `/music/${id}`})
+        // this.$router.push({path: `/music/${id}`})
       }
     }
   }

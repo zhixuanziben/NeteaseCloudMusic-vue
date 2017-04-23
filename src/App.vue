@@ -1,7 +1,27 @@
 <template>
   <div id="app">
-    <router-view></router-view>
-    <audio :src="musicUrl" controls="controls" id="audio" autoplay @ended="toNext" @loadedmetadata="getFullTime" @timeupdate="getCurrentTime"></audio>
+    <router-view class="view-wrap"></router-view>
+    <div class="player">
+      <div @click="toMusicMsg(musicId)">
+        <div>
+          <img :src="imgUrl" style="width: 0.4rem; height: 0.4rem">
+        </div>
+        <div>
+          <div>{{musicName}}</div>
+          <div>
+            <div v-for="(item, index) in artists">{{item.name}}<span v-if="index < (artists.length - 1)">/</span></div>
+          </div>
+        </div>
+      </div>
+      <div @click="next">
+        下一首
+      </div>
+      <div @click="play">
+        暂停
+      </div>
+      <el-progress :percentage="value1" :text-inside="true" :stroke-width="2" status="exception" :show-text="false"></el-progress>
+    </div>
+    <audio :src="musicUrl" id="audio" autoplay @ended="toNext" @loadedmetadata="getFullTime" @timeupdate="getCurrentTime"></audio>
   </div>
 </template>
 
@@ -10,25 +30,25 @@ export default {
   data () {
     return {
       ind: '',
-      musicName: '',
-      artists: '',
-      imgUrl: ''
+      value1: 0
     }
   },
   computed: {
     musicUrl () {
       return this.$store.state.nowMusic.nowMusicUrl
+    },
+    imgUrl () {
+      return this.$store.state.nowMusic.nowImgurl
+    },
+    musicName () {
+      return this.$store.state.nowMusic.nowName
+    },
+    artists () {
+      return this.$store.state.nowMusic.nowArtists
+    },
+    musicId () {
+      return this.$store.state.nowMusic.id
     }
-  },
-  mounted () {
-    // for (var i = 0; i < this.$store.state.musicUrlList.length; i++) {
-      // if (this.$store.state.musicUrlList[i].url === this.musicUrl) {
-        // this.ind = i
-        // this.musicName = this.$store.state.musicUrlList[i].name
-        // this.artists = this.$store.state.musicUrlList[i].artists
-        // this.imgUrl = this.$store.state.musicUrlList[i].imgUrl
-      // }
-    // }
   },
   methods: {
     toNext () {
@@ -67,11 +87,48 @@ export default {
         value1: this.value1
       }
       this.$store.dispatch('changeCurrent', obj)
+    },
+    play () {
+      console.log('play click')
+      const audio = document.querySelector('#audio')
+      if (!this.$store.state.isPlaying) {
+        audio.play()
+        // this.isPlaying = true
+        this.$store.dispatch('changePlayStatus')
+      } else {
+        audio.pause()
+        // this.isPlaying = false
+        this.$store.dispatch('changePlayStatus')
+      }
+    },
+    next () {
+      const ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
+      const obj1 = {
+        ind: ind + 1,
+        nowMusicUrl: this.$store.state.musicUrlList[ind + 1].url,
+        nowName: this.$store.state.musicUrlList[ind + 1].name,
+        nowArtists: this.$store.state.musicUrlList[ind + 1].artists,
+        nowImgurl: this.$store.state.musicUrlList[ind + 1].imgUrl
+      }
+      this.$store.dispatch('changeMusic', obj1)
+    },
+    toMusicMsg (id) {
+      this.$router.push({path: `/music/${id}`})
     }
   }
 }
 </script>
 
 <style>
-
+  .player {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: pink;
+    
+  }
+  .view-wrap {
+    margin-bottom: 1.2rem;
+  }
 </style>

@@ -21,6 +21,16 @@
         </div>
       </div>
     </div>
+    <div>
+      <h2>最新音乐</h2>
+      <div>
+        <div v-for="item in newAlbums" @click="toAlbumMsg(item.id)">
+          <img :src="item.picUrl" alt="" style="width: 200px; height: 200px">
+          <div>{{item.name}}</div>
+          <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,19 +38,25 @@
   export default {
     data () {
       return {
-        songList: []
+        songList: [],
+        newAlbums: []
       }
     },
     mounted () {
       this.$http.get('http://localhost:3000/recommend/resource').then((res) => {
-        console.log(res.data.recommend)
         this.songList = res.data.recommend
+      })
+      this.$http.get('http://localhost:3000/new_albums?offset=0&limit=6').then((res) => {
+        this.newAlbums = res.data.albums
       })
     },
     methods: {
       goListContent (ind) {
         console.log(`/playList/${ind}`)
         this.$router.push({path: `/playList/${ind}`})
+      },
+      toAlbumMsg (id) {
+        this.$router.push({path: `/album/${id}`})
       }
     }
   }

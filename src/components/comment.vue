@@ -3,8 +3,14 @@
     <div>
       评论({{total}})
     </div>
-    <div>
-      
+    <div @click="playMusic()">
+      <div>
+        <img :src="musicpic" alt="" style="width: 80px; height: 80px">
+      </div>
+      <div>
+        {{musicname}}
+        <div v-for="(item, index) in artistname">{{item.name}}<span v-if="index < (artistname.length - 1)">/</span></div>
+      </div>
     </div>
     <div>
       <h2>精彩评论</h2>
@@ -63,7 +69,9 @@
     },
     mounted () {
       // const that = this
-      // this.musicname =
+      this.musicname = this.$store.state.nowMusic.nowName
+      this.musicpic = this.$store.state.nowMusic.nowImgurl
+      this.artistname = this.$store.state.nowMusic.nowArtists
       this.$http.get(`http://localhost:3000/comment?id=${this.$route.params.id}&limit=20`)
         .then((res) => {
           console.log(res)
@@ -72,6 +80,11 @@
           this.hotcomment = res.data.hotComments
           console.log(res.data)
         })
+    },
+    methods: {
+      playMusic () {
+        this.$router.go(-1)
+      }
     }
   }
 </script>

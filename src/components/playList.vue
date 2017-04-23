@@ -82,6 +82,7 @@
         .then(function (res) {
           that.url = res.data.url
           const obj1 = {
+            id: id,
             ind: that.$store.state.musicUrlList.length,
             nowMusicUrl: res.data.data[0].url,
             nowName: name,

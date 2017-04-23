@@ -8,7 +8,7 @@ const store = new vuex.Store({
     nowMusic: {
       ind: '',
       id: '',
-      nowMusicUrl: 'http://m2.music.126.net/7o5D4dA6271VktgawcbZFA==/18665309393829604.mp3',
+      nowMusicUrl: '',
       nowName: '',
       nowArtists: '',
       nowImgurl: '',

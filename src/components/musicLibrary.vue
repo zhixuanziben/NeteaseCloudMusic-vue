@@ -2,7 +2,7 @@
   <div class="library-wrap">
     <header class="library-header">
       <div @click="toPersonalAdvice">个性推荐</div>
-      <div>歌单</div>
+      <div @click="toSongList">歌单</div>
       <div @click="toList">排行榜</div>
     </header>
     <router-view></router-view>
@@ -14,6 +14,9 @@
     methods: {
       toPersonalAdvice () {
         this.$router.push({name: 'personalAdvice'})
+      },
+      toSongList () {
+        this.$router.push({name: 'songList'})
       },
       toList () {
         this.$router.push({name: 'list'})
