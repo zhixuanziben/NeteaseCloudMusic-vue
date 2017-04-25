@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import home from '../components/home'
 import musicLibrary from '../components/musicLibrary'
 import personalAdvice from '../components/personalAdvice'
+import recommendSongs from '../components/recommendSongs'
 import songList from '../components/songList'
 import list from '../components/list'
 import listContent from '../components/listContent'
@@ -112,6 +113,11 @@ export default new Router({
       path: '/comment/:id',
       name: 'comment',
       component: comment
+    },
+    {
+      path: '/recommendSongs',
+      name: 'recommendSongs',
+      component: recommendSongs
     }
   ]
 })

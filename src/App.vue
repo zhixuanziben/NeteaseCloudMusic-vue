@@ -93,11 +93,9 @@ export default {
       const audio = document.querySelector('#audio')
       if (!this.$store.state.isPlaying) {
         audio.play()
-        // this.isPlaying = true
         this.$store.dispatch('changePlayStatus')
       } else {
         audio.pause()
-        // this.isPlaying = false
         this.$store.dispatch('changePlayStatus')
       }
     },

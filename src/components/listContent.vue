@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="list-content-wrap">
     <header class="list-content-header">
       <div>{{data.name}}</div>
@@ -30,33 +30,12 @@
         </div>
       </div>
     </header>
-    <div>
-      <div>
-        播放全部
-        <span>
-          (共{{data.trackCount}}首)
-        </span>
-      </div>
-      <div v-for="(item, index) in data.tracks" @click="playMusic(item.id, index)" class="list-content-music">
-        <div class="list-content-left">
-          <div class="list-content-index">{{index + 1}}</div>
-          <div class="list-content-up">
-            {{item.ratio}}%
-          </div>
-        </div>
-        <div class="list-content-right">
-          <div>{{item.name}}</div>
-          <div class="list-content-right-artists">
-            <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
-            - <span>{{item.album.name}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <music-list :songs="data.tracks"></music-list>
   </div>  
 </template>
 
 <script>
+  import musicList from './musicList'
   export default {
     data () {
       return {
@@ -64,43 +43,15 @@
         data: ''
       }
     },
+    components: {
+      musicList
+    },
     mounted () {
       this.id = this.$route.params.id
-      const that = this
       this.$http.get(`http://localhost:3000/top_list?idx=${this.id}`)
-        .then(function (res) {
-          console.log(res.data.result)
-          that.data = res.data.result
+        .then((res) => {
+          this.data = res.data.result
         })
-    },
-    methods: {
-      playMusic (id, ind) {
-        this.$store.dispatch('clearMusicList')
-        for (var i = 0; i < this.data.tracks.length; i++) {
-          let musicObj = {
-            url: this.data.tracks[i].mp3Url,
-            name: this.data.tracks[i].name,
-            artists: this.data.tracks[i].artists,
-            imgUrl: this.data.tracks[i].album.picUrl
-          }
-          this.$store.dispatch('getMusicList', musicObj)
-          // this.$store.state.musicUrlList.push(musicObj)
-        }
-        const obj = {
-          ind: ind,
-          id: id,
-          nowMusicUrl: this.$store.state.musicUrlList[ind].url,
-          nowName: this.$store.state.musicUrlList[ind].name,
-          nowArtists: this.$store.state.musicUrlList[ind].artists,
-          nowImgurl: this.$store.state.musicUrlList[ind].imgUrl
-        }
-        this.$store.dispatch('changeMusic', obj)
-        // this.$store.state.nowMusicUrl = this.$store.state.musicUrlList[ind].url
-        // this.$store.state.nowName = this.$store.state.musicUrlList[ind].name
-        // this.$store.state.nowArtists = this.$store.state.musicUrlList[ind].artists
-        // this.$store.state.nowImgurl = this.$store.state.musicUrlList[ind].imgUrl
-        // this.$router.push({path: `/music/${id}`})
-      }
     }
   }
 </script>

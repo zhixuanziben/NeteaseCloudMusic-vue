@@ -4,10 +4,10 @@
       <div>
         私人FM
       </div>
-      <div>
+      <div @click="recommendSongs">
         每日歌曲推荐
       </div>
-      <div>
+      <div @click="goHotList">
         云音乐热歌榜
       </div>
     </div>
@@ -57,6 +57,12 @@
       },
       toAlbumMsg (id) {
         this.$router.push({path: `/album/${id}`})
+      },
+      recommendSongs () {
+        this.$router.push({path: `/recommendSongs`})
+      },
+      goHotList () {
+        this.$router.push({path: '/listContent/1'})
       }
     }
   }
