@@ -59,6 +59,7 @@
       this.$http.get(`http://localhost:3000/playlist/detail?id=${this.id}`)
         .then((res) => {
           this.data = res.data.playlist.tracks
+          console.log(this.data)
         })
     }
   }

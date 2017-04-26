@@ -5,8 +5,9 @@
         {{musicName}}
         <div v-for="(item, index) in artists">{{item.name}}<span v-if="index < (artists.length - 1)">/</span></div>
       </div>
-      <div>
-        <img :src="imgUrl">
+      <div @click="getLyric(id)">
+        <img :src="imgUrl" style="width: 200px; height: 200px" v-if="showImg">
+        <div v-else>{{lyric}}</div>
       </div>
       <div>
         <span>{{currentMin}}:{{currentSec}}</span>
@@ -50,7 +51,9 @@
         // artists: '',
         // imgUrl: '',
         // pattern,0代表列表循环模式，1代表随机播放，2代表单曲循环
-        pattern: 0
+        pattern: 0,
+        showImg: true,
+        lyric: ''
         // fullTime: 0,
         // fullMin: 0,
         // fullSec: 0,
@@ -69,6 +72,9 @@
       this.fullTime = this.$store.state.fullTime
     },
     computed: {
+      id () {
+        return this.$store.state.nowMusic.id
+      },
       musicName () {
         return this.$store.state.nowMusic.nowName
       },
@@ -135,6 +141,14 @@
       },
       getComment () {
         this.$router.push({path: `/comment/${this.$store.state.nowMusic.id}`})
+      },
+      getLyric (id) {
+        this.$http.get(`http://localhost:3000/lyric?id=${id}`)
+          .then((res) => {
+            this.lyric = res.data.lrc.lyric
+          }).then(() => {
+            this.showImg = !this.showImg
+          })
       }
     }
   }

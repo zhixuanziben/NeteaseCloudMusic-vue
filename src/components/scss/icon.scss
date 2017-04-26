@@ -1,0 +1,74 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('./fonts/icomoon.eot?fiyr0k');
+  src:  url('./fonts/icomoon.eot?fiyr0k#iefix') format('embedded-opentype'),
+    url('./fonts/icomoon.ttf?fiyr0k') format('truetype'),
+    url('./fonts/icomoon.woff?fiyr0k') format('woff'),
+    url('./fonts/icomoon.svg?fiyr0k#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-collection:before {
+  content: "\e900";
+}
+.icon-comment:before {
+  content: "\e901";
+}
+.icon-download:before {
+  content: "\e902";
+}
+.icon-list:before {
+  content: "\e903";
+}
+.icon-mine:before {
+  content: "\e904";
+}
+.icon-next:before {
+  content: "\e905";
+}
+.icon-nextmusic:before {
+  content: "\e906";
+}
+.icon-pause:before {
+  content: "\e907";
+}
+.icon-play:before {
+  content: "\e908";
+}
+.icon-prewmusic:before {
+  content: "\e909";
+}
+.icon-serch:before {
+  content: "\e90a";
+}
+.icon-share:before {
+  content: "\e90b";
+}
+.icon-singlecycle:before {
+  content: "\e90c";
+}
+.icon-up:before {
+  content: "\e90d";
+}
+.icon-列表循环:before {
+  content: "\e90e";
+}
+.icon-随机播放:before {
+  content: "\e90f";
+}

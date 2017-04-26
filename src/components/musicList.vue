@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="music-list-wrap">
     <div>
       <div @click="playAllMusic">播放全部{{songs.length}}</div>
       <div v-for="(item, index) in songs" @click="playMusic(item.id, index)">
@@ -82,6 +82,5 @@
   }
 </script>
 
-<style scoped>
-  
+<style lang="scss">
 </style>

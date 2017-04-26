@@ -3,6 +3,25 @@
   <head>
     <meta name="viewport" charset="utf-8" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <title>music</title>
+    <script>
+      (function(doc, win) {
+          var docEl = doc.documentElement,
+              resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+              recalc = function() {
+                  var clientWidth = docEl.clientWidth;
+                  if (!clientWidth) return;
+                  if (clientWidth >= 640) {
+                      docEl.style.fontSize = '100px';
+                  } else {
+                      docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                  }
+              };
+
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener('DOMContentLoaded', recalc, false);
+      })(document, window);
+    </script>
     <style>
       body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0} 
       body{font:12px "微软雅黑","Arial Narrow",HELVETICA;background:#fff;} 
