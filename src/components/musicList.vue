@@ -28,29 +28,23 @@
     methods: {
       playAllMusic () {
         const {id} = this.songs[0]
-        this.playMusic(id, this.$store.state.musicUrlList.length)
-        for (var i = 0; i < this.songs.length; i++) {
-          if (this.songs[i].album) {
-            var artists = this.songs[i].artists
-            var imgUrl = this.songs[i].album.blurPicUrl
+        this.playMusic(id, 0, true)
+        for (let song of this.songs) {
+          let {id, mp3Url, name, album, al, artists, ar} = song
+          let imgUrl
+          // 由于专辑列表与排行榜的数据结构存在一点差距，所以需要判断数据结构，然后解构赋值
+          if (album) {
+            ({blurPicUrl: imgUrl} = album)
           } else {
-            imgUrl = this.songs[i].al.picUrl
-            artists = this.songs[i].ar
+            ({picUrl: imgUrl} = al)
           }
-          let musicObj = {
-            id: this.songs[i].id,
-            url: this.songs[i].mp3Url,
-            name: this.songs[i].name,
-            artists: artists,
-            imgUrl: imgUrl
-          }
+          let musicObj = {id, url: mp3Url, name, artists: artists || ar, imgUrl: imgUrl}
           this.$store.dispatch('getMusicList', musicObj)
         }
       },
-      playMusic (id, ind) {
+      playMusic (id, ind, ifAdd) {
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
-            this.url = res.data.url
             if (this.songs[ind].album) {
               var artists = this.songs[ind].artists
               var imgUrl = this.songs[ind].album.blurPicUrl
@@ -58,10 +52,9 @@
               imgUrl = this.songs[ind].al.picUrl
               artists = this.songs[ind].ar
             }
-            console.log(imgUrl)
             const obj1 = {
               id: this.songs[ind].id,
-              ind: this.$store.state.musicUrlList.length,
+              ind: this.$store.state.musicUrlList.length - this.songs.length,
               nowMusicUrl: res.data.data[0].url,
               nowName: this.songs[ind].name,
               nowArtists: artists,
@@ -75,7 +68,11 @@
               artists: artists
             }
             this.$store.dispatch('changeMusic', obj1)
+            if (ifAdd) {
+              return
+            }
             this.$store.dispatch('pushMusic', obj2)
+            this.$store.dispatch('changeControllerStatus')
           })
       }
     }

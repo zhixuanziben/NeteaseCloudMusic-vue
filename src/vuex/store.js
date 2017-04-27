@@ -4,7 +4,8 @@ Vue.use(vuex)
 const store = new vuex.Store({
   state: {
     musicUrlList: [],
-    isPlaying: false,
+    isPlaying: true,
+    isController: false,
     nowMusic: {
       ind: '',
       id: '',
@@ -12,7 +13,7 @@ const store = new vuex.Store({
       nowName: '',
       nowArtists: '',
       nowImgurl: '',
-      isPlaying: true
+      isPlaying: false
     },
     full: {
       fullTime: '',
@@ -55,8 +56,15 @@ const store = new vuex.Store({
       state.current.currentSec = obj.currentSec
       state.current.value1 = obj.value1
     },
-    play (state) {
-      state.isPlaying = !state.isPlaying
+    play (state, fromNext) {
+      if (fromNext) {
+        state.isPlaying = true
+      } else {
+        state.isPlaying = !state.isPlaying
+      }
+    },
+    showController (state) {
+      state.isController = !state.isController
     }
   },
   actions: {
@@ -75,11 +83,14 @@ const store = new vuex.Store({
     changeCurrent (context, obj) {
       context.commit('current', obj)
     },
-    changePlayStatus (context) {
-      context.commit('play')
+    changePlayStatus (context, obj) {
+      context.commit('play', obj)
     },
     pushMusic (context, obj) {
       context.commit('musicPush', obj)
+    },
+    changeControllerStatus (context) {
+      context.commit('showController')
     }
   }
 })

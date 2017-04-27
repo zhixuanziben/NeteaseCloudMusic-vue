@@ -30,12 +30,12 @@
 <style scope>
   .home-wrap {
     width: 100%;
-    font-size: 0.16rem;
+    font-size: 0.3rem;
   }
   .home-header {
     display: flex;
-    height: 0.5rem;
-    line-height: 0.5rem;
+    height: 1rem;
+    line-height: 1rem;
     background-color: #df2d2d;
   }
   .home-header > div {
@@ -45,7 +45,7 @@
     color: #fff;
   }
   .icon {
-    height: 0.16rem;
-    width: 0.16rem;
+    height: 0.3rem;
+    width: 0.3rem;
   }
 </style>

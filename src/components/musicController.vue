@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="player">
-      <div @click="toMusicMsg(musicId)" class="player-main">
-        <div class="player-main-left">
+      <div class="player-main">
+        <div class="player-main-left" @click="toMusicMsg(musicId)">
           <img :src="imgUrl">
         </div>
-        <div class="player-main-main">
+        <div class="player-main-main" @click="toMusicMsg(musicId)">
           <div>
             <div class="musicname">{{musicName}}</div>
             <div class="artistsname">
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -34,87 +35,74 @@
         value1: 0
       }
     },
-    computed: {
-      musicUrl () {
-        return this.$store.state.nowMusic.nowMusicUrl
-      },
-      imgUrl () {
-        return this.$store.state.nowMusic.nowImgurl
-      },
-      musicName () {
-        return this.$store.state.nowMusic.nowName
-      },
-      artists () {
-        return this.$store.state.nowMusic.nowArtists
-      },
-      musicId () {
-        return this.$store.state.nowMusic.id
-      },
-      playStatus () {
-        return this.$store.state.isPlaying
-      }
-    },
+    computed: mapState({
+      musicUrl: state => state.nowMusic.nowMusicUrl,
+      musicName: state => state.nowMusic.nowName,
+      artists: state => state.nowMusic.nowArtists,
+      imgUrl: state => state.nowMusic.nowImgurl,
+      musicId: state => state.nowMusic.id,
+      playStatus: state => state.isPlaying
+    }),
     methods: {
       toNext () {
-        const ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
-        const obj1 = {
-          ind: ind + 1,
-          nowMusicUrl: this.$store.state.musicUrlList[ind + 1].url,
-          nowName: this.$store.state.musicUrlList[ind + 1].name,
-          nowArtists: this.$store.state.musicUrlList[ind + 1].artists,
-          nowImgurl: this.$store.state.musicUrlList[ind + 1].imgUrl
-        }
-        this.$store.dispatch('changeMusic', obj1)
+        this.next()
       },
       getFullTime () {
         const audio = document.querySelector('#audio')
         this.fullTime = audio.duration
-        this.fullMin = Math.floor(this.fullTime / 60)
-        this.fullSec = Math.floor(this.fullTime % 60) < 10 ? '0' + Math.floor(this.fullTime % 60) : Math.floor(this.fullTime % 60)
-        const obj = {
-          fullTime: this.fullTime,
-          fullMin: this.fullMin,
-          fullSec: this.fullSec
-        }
+        // padStart为了使类似时间1:9，显示为01:09
+        this.fullMin = Math.floor(this.fullTime / 60).toString().padStart(2, '0')
+        this.fullSec = Math.floor(this.fullTime % 60).toString().padStart(2, '0')
+        let {fullTime, fullMin, fullSec} = this
+        const obj = {fullTime, fullMin, fullSec}
         this.$store.dispatch('getFull', obj)
       },
       getCurrentTime () {
         const audio = document.querySelector('#audio')
         this.currentTime = audio.currentTime
         this.value1 = (audio.currentTime / this.fullTime) * 100
-        this.currentMin = Math.floor(this.currentTime / 60)
-        this.currentSec = Math.floor(this.currentTime % 60) < 10 ? '0' + Math.floor(this.currentTime % 60) : Math.floor(this.currentTime % 60)
-        const obj = {
-          currentTime: this.currentTime,
-          currentMin: this.currentMin,
-          currentSec: this.currentSec,
-          value1: this.value1
-        }
+        this.currentMin = Math.floor(this.currentTime / 60).toString().padStart(2, '0')
+        this.currentSec = Math.floor(this.currentTime % 60).toString().padStart(2, '0')
+        let {currentTime, currentMin, currentSec, value1} = this
+        const obj = { currentTime, currentMin, currentSec, value1 }
         this.$store.dispatch('changeCurrent', obj)
       },
       play () {
-        console.log('play click')
         const audio = document.querySelector('#audio')
         if (!this.$store.state.isPlaying) {
           audio.play()
-          this.$store.dispatch('changePlayStatus')
         } else {
           audio.pause()
-          this.$store.dispatch('changePlayStatus')
         }
+        this.$store.dispatch('changePlayStatus')
       },
       next () {
+        // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
         const ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
-        const obj1 = {
-          ind: ind + 1,
-          nowMusicUrl: this.$store.state.musicUrlList[ind + 1].url,
-          nowName: this.$store.state.musicUrlList[ind + 1].name,
-          nowArtists: this.$store.state.musicUrlList[ind + 1].artists,
-          nowImgurl: this.$store.state.musicUrlList[ind + 1].imgUrl
-        }
-        this.$store.dispatch('changeMusic', obj1)
+        // 获得下一首歌曲的id
+        const id = this.$store.state.musicUrlList[ind + 1].id
+        console.log(id)
+        // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
+        this.$http.get(`http://localhost:3000/music/url?id=${id}`)
+          .then((res) => {
+            // 下一首歌曲的url
+            const url = res.data.data[0].url
+            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind + 1]
+            const nextObj = {
+              id,
+              ind: ind + 1,
+              nowMusicUrl: url,
+              nowName: name,
+              nowArtists: artists,
+              nowImgurl: imgUrl
+            }
+            // this.$router.push({path: `/music/${id}`})
+            this.$store.dispatch('changePlayStatus', true)
+            this.$store.dispatch('changeMusic', nextObj)
+          })
       },
       toMusicMsg (id) {
+        this.$store.dispatch('changeControllerStatus')
         this.$router.push({path: `/music/${id}`})
       }
     }

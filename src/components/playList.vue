@@ -30,14 +30,6 @@
         </div>
       </div>
     </header>
-    <div>
-      <div>
-        播放全部
-        <span>
-          (共{{data.length}}首)
-        </span>
-      </div>
-    </div>
     <music-list :songs="data"></music-list>
   </div>  
 </template>
@@ -59,7 +51,6 @@
       this.$http.get(`http://localhost:3000/playlist/detail?id=${this.id}`)
         .then((res) => {
           this.data = res.data.playlist.tracks
-          console.log(this.data)
         })
     }
   }

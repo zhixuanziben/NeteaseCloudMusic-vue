@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view class="view-wrap"></router-view>
-    <music-controller class="player"></music-controller>
+    <music-controller class="player" v-show="showController"></music-controller>
   </div>
 </template>
 
@@ -10,6 +10,11 @@
   export default {
     components: {
       musicController
+    },
+    computed: {
+      showController () {
+        return this.$store.state.isController
+      }
     }
   }
 </script>
