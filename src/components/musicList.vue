@@ -1,7 +1,7 @@
 <template>
   <div class="music-list-wrap">
     <div>
-      <div @click="playAllMusic">播放全部{{songs.length}}</div>
+      <div @click="playAllMusic">播放全部</div>
       <div v-for="(item, index) in songs" @click="playMusic(item.id, index)">
         <div>{{index + 1}}</div>
         <div>
@@ -68,11 +68,11 @@
               artists: artists
             }
             this.$store.dispatch('changeMusic', obj1)
+            this.$store.dispatch('changeControllerStatus')
             if (ifAdd) {
               return
             }
             this.$store.dispatch('pushMusic', obj2)
-            this.$store.dispatch('changeControllerStatus')
           })
       }
     }

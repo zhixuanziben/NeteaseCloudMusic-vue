@@ -107,7 +107,10 @@ export default new Router({
     {
       path: '/music/:id',
       name: 'music',
-      component: music
+      component: music,
+      beforeLeave: (to, from, next) => {
+        console.log('hi')
+      }
     },
     {
       path: '/comment/:id',

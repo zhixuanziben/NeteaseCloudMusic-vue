@@ -49,6 +49,11 @@
         lyric: ''
       }
     },
+    beforeRouteLeave (to, from, next) {
+      // 导航离开该组件的对应路由时调用
+      // 可以访问组件实例 `this`
+      this.$router.go(-1)
+    },
     computed: mapState({
       id: state => state.nowMusic.id,
       musicName: state => state.nowMusic.nowName,
