@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <router-view class="view-wrap"></router-view>
     <music-controller class="player" v-show="showController"></music-controller>
   </div>
@@ -19,7 +19,7 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   .player {
     position: fixed;
     left: 0;

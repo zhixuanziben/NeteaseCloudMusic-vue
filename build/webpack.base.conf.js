@@ -43,7 +43,8 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loaders: ["style", "css", "sass"],
+        include: [resolve('src'), resolve('test')]
       },
       {
         test: /\.js$/,

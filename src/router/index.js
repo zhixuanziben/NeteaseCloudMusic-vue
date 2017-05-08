@@ -1,23 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '../components/home'
-import musicLibrary from '../components/musicLibrary'
-import personalAdvice from '../components/personalAdvice'
-import recommendSongs from '../components/recommendSongs'
-import songList from '../components/songList'
-import list from '../components/list'
-import listContent from '../components/listContent'
-import playList from '../components/playList'
-import music from '../components/music'
-import album from '../components/album'
-import artist from '../components/artist'
-import mine from '../components/mine'
-import comment from '../components/comment'
-import serchPage from '../components/serchPage'
-import searchResult from '../components/searchResult'
-import searchResultMusic from '../components/search/searchResultMusic'
-import searchResultAlbum from '../components/search/searchResultAlbum'
-import searchResultArtist from '../components/search/searchResultArtist'
+import home from '../views/home/home'
+import musicLibrary from '../views/home/children/musicLibrary'
+import personalAdvice from '../views/home/children/personalAdvice'
+import recommendSongs from '../views/list/recommendSongs'
+import songList from '../views/home/children/songList'
+import list from '../views/list/list'
+import listContent from '../views/list/listContent'
+import playList from '../views/list/playList'
+import music from '../views/music/music'
+import album from '../views/album/album'
+import artist from '../views/artists/artist'
+import mine from '../views/user/mine'
+import comment from '../views/comment/comment'
+import serchPage from '../views/search/serchPage'
+import searchResult from '../views/search/searchResult'
+import searchResultMusic from '../views/search/searchResultMusic'
+import searchResultAlbum from '../views/search/searchResultAlbum'
+import searchResultArtist from '../views/search/searchResultArtist'
 
 Vue.use(Router)
 
@@ -107,10 +107,7 @@ export default new Router({
     {
       path: '/music/:id',
       name: 'music',
-      component: music,
-      beforeLeave: (to, from, next) => {
-        console.log('hi')
-      }
+      component: music
     },
     {
       path: '/comment/:id',

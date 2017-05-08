@@ -19,7 +19,7 @@
       </div>
       <div>
         <span>{{currentMin}}:{{currentSec}}</span>
-        <el-slider v-model="value1"></el-slider>
+        <mu-slider v-model="value1"></mu-slider>
         <span>{{fullMin}}:{{fullSec}}</span>
       </div>
       <div class="">
@@ -38,6 +38,7 @@
   export default {
     data () {
       return {
+        value: 50,
         musicUrl: '',
         urlArr: [],
         // ind是播放的曲目，在当前播放列表的序列
@@ -49,11 +50,6 @@
         lyric: ''
       }
     },
-    beforeRouteLeave (to, from, next) {
-      // 导航离开该组件的对应路由时调用
-      // 可以访问组件实例 `this`
-      this.$router.go(-1)
-    },
     computed: mapState({
       id: state => state.nowMusic.id,
       musicName: state => state.nowMusic.nowName,
@@ -61,11 +57,20 @@
       imgUrl: state => state.nowMusic.nowImgurl,
       currentMin: state => state.current.currentMin,
       currentSec: state => state.current.currentSec,
+      fullTime: state => state.full.fullTime,
       fullMin: state => state.full.fullMin,
       fullSec: state => state.full.fullSec,
       value1: state => state.current.value1,
       isPlaying: state => state.isPlaying
     }),
+    // 导航离开音乐详细信息后，显示底部音乐控制器
+    beforeRouteLeave (to, from, next) {
+      // 导航离开该组件的对应路由时调用
+      // 可以访问组件实例 `this`
+      console.log('good')
+      this.$store.dispatch('changeControllerStatus', true)
+      next()
+    },
     methods: {
       play () {
         const audio = document.querySelector('#audio')
@@ -139,7 +144,6 @@
 </script>
 
 <style lang="scss">
-  @import './scss/icon.scss';
   .music-audio-wrap {
     background-color: gray;
   }

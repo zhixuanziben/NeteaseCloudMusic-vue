@@ -3,6 +3,7 @@
     <header class="library-header">
       <div @click="toPersonalAdvice">个性推荐</div>
       <div @click="toSongList">歌单</div>
+      <div @click="toList">主播电台</div>
       <div @click="toList">排行榜</div>
     </header>
     <router-view></router-view>
@@ -25,19 +26,20 @@
   }
 </script>
 
-<style scope>
+<style lang="scss">
   .library-wrap {
     font-size: 0.14rem;
-  }
-  .library-header {
-    display: flex;
-    height: 0.3rem;
-    line-height: 0.3rem;
-    background-color: #f7f7f7;
-    color: #666666;
-  }
-  .library-header > div {
-    flex: 1;
-    text-align: center;
+    .library-header {
+      display: flex;
+      height: 0.4rem;
+      line-height: 0.4rem;
+      background-color: #fcfdfd;
+      color: #666;
+      font-size: 0.18rem;
+      > div {
+        flex: 1;
+        text-align: center;
+      }
+    }
   }
 </style>

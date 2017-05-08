@@ -6,25 +6,25 @@
       <div class="listData">
         <div>
           <div>
-            <icon name="collection" class="icon"></icon>
+            <span class="icon-collection"></span>
           </div>
           {{data.subscribedCount}}
         </div>
         <div>
           <div>
-            <icon name="comment" class="icon"></icon>
+            <span class="icon-comment"></span>
           </div>
           {{data.commentCount}}
         </div>
         <div>
           <div>
-            <icon name="share" class="icon"></icon>
+            <span class="icon-share"></span>
           </div>
           {{data.shareCount}}
         </div>
         <div>
           <div>
-            <icon name="download" class="icon"></icon>
+            <span class="icon-download"></span>
           </div>
           下载
         </div>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import musicList from './musicList'
+  import musicList from '../../components/musicList'
   export default {
     data () {
       return {

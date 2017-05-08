@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import musicList from './musicList'
+  import musicList from '../../components/musicList'
   export default {
     data () {
       return {
@@ -35,7 +35,7 @@
     mounted () {
       this.$http.get(`http://localhost:3000/album/?id=${this.$route.params.id}`)
         .then((res) => {
-          this.data = res.data.album
+          this.data = res.data
         })
     }
   }

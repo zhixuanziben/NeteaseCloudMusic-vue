@@ -6,15 +6,16 @@ import router from './router'
 // import vueResource from 'vue-resource'
 import axios from 'axios'
 import store from './vuex/store.js'
-import Icon from 'vue-svg-icon/Icon.vue'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-default/index.css'
+import MuseUI from 'muse-ui'
+import 'muse-ui/dist/muse-ui.css'
+Vue.use(MuseUI)
 
 Vue.prototype.$http = axios
 axios.defaults.withCredentials = true
 // Vue.use(vueResource)
-Vue.use(ElementUI)
-Vue.component('icon', Icon)
+// Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 

@@ -72,14 +72,21 @@
       this.musicname = this.$store.state.nowMusic.nowName
       this.musicpic = this.$store.state.nowMusic.nowImgurl
       this.artistname = this.$store.state.nowMusic.nowArtists
-      this.$http.get(`http://localhost:3000/comment?id=${this.$route.params.id}&limit=20`)
+      this.$http.get(`http://localhost:3000/comment/music?id=${this.$route.params.id}&limit=20`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.total = res.data.total
           this.comment = res.data.comments
           this.hotcomment = res.data.hotComments
-          console.log(res.data)
+          // console.log(res.data)
         })
+    },
+    // 导航进入评论页面后，隐藏底部音乐控制器
+    beforeRouteEnter (to, from, next) {
+      console.log(to)
+      next(vm => {
+        vm.$store.dispatch('changeControllerStatus')
+      })
     },
     methods: {
       playMusic () {

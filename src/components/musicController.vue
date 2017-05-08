@@ -20,7 +20,7 @@
           <span class="icon-play" @click="play" v-else></span>
         </div>
       </div>
-      <el-progress :percentage="value1" :text-inside="true" :stroke-width="2" status="exception" :show-text="false"></el-progress>
+      <mu-linear-progress :value="value1" mode="determinate"></mu-linear-progress>
     </div>
     <audio :src="musicUrl" id="audio" autoplay @ended="toNext" @loadedmetadata="getFullTime" @timeupdate="getCurrentTime"></audio>
   </div>
@@ -110,9 +110,10 @@
 </script>
 
 <style lang="scss">
-  @import './scss/icon.scss';
+  @import '../assets/scss/icon.scss';
   .player-main {
     height: 0.8rem;
+    border-top: 1px solid #EFF2F7;
     display: flex;
     .player-main-left {
       padding: 0.1rem;

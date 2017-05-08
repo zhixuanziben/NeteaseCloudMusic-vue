@@ -63,8 +63,12 @@ const store = new vuex.Store({
         state.isPlaying = !state.isPlaying
       }
     },
-    showController (state) {
-      state.isController = !state.isController
+    showController (state, playMusic) {
+      if (playMusic) {
+        state.isController = true
+      } else {
+        state.isController = !state.isController
+      }
     }
   },
   actions: {
@@ -89,8 +93,8 @@ const store = new vuex.Store({
     pushMusic (context, obj) {
       context.commit('musicPush', obj)
     },
-    changeControllerStatus (context) {
-      context.commit('showController')
+    changeControllerStatus (context, obj) {
+      context.commit('showController', obj)
     }
   }
 })

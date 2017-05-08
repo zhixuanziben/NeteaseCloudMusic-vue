@@ -1,10 +1,14 @@
 <template>
   <div class="home-wrap">
     <header class="home-header">
-      <div @click="showLibrary">音乐馆</div>
-      <div @click="mine">我的</div>
+      <div @click="showLibrary">
+        <span class="icon-网易云音乐_自制"></span>
+      </div>
+      <div @click="mine">
+        <span class="icon-我的"></span>
+      </div>
       <div @click="serch">
-        <icon name="serch" class="icon"></icon>
+        <span class="icon-搜索-搜索"></span>
       </div>
     </header>
     <router-view></router-view>
@@ -27,15 +31,17 @@
   }
 </script>
 
-<style scope>
+<style lang="scss">
   .home-wrap {
     width: 100%;
+    height: 100%;
     font-size: 0.3rem;
   }
   .home-header {
     display: flex;
     height: 1rem;
     line-height: 1rem;
+    font-size: 0.5rem;
     background-color: #df2d2d;
   }
   .home-header > div {

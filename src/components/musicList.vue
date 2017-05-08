@@ -1,12 +1,15 @@
 <template>
   <div class="music-list-wrap">
     <div>
-      <div @click="playAllMusic">播放全部</div>
-      <div v-for="(item, index) in songs" @click="playMusic(item.id, index)">
-        <div>{{index + 1}}</div>
-        <div>
-          <div>{{item.name}}</div>
-          <div>
+      <div @click="playAllMusic">
+        <span class="icon-play"></span>
+        播放全部
+      </div>
+      <div v-for="(item, index) in songs" @click="playMusic(item.id, index)" class="each-music">
+        <div class="each-music-index">{{index + 1}}</div>
+        <div class="each-music-msg">
+          <div class="each-music-name">{{item.name}}</div>
+          <div class="each-music-artists">
             <div v-if="item.artists">
               <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
             - <span>{{item.album.name}}</span>
@@ -43,6 +46,7 @@
         }
       },
       playMusic (id, ind, ifAdd) {
+        console.log(ind)
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
             if (this.songs[ind].album) {
@@ -54,7 +58,7 @@
             }
             const obj1 = {
               id: this.songs[ind].id,
-              ind: this.$store.state.musicUrlList.length - this.songs.length,
+              ind: this.$store.state.musicUrlList.length,
               nowMusicUrl: res.data.data[0].url,
               nowName: this.songs[ind].name,
               nowArtists: artists,
@@ -68,7 +72,7 @@
               artists: artists
             }
             this.$store.dispatch('changeMusic', obj1)
-            this.$store.dispatch('changeControllerStatus')
+            this.$store.dispatch('changeControllerStatus', true)
             if (ifAdd) {
               return
             }
@@ -80,4 +84,21 @@
 </script>
 
 <style lang="scss">
+  .each-music {
+    display: flex;
+    height: 0.6rem;
+    .each-music-index {
+      line-height: 0.6rem;
+      text-align: center;
+      width: 0.6rem;
+      color: #999;
+      font-size: 0.2rem;
+    }
+    .each-music-msg {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 </style>

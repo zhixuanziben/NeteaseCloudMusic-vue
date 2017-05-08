@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import musicList from './musicList'
+  import musicList from '../../components/musicList'
   export default {
     data () {
       return {

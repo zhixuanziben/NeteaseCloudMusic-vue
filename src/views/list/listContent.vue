@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import musicList from './musicList'
+  import musicList from '../../components/musicList'
   export default {
     data () {
       return {
@@ -48,7 +48,7 @@
     },
     mounted () {
       this.id = this.$route.params.id
-      this.$http.get(`http://localhost:3000/top_list?idx=${this.id}`)
+      this.$http.get(`http://localhost:3000/top/list?idx=${this.id}`)
         .then((res) => {
           this.data = res.data.result
         })
