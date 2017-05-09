@@ -13,8 +13,7 @@
           <div v-for="(it, inde) of keyValue1[index].music">
             {{inde + 1}}. {{it.name}}
             <span v-for="(i, ind) of it.artists">
-              {{i.name}}
-              <span v-if="ind !== (it.artists.length - 1)">/</span>
+              {{i.name}}<span v-if="ind !== (it.artists.length - 1)">/</span>
             </span>
           </div>
         </div>
@@ -194,7 +193,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .all-list-wrap {
     background-color: #f1f6f4;
     .list-type {
