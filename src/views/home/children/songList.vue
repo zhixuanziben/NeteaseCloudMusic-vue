@@ -24,7 +24,7 @@
       }
     },
     mounted () {
-      this.$http.get('http://localhost:3000/top/playlist?limit=20&order=hot')
+      this.$http.get('http://localhost:3000/top/playlist?limit=10&order=hot')
         .then((res) => {
           this.data = res.data.playlists
           console.log(res.data)

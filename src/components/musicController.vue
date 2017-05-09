@@ -78,10 +78,10 @@
       },
       next () {
         // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
-        const ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
+        const ind = this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1) ? -1 : this.$store.state.nowMusic.ind
         // 获得下一首歌曲的id
+        console.log(this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1))
         const id = this.$store.state.musicUrlList[ind + 1].id
-        console.log(id)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {

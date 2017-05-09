@@ -5,27 +5,15 @@
       <div>最近更新：4月16日</div>
       <div class="listData">
         <div>
-          <div>
-            <icon name="collection" class="icon"></icon>
-          </div>
           {{data.subscribedCount}}
         </div>
         <div>
-          <div>
-            <icon name="comment" class="icon"></icon>
-          </div>
           {{data.commentCount}}
         </div>
         <div>
-          <div>
-            <icon name="share" class="icon"></icon>
-          </div>
           {{data.shareCount}}
         </div>
         <div>
-          <div>
-            <icon name="download" class="icon"></icon>
-          </div>
           下载
         </div>
       </div>

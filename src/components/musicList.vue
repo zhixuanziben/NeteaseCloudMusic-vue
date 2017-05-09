@@ -38,7 +38,7 @@
     methods: {
       playAllMusic () {
         const {id} = this.songs[0]
-        this.playMusic(id, 0, true)
+        this.playMusic(id, 0, true, this.$store.state.musicUrlList.length)
         for (let song of this.songs) {
           let {id, mp3Url, name, album, al, artists, ar} = song
           let imgUrl
@@ -52,10 +52,13 @@
           this.$store.dispatch('getMusicList', musicObj)
         }
       },
-      playMusic (id, ind, ifAdd) {
+      // id是音乐id，ind是即将播放的音乐在页面音乐列表的序列号，ifadd表示是否要添加这个即将播放的音乐到列表，len表示音乐仓库的长度
+      playMusic (id, ind, ifAdd, len) {
         console.log(ind)
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
+            console.log(ind)
+            // 这个ind是页面音乐列表的序列
             if (this.songs[ind].album) {
               var artists = this.songs[ind].artists
               var imgUrl = this.songs[ind].album.blurPicUrl
@@ -63,9 +66,19 @@
               imgUrl = this.songs[ind].al.picUrl
               artists = this.songs[ind].ar
             }
+            console.log(this.$store.state.musicUrlList.length)
+            let nowInd = null
+            if (len || len === 0) {
+              nowInd = len
+            } else {
+              nowInd = this.$store.state.musicUrlList.length
+            }
+            console.log(len)
+            console.log(nowInd)
+            // 下面这个ind是当前播放音乐在音乐仓库的序列
             const obj1 = {
               id: this.songs[ind].id,
-              ind: this.$store.state.musicUrlList.length,
+              ind: nowInd,
               nowMusicUrl: res.data.data[0].url,
               nowName: this.songs[ind].name,
               nowArtists: artists,

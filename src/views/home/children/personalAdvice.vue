@@ -24,7 +24,7 @@
       <div class="advice-header">
         <span class="icon-日推"></span> 
         <span class="advice-title">推荐歌单</span>
-        <span>更多</span>
+        <span @click="more">更多</span>
         <span class="icon-右键"></span>
       </div>
       <div class="advice-songList-box">
@@ -85,6 +85,9 @@
       },
       goHotList () {
         this.$router.push({path: '/listContent/1'})
+      },
+      more () {
+        this.$router.push({path: '/musicLibrary/songList'})
       }
     }
   }
