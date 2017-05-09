@@ -1,9 +1,13 @@
 <template>
   <div class="music-list-wrap">
     <div>
-      <div @click="playAllMusic">
-        <span class="icon-play"></span>
-        播放全部
+      <div @click="playAllMusic" class="play-all">
+        <div class="play-all-icon">
+          <span class="icon-play"></span>
+        </div>
+        <div class="play-all-msg">
+          播放全部
+        </div>
       </div>
       <div v-for="(item, index) in songs" @click="playMusic(item.id, index)" class="each-music">
         <div class="each-music-index">{{index + 1}}</div>
@@ -19,6 +23,9 @@
             - <span>{{item.al.name}}</span>
             </div>
           </div>
+        </div>
+        <div class="each-music-more">
+          <span class="icon-省略"></span>
         </div>
       </div>
     </div>
@@ -84,21 +91,60 @@
 </script>
 
 <style lang="scss">
+  .left-icon {
+    line-height: 0.55rem;
+    text-align: center;
+    width: 0.55rem;
+    height: 0.55rem;
+    color: #999;
+    font-size: 0.2rem;
+  }
+  $border: 1px solid #e1e6e4;
+  .play-all {
+    display: flex;
+    border-bottom: $border;
+    background-color: #f1f6f4;
+    .play-all-icon {
+      @extend .left-icon
+    }
+    .play-all-msg {
+      flex: 1;
+      font-size: 0.18rem;
+      line-height: 0.55rem;
+    }
+  }
   .each-music {
     display: flex;
-    height: 0.6rem;
+    height: 0.55rem;
+    background-color: #f1f6f4;
     .each-music-index {
-      line-height: 0.6rem;
-      text-align: center;
-      width: 0.6rem;
-      color: #999;
-      font-size: 0.2rem;
+      @extend .left-icon
     }
     .each-music-msg {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      border-bottom: $border;
+      .each-music-name {
+        color: #343937;
+        font-size: 0.16rem;
+        font-weight: 500;
+      }
+      .each-music-artists {
+        color: #a1a6a4;
+        font-size: 0.12rem;
+      }
+    }
+    .each-music-more {
+      color: #babfbd;
+      line-height: 0.55rem;
+      border-bottom: $border;
+      width: 0.3rem;
+      font-size: 0.25rem;
     }
   }
 </style>

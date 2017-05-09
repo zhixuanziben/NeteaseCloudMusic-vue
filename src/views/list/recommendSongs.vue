@@ -1,18 +1,12 @@
 <template>
   <div>
-    <div>
-      <span @click="back">
-        返回
-      </span>
-      <span>
-        每日歌曲推荐
-      </span>
-    </div>
+    <list-title title="每日歌曲推荐"></list-title>
     <music-list :songs="data.recommend"></music-list>
   </div>  
 </template>
 
 <script>
+  import listTitle from '../../components/listTitle'
   import musicList from '../../components/musicList'
   export default {
     data () {
@@ -21,12 +15,12 @@
       }
     },
     components: {
-      'music-list': musicList
+      musicList,
+      listTitle
     },
     mounted () {
       this.$http.get('http://localhost:3000/recommend/songs')
         .then((res) => {
-          console.log(res.data)
           this.data = res.data
         })
     },

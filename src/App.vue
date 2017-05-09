@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <router-view class="view-wrap"></router-view>
+    <router-view :class="{'view-wrap': showController}"></router-view>
     <music-controller class="player" v-show="showController"></music-controller>
   </div>
 </template>
@@ -29,6 +29,6 @@
     
   }
   .view-wrap {
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
   }
 </style>
