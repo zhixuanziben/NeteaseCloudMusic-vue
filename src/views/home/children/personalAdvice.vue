@@ -32,7 +32,12 @@
           <img :src="item.picUrl" alt="">
           <span class="advice-songList-count">
             <span class="icon-耳机"></span>
-            {{Math.floor(item.playcount/10000)}}万
+            <span v-if="item.playCount > 100000">
+              {{Math.floor(item.playCount/10000)}}万
+            </span>
+            <span v-else>
+              {{item.playCount}}
+            </span>
           </span>
           <div>{{item.name}}</div>
         </div>
@@ -53,6 +58,30 @@
         </div>
       </div>
     </section>
+    <section class="advice-songList-wrap session">
+      <div class="advice-header">
+        <span class="icon-视频"></span> 
+        <span class="advice-title">推荐MV</span>
+        <span @click="more">更多</span>
+        <span class="icon-右键"></span>
+      </div>
+      <div class="advice-songList-box">
+        <div v-for="item in MVList" @click="getMvUrl(item.id)" class="advice-songList">
+          <img :src="item.picUrl" alt="">
+          <span class="advice-songList-count">
+            <span class="icon-视频"></span>
+            <span v-if="item.playCount > 100000">
+              {{Math.floor(item.playCount/10000)}}万
+            </span>
+            <span v-else>
+              {{item.playCount}}
+            </span>
+          </span>
+          <div>{{item.name}}</div>
+          <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -61,15 +90,20 @@
     data () {
       return {
         songList: [],
-        newAlbums: []
+        newAlbums: [],
+        MVList: [],
+        MVURL: ''
       }
     },
     mounted () {
-      this.$http.get('http://localhost:3000/recommend/resource').then((res) => {
-        this.songList = res.data.recommend
+      this.$http.get('http://localhost:3000/personalized').then((res) => {
+        this.songList = res.data.result
       })
       this.$http.get('http://localhost:3000/top/album?offset=0&limit=6').then((res) => {
         this.newAlbums = res.data.albums
+      })
+      this.$http.get('http://localhost:3000/personalized/mv').then((res) => {
+        this.MVList = res.data.result
       })
     },
     methods: {
@@ -88,6 +122,9 @@
       },
       more () {
         this.$router.push({path: '/musicLibrary/songList'})
+      },
+      getMvUrl (id) {
+        this.$router.push({path: `/mv/${id}`})
       }
     }
   }
@@ -136,8 +173,10 @@
     }
     .icon-右键,
     .icon-日推,
-    .icon-专辑 {
+    .icon-专辑,
+    .icon-视频 {
       line-height: 0.63rem;
+      margin-right: 0.1rem;
     }
   }
   .advice-songList-box {

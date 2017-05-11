@@ -1,10 +1,11 @@
 <template>
   <div class="title-wrap">
     <span @click="back" class="title-backicon">
-      <span class="icon-右键"></span>
+      <span class="icon-左箭头"></span>
     </span>
     <span class="title-msg">
-      {{title}}
+      <span>{{title}}</span>
+      <span>{{copywriter}}</span>
     </span>
   </div>
 </template>
@@ -15,6 +16,9 @@
       title: {
         type: String,
         required: true
+      },
+      copywriter: {
+        type: String
       }
     },
     methods: {

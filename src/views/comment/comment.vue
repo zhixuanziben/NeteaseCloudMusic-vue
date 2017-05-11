@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      评论({{total}})
+      评论({{total}}){{fromType}}
     </div>
     <div @click="playMusic()">
       <div>
@@ -12,50 +12,13 @@
         <div v-for="(item, index) in artistname">{{item.name}}<span v-if="index < (artistname.length - 1)">/</span></div>
       </div>
     </div>
-    <div>
-      <h2>精彩评论</h2>
-      <div v-for="item in hotcomment">
-        <div>
-          <img :src="item.user.avatarUrl" style="width: 30px; height: 30px">
-        </div>
-        <div>
-          <div>
-            {{item.user.nickname}}
-          </div>
-          <div>
-            {{item.time}}
-            {{item.likedCount}}
-          </div>
-          <div>
-            {{item.content}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <h2>最新评论</h2>
-      <div v-for="item in comment">
-        <div>
-          <img :src="item.user.avatarUrl" style="width: 30px; height: 30px">
-        </div>
-        <div>
-          <div>
-            {{item.user.nickname}}
-          </div>
-          <div>
-            {{item.time}}
-            {{item.likedCount}}
-          </div>
-          <div>
-            {{item.content}}
-          </div>
-        </div>
-      </div>
-    </div>
+    <comment :hotcomment="hotcomment" :comment="comment"></comment>
+    <span ref="fromtype"></span>
   </div>
 </template>
 
 <script>
+  import comment from '../../components/comment'
   export default {
     data () {
       return {
@@ -64,11 +27,21 @@
         musicpic: '',
         total: '',
         comment: [],
-        hotcomment: []
+        hotcomment: [],
+        fromType: ''
       }
     },
+    components: {
+      comment
+    },
+    // 导航进入评论页面后，隐藏底部音乐控制器
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.$store.dispatch('changeControllerStatus')
+      })
+    },
     mounted () {
-      // const that = this
+      console.log(this.$refs.fromType)
       this.musicname = this.$store.state.nowMusic.nowName
       this.musicpic = this.$store.state.nowMusic.nowImgurl
       this.artistname = this.$store.state.nowMusic.nowArtists
@@ -80,13 +53,6 @@
           this.hotcomment = res.data.hotComments
           // console.log(res.data)
         })
-    },
-    // 导航进入评论页面后，隐藏底部音乐控制器
-    beforeRouteEnter (to, from, next) {
-      console.log(to)
-      next(vm => {
-        vm.$store.dispatch('changeControllerStatus')
-      })
     },
     methods: {
       playMusic () {

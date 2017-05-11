@@ -18,6 +18,9 @@ import searchResult from '../views/search/searchResult'
 import searchResultMusic from '../views/search/searchResultMusic'
 import searchResultAlbum from '../views/search/searchResultAlbum'
 import searchResultArtist from '../views/search/searchResultArtist'
+import mvhome from '../views/mv/mvhome'
+import mvdetails from '../views/mv/children/MVdetails'
+import mvcomment from '../views/mv/children/mvComment'
 
 Vue.use(Router)
 
@@ -118,6 +121,23 @@ export default new Router({
       path: '/recommendSongs',
       name: 'recommendSongs',
       component: recommendSongs
+    },
+    {
+      path: '/mv/:id',
+      name: 'mv',
+      component: mvhome,
+      children: [
+        {
+          path: 'details/:id',
+          name: 'details',
+          component: mvdetails
+        },
+        {
+          path: 'mvcomment/:id',
+          name: 'mvcomment',
+          component: mvcomment
+        }
+      ]
     }
   ]
 })
