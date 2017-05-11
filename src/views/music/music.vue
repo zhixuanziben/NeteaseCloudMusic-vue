@@ -16,9 +16,8 @@
     </header>
     <section class="music-main">
       <img src="../../assets/imgs/stick_bg.png" class="music-main-stick">
-      <div class="music-main-pic" @click="getLyric(id)">
-        <img :src="imgUrl" v-if="showImg">
-        <div v-else>{{lyric}}</div>
+      <div class="music-main-pic">
+        <img :src="imgUrl">
       </div>
     </section>
     <section class="music-section-icon">
@@ -31,6 +30,11 @@
       <mu-slider v-model="value1" class="slider"></mu-slider>
       <span>{{fullMin}}:{{fullSec}}</span>
     </section>
+    <div class="lyric-content">
+      <span v-for="(item, index) of arr" v-if="(currentMin >= item.currentMin)&&(currentSec >= item.currentSec)&&(currentSec<=arr[index+1].currentSec)&&(currentMin<=arr[index+1].currentMin)">
+        {{item.lyric}}
+      </span>
+    </div>
     <section class="music-section-contro">
       <span class="icon-列表循环"></span>
       <span class="icon-prewmusic" @click="prew"></span>
@@ -38,7 +42,7 @@
       <span class="icon-play" @click="play" v-else></span>
       <span class="icon-next" @click="next"></span>
       <span class="icon-list"></span>
-    </section>   
+    </section>
     <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
   </div>
 </template>
@@ -56,8 +60,8 @@
         artistsArr: [],
         // pattern,0代表列表循环模式，1代表随机播放，2代表单曲循环
         pattern: 0,
-        showImg: true,
-        lyric: ''
+        lyric: '',
+        arr: []
       }
     },
     computed: mapState({
@@ -73,6 +77,10 @@
       value1: state => state.current.value1,
       isPlaying: state => state.isPlaying
     }),
+    mounted () {
+      this.getLyric(this.id)
+      console.log(this.lyric)
+    },
     // 导航离开音乐详细信息后，显示底部音乐控制器
     beforeRouteLeave (to, from, next) {
       // 导航离开该组件的对应路由时调用
@@ -142,11 +150,30 @@
         this.$router.push({path: `/comment/${this.$store.state.nowMusic.id}`})
       },
       getLyric (id) {
+        /*eslint-disable */
+        const dateReg = /\[\d*:\d*((\.|\:)\d*)*\]/g
         this.$http.get(`http://localhost:3000/lyric?id=${id}`)
           .then((res) => {
             this.lyric = res.data.lrc.lyric
-          }).then(() => {
-            this.showImg = !this.showImg
+            // 获得的歌词是一个字符串，类似'[00:00:00] 歌词第一句/n[00:01:01] 歌词第二句/n'这种
+            // 切割成一个数组，数组的每一项包含对应的时间和歌词
+            const lyrics = this.lyric.split('\n')
+            // 定义一个空数组，用来存放歌词，数组的每一项都是一个对象，对象包含时间属性和歌词属性
+            for (var [ind, lyric] of lyrics.entries()) {
+              // 正则匹配，获得包含时间的字符串，
+              const eachtime = lyric.match(dateReg)
+              var min = eachtime ? eachtime[0].slice(1, 3) : undefined 
+              var sec = eachtime ? eachtime[0].slice(4, 6) : undefined
+              // 将包含时间的字符串替换点，获得对应每一项的歌词
+              const eachlyric = lyric.replace(dateReg, "").trim()
+              this.arr[ind] = {
+                date: eachtime,
+                currentMin: min,
+                currentSec: sec,
+                lyric: eachlyric
+              }
+            }
+            console.log(this.arr)
           })
       },
       back () {
@@ -246,6 +273,11 @@
         margin-left: 0.2rem;
         margin-right: 0.2rem;
       }
+    }
+    .lyric-content {
+      height: 0.2rem;
+      width: 100%;
+      text-align: center;
     }
     .music-section-contro {
       display: flex;

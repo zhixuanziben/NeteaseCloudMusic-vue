@@ -105,10 +105,10 @@
 
 <style lang="scss">
   .left-icon {
-    line-height: 0.55rem;
+    line-height: 0.8rem;
     text-align: center;
-    width: 0.55rem;
-    height: 0.55rem;
+    width: 0.8rem;
+    height: 0.8rem;
     color: #999;
     font-size: 0.2rem;
   }
@@ -123,12 +123,12 @@
     .play-all-msg {
       flex: 1;
       font-size: 0.18rem;
-      line-height: 0.55rem;
+      line-height: 0.8rem;
     }
   }
   .each-music {
     display: flex;
-    height: 0.55rem;
+    height: 0.8rem;
     background-color: #f1f6f4;
     .each-music-index {
       @extend .left-icon
@@ -154,7 +154,7 @@
     }
     .each-music-more {
       color: #babfbd;
-      line-height: 0.55rem;
+      line-height: 0.8rem;
       border-bottom: $border;
       width: 0.3rem;
       font-size: 0.25rem;
