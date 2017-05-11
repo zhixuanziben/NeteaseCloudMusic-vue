@@ -89,6 +89,12 @@
       this.$store.dispatch('changeControllerStatus', true)
       next()
     },
+    // 监测路由变化，变化则更新歌词
+    watch: {
+      $route: function () {
+        this.getLyric(this.id)
+      }
+    },
     methods: {
       play () {
         const audio = document.querySelector('#audio')
