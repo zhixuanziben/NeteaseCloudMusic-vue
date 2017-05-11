@@ -123,7 +123,7 @@
               nowArtists: artists,
               nowImgurl: imgUrl
             }
-            this.$router.push({path: `/music/${id}`})
+            this.$router.replace({path: `/music/${id}`})
             this.$store.dispatch('changePlayStatus', true)
             this.$store.dispatch('changeMusic', nextObj)
           })
@@ -147,7 +147,7 @@
               nowArtists: artists,
               nowImgurl: imgUrl
             }
-            this.$router.push({path: `/music/${id}`})
+            this.$router.replace({path: `/music/${id}`})
             this.$store.dispatch('changePlayStatus', true)
             this.$store.dispatch('changeMusic', nextObj)
           })
