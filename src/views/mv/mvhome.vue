@@ -4,8 +4,8 @@
     <video :src="this.MVURL" controls=""></video>
     <div class="each-section-wrap">
       <span @click="goDetails">详情</span>
-      <span @click="toComment">评论</span>
-      <span>相关MV</span>
+      <span @click="goComment">评论</span>
+      <span @click="goSimilar">相关MV</span>
     </div>
     <router-view></router-view>
   </div>
@@ -24,17 +24,24 @@
       listTitle
     },
     mounted () {
-      this.$http.get(`http://localhost:3000/mv?mvid=${this.$route.params.id}`).then((res) => {
-        this.MVURL = `http://localhost:3000/mv/url?url=${res.data.data.brs[240]}`
-        this.name = res.data.data.name
-      })
+      console.log(this.$router)
+      this.ajax()
     },
     methods: {
-      goDetails () {
-        this.$router.replace({path: `/mv/${this.$route.params.id}/details/${this.$route.params.id}`})
+      ajax () {
+        this.$http.get(`http://localhost:3000/mv?mvid=${this.$route.params.id}`).then((res) => {
+          this.MVURL = `http://localhost:3000/mv/url?url=${res.data.data.brs[240]}`
+          this.name = res.data.data.name
+        })
       },
-      toComment () {
-        this.$router.replace({path: `/mv/${this.$route.params.id}/mvcomment/${this.$route.params.id}`})
+      goDetails () {
+        this.$router.replace({path: `/mv/${this.$route.params.id}/details`})
+      },
+      goComment () {
+        this.$router.replace({path: `/mv/${this.$route.params.id}/mvcomment`})
+      },
+      goSimilar () {
+        this.$router.replace({path: `/mv/${this.$route.params.id}/similarMV`})
       }
     }
   }

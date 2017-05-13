@@ -21,6 +21,7 @@ import searchResultArtist from '../views/search/searchResultArtist'
 import mvhome from '../views/mv/mvhome'
 import mvdetails from '../views/mv/children/MVdetails'
 import mvcomment from '../views/mv/children/mvComment'
+import similarMV from '../views/mv/children/similarMV'
 
 Vue.use(Router)
 
@@ -128,14 +129,23 @@ export default new Router({
       component: mvhome,
       children: [
         {
-          path: 'details/:id',
+          path: '',
+          component: mvdetails
+        },
+        {
+          path: 'details',
           name: 'details',
           component: mvdetails
         },
         {
-          path: 'mvcomment/:id',
+          path: 'mvcomment',
           name: 'mvcomment',
           component: mvcomment
+        },
+        {
+          path: 'similarMV',
+          name: 'similarMV',
+          component: similarMV
         }
       ]
     }
