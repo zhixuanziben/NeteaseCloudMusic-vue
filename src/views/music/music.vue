@@ -2,7 +2,7 @@
   <div class="music-audio-wrap">
     <header>
       <div class="header-iconback" @click="back">
-        <span class="icon-右键"></span>
+        <span class="icon-左箭头"></span>
       </div>
       <div class="header-title">
         <span class="header-music-name">
@@ -43,6 +43,7 @@
       <span class="icon-next" @click="next"></span>
       <span class="icon-list"></span>
     </section>
+    <router-view></router-view>
     <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
   </div>
 </template>
@@ -153,7 +154,8 @@
           })
       },
       getComment () {
-        this.$router.push({path: `/comment/${this.$store.state.nowMusic.id}`})
+        console.log('go comment')
+        this.$router.push({path: `/music/${this.$store.state.nowMusic.id}/musicComment`})
       },
       getLyric (id) {
         /*eslint-disable */

@@ -133,6 +133,9 @@
       .artistsname {
         font-size: 0.15rem;
         color: #99A9BF;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
       }
     }
     .player-main-right {

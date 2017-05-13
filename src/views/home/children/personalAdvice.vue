@@ -53,8 +53,10 @@
       <div class="each-new-music-wrap">
         <div v-for="item in newAlbums" @click="toAlbumMsg(item.id)" class="each-new-music">
           <img :src="item.picUrl" alt="">
-          <div>{{item.name}}</div>
-          <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
+          <div class="each-new-music-name">{{item.name}}</div>
+          <div class="each-new-music-artists">
+            <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
+          </div>
         </div>
       </div>
     </section>
@@ -78,7 +80,7 @@
             </span>
           </span>
           <div>{{item.name}}</div>
-          <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
+          <span class="each-mv-artists" v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
         </div>
       </div>
     </section>
@@ -212,6 +214,18 @@
         width: 100%;
         border: 1px solid #E5E9F2;
       }
+      .each-new-music-name,
+      .each-new-music-artists {
+        width: 90%;
+        margin: 0 auto;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
     }
+  }
+  .each-new-music-artists,
+  .each-mv-artists {
+    color: #999;
   }
 </style>

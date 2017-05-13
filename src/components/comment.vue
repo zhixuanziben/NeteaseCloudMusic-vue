@@ -10,9 +10,9 @@
           <div>
             {{item.user.nickname}}
           </div>
-          <div @click="getDate(item.time)">
+          <div>
             {{item.time}}
-            <div>
+            <div @click="likeComment(id, item.commentId, 1, 1)">
               {{item.likedCount}}
               <span class="icon-点赞"></span>
             </div>
@@ -35,7 +35,10 @@
           </div>
           <div>
             {{item.time}}
-            {{item.likedCount}}
+            <div @click="likeComment(id, item.commentId, 1, 1)">
+              {{item.likedCount}}
+              <span class="icon-点赞"></span>
+            </div>
           </div>
           <div>
             {{item.content}}
@@ -56,9 +59,17 @@
         type: Array
       }
     },
+    computed: {
+      id () {
+        return this.$route.params.id
+      }
+    },
     methods: {
-      getDate (str) {
-        console.log(str)
+      likeComment (id, cid, t, type) {
+        console.log(this.$route)
+        this.$http.get(`http://localhost:3000/comment/like?id=${id}&cid=${cid}&t=${t}&type=${type}`).then((res) => {
+          console.log(res)
+        })
       }
     }
   }
