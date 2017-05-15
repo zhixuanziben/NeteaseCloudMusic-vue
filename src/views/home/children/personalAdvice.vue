@@ -64,7 +64,7 @@
       <div class="advice-header">
         <span class="icon-视频"></span> 
         <span class="advice-title">推荐MV</span>
-        <span @click="more">更多</span>
+        <span @click="moreMV">更多</span>
         <span class="icon-右键"></span>
       </div>
       <div class="advice-songList-box">
@@ -127,6 +127,9 @@
       },
       getMvUrl (id) {
         this.$router.push({path: `/mv/${id}`})
+      },
+      moreMV () {
+        this.$router.push({path: '/mvLibrary'})
       }
     }
   }

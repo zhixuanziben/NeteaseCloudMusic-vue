@@ -20,9 +20,12 @@ import searchResultMusic from '../views/search/searchResultMusic'
 import searchResultAlbum from '../views/search/searchResultAlbum'
 import searchResultArtist from '../views/search/searchResultArtist'
 import mvhome from '../views/mv/mvhome'
+import mvLibrary from '../views/mv/mvList'
 import mvdetails from '../views/mv/children/MVdetails'
 import mvcomment from '../views/mv/children/mvComment'
 import similarMV from '../views/mv/children/similarMV'
+import hotMV from '../views/mv/children/hotMV'
+import newMV from '../views/mv/children/newMV'
 
 Vue.use(Router)
 
@@ -154,6 +157,27 @@ export default new Router({
           path: 'similarMV',
           name: 'similarMV',
           component: similarMV
+        }
+      ]
+    },
+    {
+      path: '/mvLibrary',
+      name: 'mvLibrary',
+      component: mvLibrary,
+      children: [
+        {
+          path: '',
+          component: hotMV
+        },
+        {
+          path: 'hotMV',
+          name: 'hotMV',
+          component: hotMV
+        },
+        {
+          path: 'newMV',
+          name: 'newMV',
+          component: newMV
         }
       ]
     }
