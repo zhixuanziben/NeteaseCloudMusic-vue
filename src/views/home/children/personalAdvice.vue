@@ -47,7 +47,7 @@
       <div class="advice-header">
         <span class="icon-专辑"></span>
         <span class="advice-title">最新音乐</span>
-        <span>更多</span>
+        <span @click="moreAlbum">更多</span>
         <span class="icon-右键"></span>
       </div>
       <div class="each-new-music-wrap">
@@ -115,6 +115,9 @@
       },
       toAlbumMsg (id) {
         this.$router.push({path: `/album/${id}`})
+      },
+      moreAlbum () {
+        this.$router.push({path: '/albumList'})
       },
       recommendSongs () {
         this.$router.push({path: `/recommendSongs`})

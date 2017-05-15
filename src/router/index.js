@@ -11,6 +11,7 @@ import playList from '../views/list/playList'
 import music from '../views/music/music'
 import musicComment from '../views/music/children/musicComment'
 import album from '../views/album/album'
+import albumList from '../views/album/albumList'
 import artist from '../views/artists/artist'
 import mine from '../views/user/mine'
 import comment from '../views/comment/comment'
@@ -64,6 +65,11 @@ export default new Router({
       path: '/album/:id',
       name: 'album',
       component: album
+    },
+    {
+      path: '/albumList',
+      name: 'albumList',
+      component: albumList
     },
     {
       path: '/artist/:id',

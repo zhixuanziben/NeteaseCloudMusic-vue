@@ -15,9 +15,6 @@
     components: {
       listTitle
     },
-    mounted () {
-      console.log('cao')
-    },
     methods: {
       goHotMV () {
         this.$router.push({path: '/mvLibrary/hotMv'})
