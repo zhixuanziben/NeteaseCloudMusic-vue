@@ -1,7 +1,7 @@
 <template>
   <div>
     <list-title :title="name"></list-title>
-    <video :src="this.MVURL" controls=""></video>
+    <video :src="this.MVURL" controls="" width="100%"></video>
     <div class="each-section-wrap">
       <span @click="goDetails">详情</span>
       <span @click="goComment">评论</span>
