@@ -56,7 +56,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .each-section-wrap {
     display: flex;
     > span {

@@ -39,13 +39,13 @@
     methods: {
       getMvUrl (id) {
         this.$store.dispatch('getmvId', id)
-        this.$router.push({path: `/mv/${id}`})
+        this.$router.replace({path: `/mv/${id}`})
       }
     }
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .each-mv {
     display: flex;
     padding-left: 0.1rem;

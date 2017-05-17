@@ -17,9 +17,13 @@ import mine from '../views/user/mine'
 import comment from '../views/comment/comment'
 import serchPage from '../views/search/serchPage'
 import searchResult from '../views/search/searchResult'
-import searchResultMusic from '../views/search/searchResultMusic'
-import searchResultAlbum from '../views/search/searchResultAlbum'
-import searchResultArtist from '../views/search/searchResultArtist'
+import searchResultMusic from '../views/search/children/searchResultMusic'
+import searchResultAlbum from '../views/search/children/searchResultAlbum'
+import searchResultArtist from '../views/search/children/searchResultArtist'
+import searchResultMV from '../views/search/children/searchResultMV'
+import searchResultRadio from '../views/search/children/searchResultRadio'
+import searchResultSonglist from '../views/search/children/searchResultSonglist'
+import searchResultUser from '../views/search/children/searchResultUser'
 import mvhome from '../views/mv/mvhome'
 import mvLibrary from '../views/mv/mvList'
 import mvdetails from '../views/mv/children/MVdetails'
@@ -115,6 +119,26 @@ export default new Router({
           path: 'artists',
           name: 'searchResultArtist',
           component: searchResultArtist
+        },
+        {
+          path: 'mvs',
+          name: 'searchResultMV',
+          component: searchResultMV
+        },
+        {
+          path: 'radio',
+          name: 'searchResultRadio',
+          component: searchResultRadio
+        },
+        {
+          path: 'songlist',
+          name: 'searchResultSonglist',
+          component: searchResultSonglist
+        },
+        {
+          path: 'users',
+          name: 'searchResultUser',
+          component: searchResultUser
         }
       ]
     },

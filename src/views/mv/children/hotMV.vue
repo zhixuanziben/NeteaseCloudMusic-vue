@@ -15,7 +15,7 @@
         </div>
         <div class="each-mv-name">
           {{item.name}}-
-          <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
+          <artists :artists="item.artists" fontcolor="#fff"></artists>
         </div>
       </div>
       <div class="box"></div>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  import artists from '../../../components/artists'
   import MugenScroll from 'vue-mugen-scroll'
   export default {
     data () {
@@ -37,10 +38,12 @@
       }
     },
     components: {
-      MugenScroll
+      MugenScroll,
+      artists
     },
     methods: {
       playMV (id) {
+        this.$store.dispatch('getmvId', id)
         this.$router.push({path: `/mv/${id}`})
       },
       fetchData () {
@@ -83,7 +86,8 @@
           font-size: 0.5rem;
         }
         .each-mv-name {
-          font-size: 0.25rem;        
+          font-size: 0.25rem;
+          display: flex;     
         }
       }
       .box{

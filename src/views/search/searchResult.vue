@@ -6,11 +6,13 @@
       <span>重新输入</span>
     </div>
     <div class="result-type">
-      <div @click="">单曲</div>
+      <div @click="submit">单曲</div>
       <div @click="toAlbum">专辑</div>
       <div @click="toArtists">歌手</div>
       <div @click="">歌单</div>
-      <div>MV</div>
+      <div @click="toMv">MV</div>
+      <div @click="">电台</div>
+      <div @click="">用户</div>
     </div>
     <router-view></router-view>
   </div>
@@ -38,6 +40,9 @@
       },
       toArtists () {
         this.$router.push({path: '/searchResult/artists', query: { val: this.val }})
+      },
+      toMv () {
+        this.$router.push({path: '/searchResult/mvs', query: { val: this.val }})
       }
     }
   }

@@ -1,8 +1,12 @@
 <template>
   <div>
     <div class="search-wrap">
-      <input id="inp" v-model="query" @keyup.enter="submit()">
-      <span @click="notSubmit()">取消</span>
+      <span class="icon-左箭头" @click="notSubmit()"></span>
+      <input id="inp" 
+        v-model="query"
+        @keyup.enter="submit()" 
+        autofocus="autofocus" 
+        placeholder="搜索音乐·歌手·歌词·用户">
     </div>
     <div class="hot-search">
       <h3>热门搜索</h3>
@@ -42,18 +46,27 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .search-wrap {
     display: flex;
-    padding: 10px;
-    height: 30px;
-  }
-  .search-wrap input {
-    flex: 1;
-    text-decoration: none;
-    border: 1px solid #E5E9F2;
-    border-radius: 15px;
-    padding-left: 2em;
+    height: 0.8rem;
+    background-color: #df2d2d;
+    .icon-左箭头 {
+      line-height: 0.6rem;
+      padding-right: 0.2rem;
+      margin-bottom: 0.1rem;
+    }
+    input {
+      flex: 1;
+      text-decoration: none;
+      border-style: none;
+      border-bottom: 1px solid white;
+      background-color: #df2d2d;
+      margin-bottom: 0.1rem;
+      color: white;
+      &:focus {
+      }
+    }
   }
   .search-wrap span {
     margin-left: 10px;

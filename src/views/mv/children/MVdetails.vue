@@ -48,7 +48,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .mv-details-wrap {
     padding: 0 0.1rem;
     color: #333;
