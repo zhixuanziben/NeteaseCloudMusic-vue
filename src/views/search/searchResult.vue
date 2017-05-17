@@ -9,7 +9,7 @@
       <div @click="submit">单曲</div>
       <div @click="toAlbum">专辑</div>
       <div @click="toArtists">歌手</div>
-      <div @click="">歌单</div>
+      <div @click="toSonglist">歌单</div>
       <div @click="toMv">MV</div>
       <div @click="">电台</div>
       <div @click="">用户</div>
@@ -43,6 +43,9 @@
       },
       toMv () {
         this.$router.push({path: '/searchResult/mvs', query: { val: this.val }})
+      },
+      toSonglist () {
+        this.$router.push({path: '/searchResult/songlist', query: { val: this.val }})
       }
     }
   }
