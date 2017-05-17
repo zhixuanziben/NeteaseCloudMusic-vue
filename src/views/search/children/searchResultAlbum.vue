@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-for="item in data.albums" @click="toAlbumMsg(item.id)">
-      <div>
-        <img :src="item.blurPicUrl" alt="" style="height: 50px; width: 50px">
+    <div v-for="item in data.albums" @click="toAlbumMsg(item.id)" class="each-album">
+      <div class="each-album-pic">
+        <img :src="item.blurPicUrl" alt="">
       </div>
-      <div>
-        <div>
+      <div class="each-album-msg">
+        <h3>
           {{item.name}}
-        </div>
-        <div>
+        </h3>
+        <p>
           {{item.artist.name}}
-        </div>
+        </p>
       </div>
     </div>
   </div>
@@ -54,6 +54,28 @@
   }
 </script>
 
-<style>
-  
+<style lang="scss" scoped>
+  .each-album {
+    display: flex;
+    .each-album-pic {
+      width: 1rem;
+      height: 1rem;
+      padding: 0.1rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .each-album-msg {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 1px solid #999;
+      > p {
+        font-size: 0.12rem;
+        color: #999;
+      }
+    }
+  }
 </style>
