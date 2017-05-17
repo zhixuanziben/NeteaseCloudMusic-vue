@@ -26,7 +26,8 @@ const store = new vuex.Store({
       currentSec: '',
       value1: ''
     },
-    mvId: 0
+    mvId: 0,
+    moreMsg: {}
   },
   mutations: {
     oldMusicList (state) {
@@ -34,6 +35,9 @@ const store = new vuex.Store({
     },
     newMusicList (state, obj) {
       state.musicUrlList.push(obj)
+    },
+    insertMusic (state, obj) {
+      state.musicUrlList.splice(obj.ind + 1, 0, obj)
     },
     musicPush (state, obj) {
       state.musicUrlList.push(obj)
@@ -73,6 +77,9 @@ const store = new vuex.Store({
     },
     saveMvId (state, obj) {
       state.mvId = obj
+    },
+    saveMoreMsg (state, obj) {
+      state.moreMsg = obj
     }
   },
   actions: {
@@ -102,6 +109,12 @@ const store = new vuex.Store({
     },
     getmvId (context, obj) {
       context.commit('saveMvId', obj)
+    },
+    getMoreMsg (context, obj) {
+      context.commit('saveMoreMsg', obj)
+    },
+    nextPlayMusic (context, obj) {
+      context.commit('insertMusic', obj)
     }
   }
 })

@@ -191,7 +191,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @mixin element-center {
     display: flex;
     flex-direction: column;

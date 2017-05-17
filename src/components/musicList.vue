@@ -103,7 +103,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .left-icon {
     line-height: 0.8rem;
     text-align: center;

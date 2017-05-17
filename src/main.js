@@ -6,6 +6,7 @@ import router from './router'
 // import vueResource from 'vue-resource'
 import axios from 'axios'
 import store from './vuex/store.js'
+import artists from './components/artists'
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 import MuseUI from 'muse-ui'
@@ -19,6 +20,7 @@ axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false
 
+Vue.component('artists', artists)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

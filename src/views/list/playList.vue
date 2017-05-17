@@ -56,7 +56,7 @@
   }
 </script>
 
-<style scope>
+<style scoped>
   .list-content-wrap {
     font-size: 0.15rem;
   }
