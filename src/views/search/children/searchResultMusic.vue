@@ -128,6 +128,7 @@
     left: 0;
     right: 0;
     background-color: #F9FAFC;
+    z-index: 9999;
   }
   .songs-wrap {
     overflow: hidden;

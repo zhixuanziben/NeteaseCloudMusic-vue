@@ -11,17 +11,17 @@
       <span class="icon-collection"></span>
       <div>收藏到歌单</div>
     </div>
-    <div class="each-msg">
+    <div class="each-msg" @click="toComment(msg.id)">
       <span class="icon-comment"></span>
       <div>评论</div>
     </div>
-    <div class="each-msg">
+    <div class="each-msg" @click="toArtist(msg.artists[0].id)">
       <span class="icon-我的"></span>
       <div class="each-msg-artist">
         歌手：<artists :artists="msg.artists"></artists>
       </div>   
     </div>
-    <div class="each-msg">
+    <div class="each-msg" @click="toAlbum(msg.album.id)">
       <span class="icon-专辑"></span>
       <div>
         专辑：{{msg.album.name}}
@@ -55,6 +55,15 @@
           .then((res) => {
             console.log(res.data)
           })
+      },
+      toComment (id) {
+        this.$router.push({path: `/comment/${id}`})
+      },
+      toArtist (id) {
+        this.$router.push({path: `/artist/${id}`})
+      },
+      toAlbum (id) {
+        this.$router.push({path: `/album/${id}`})
       }
     }
   }
