@@ -1,10 +1,10 @@
 <template>
   <div class="library-wrap">
     <header class="library-header">
-      <div @click="toPersonalAdvice">个性推荐</div>
-      <div @click="toSongList">歌单</div>
-      <div @click="toList">主播电台</div>
-      <div @click="toList">排行榜</div>
+      <router-link :to="{name: 'personalAdvice'}">个性推荐</router-link>
+      <router-link :to="{name: 'songList'}">歌单</router-link>
+      <router-link :to="{name: 'songList'}">主播电台</router-link>
+      <router-link :to="{name: 'list'}">排行榜</router-link>
     </header>
     <router-view></router-view>
   </div>
@@ -26,19 +26,26 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .library-wrap {
     font-size: 0.14rem;
     .library-header {
       display: flex;
-      height: 0.4rem;
+      height: 0.8rem;
       line-height: 0.4rem;
       background-color: #fcfdfd;
       color: #666;
       font-size: 0.18rem;
-      > div {
+      > a {
         flex: 1;
+        color: #666;
+        line-height: 0.8rem;
         text-align: center;
+      }
+      .router-link-active {
+        color: #df2d2d;
+        text-decoration: none;
+        border-bottom: 2px solid #df2d2d;
       }
     }
   }

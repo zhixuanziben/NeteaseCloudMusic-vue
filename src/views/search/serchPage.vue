@@ -52,6 +52,7 @@
     height: 0.8rem;
     background-color: #df2d2d;
     .icon-左箭头 {
+      color: #fff;
       line-height: 0.6rem;
       padding-right: 0.2rem;
       margin-bottom: 0.1rem;

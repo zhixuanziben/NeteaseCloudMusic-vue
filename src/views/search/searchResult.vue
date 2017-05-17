@@ -1,18 +1,21 @@
 <template>
   <div>
-    <div>
-      <span>返回</span>
-      <input type="text" v-model="val" @keyup.enter="submit()">
-      <span>重新输入</span>
+    <div class="search-wrap">
+      <span class="icon-左箭头" @click="back()"></span>
+      <input id="inp" 
+        v-model="val"
+        @keyup.enter="submit()" 
+        autofocus="autofocus" 
+        placeholder="搜索音乐·歌手·歌词·用户">
     </div>
     <div class="result-type">
-      <div @click="submit">单曲</div>
-      <div @click="toAlbum">专辑</div>
-      <div @click="toArtists">歌手</div>
-      <div @click="toSonglist">歌单</div>
-      <div @click="toMv">MV</div>
-      <div @click="">电台</div>
-      <div @click="">用户</div>
+      <router-link :to="{path: '/searchResult/music', query: { val: val }}" replace>单曲</router-link>
+      <router-link :to="{path: '/searchResult/albums', query: { val: val }}" replace>专辑</router-link>
+      <router-link :to="{path: '/searchResult/artists', query: { val: val }}" replace>歌手</router-link>
+      <router-link :to="{path: '/searchResult/songlist', query: { val: val }}" replace>歌单</router-link>
+      <router-link :to="{path: '/searchResult/mvs', query: { val: val }}" replace>MV</router-link>
+      <router-link :to="{path: '/searchResult/radio', query: { val: val }}" replace>电台</router-link>
+      <router-link :to="{path: '/searchResult/users', query: { val: val }}" replace>用户</router-link>
     </div>
     <router-view></router-view>
   </div>
@@ -32,28 +35,52 @@
     methods: {
       submit () {
         console.log('submit')
-        this.$router.push({path: '/searchResult/music', query: { val: this.val }})
+        this.$router.replace({path: '/searchResult/music', query: { val: this.val }})
       },
-      toAlbum () {
-        console.log('cao')
-        this.$router.push({path: '/searchResult/albums', query: { val: this.val }})
-      },
-      toArtists () {
-        this.$router.push({path: '/searchResult/artists', query: { val: this.val }})
-      },
-      toMv () {
-        this.$router.push({path: '/searchResult/mvs', query: { val: this.val }})
-      },
-      toSonglist () {
-        this.$router.push({path: '/searchResult/songlist', query: { val: this.val }})
+      back () {
+        this.$router.go(-1)
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .search-wrap {
+    display: flex;
+    height: 0.8rem;
+    background-color: #df2d2d;
+    .icon-左箭头 {
+      color: #fff;
+      line-height: 0.8rem;
+      padding-right: 0.2rem;
+      margin-bottom: 0.1rem;
+    }
+    input {
+      flex: 1;
+      text-decoration: none;
+      border-style: none;
+      border-bottom: 1px solid white;
+      background-color: #df2d2d;
+      margin-bottom: 0.1rem;
+      color: white;
+      &:focus {
+      }
+    }
+  }
   .result-type {
     display: flex;
+    height: 0.6rem;
+    > a {
+      flex: 1;
+      color: #666;
+      line-height: 0.6rem;
+      text-align: center;
+    }
+    .router-link-active {
+      color: #df2d2d;
+      text-decoration: none;
+      border-bottom: 2px solid #df2d2d;
+    }
   }
   .result-type > div {
     flex: 1;
