@@ -7,7 +7,7 @@
       <span class="icon-next"></span>
       <div>下一首播放</div>
     </div>
-    <div class="each-msg">
+    <div class="each-msg" @click="collection(msg.id)">
       <span class="icon-collection"></span>
       <div>收藏到歌单</div>
     </div>
@@ -49,7 +49,12 @@
           ind
         }
         this.$store.dispatch('nextPlayMusic', obj)
-        console.log(obj)
+      },
+      collection (id) {
+        this.$http.get(`http://localhost:3000/playlist/tracks?op=add&pid=495727117&tracks=${id}`)
+          .then((res) => {
+            console.log(res.data)
+          })
       }
     }
   }
