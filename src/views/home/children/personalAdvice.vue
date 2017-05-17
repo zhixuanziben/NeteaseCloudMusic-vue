@@ -129,6 +129,7 @@
         this.$router.push({path: '/musicLibrary/songList'})
       },
       getMvUrl (id) {
+        this.$store.dispatch('getmvId', id)
         this.$router.push({path: `/mv/${id}`})
       },
       moreMV () {

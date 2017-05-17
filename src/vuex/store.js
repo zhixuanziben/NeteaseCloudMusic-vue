@@ -25,7 +25,8 @@ const store = new vuex.Store({
       currentMin: '',
       currentSec: '',
       value1: ''
-    }
+    },
+    mvId: 0
   },
   mutations: {
     oldMusicList (state) {
@@ -69,6 +70,9 @@ const store = new vuex.Store({
       } else {
         state.isController = !state.isController
       }
+    },
+    saveMvId (state, obj) {
+      state.mvId = obj
     }
   },
   actions: {
@@ -95,6 +99,9 @@ const store = new vuex.Store({
     },
     changeControllerStatus (context, obj) {
       context.commit('showController', obj)
+    },
+    getmvId (context, obj) {
+      context.commit('saveMvId', obj)
     }
   }
 })

@@ -24,8 +24,17 @@
       listTitle
     },
     mounted () {
-      console.log(this.$router)
       this.ajax()
+    },
+    computed: {
+      mvid () {
+        return this.$store.state.mvId
+      }
+    },
+    watch: {
+      mvid () {
+        this.ajax()
+      }
     },
     methods: {
       ajax () {

@@ -38,7 +38,7 @@
     },
     methods: {
       getMvUrl (id) {
-        console.log(id)
+        this.$store.dispatch('getmvId', id)
         this.$router.push({path: `/mv/${id}`})
       }
     }
