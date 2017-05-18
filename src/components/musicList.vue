@@ -9,9 +9,9 @@
           播放全部
         </div>
       </div>
-      <div v-for="(item, index) in songs" @click="playMusic(item.id, index)" class="each-music">
+      <div v-for="(item, index) in songs" class="each-music">
         <div class="each-music-index">{{index + 1}}</div>
-        <div class="each-music-msg">
+        <div class="each-music-msg" @click="playMusic(item.id, index)">
           <div class="each-music-name">{{item.name}}</div>
           <div class="each-music-artists">
             <div v-if="item.artists">
@@ -24,17 +24,27 @@
             </div>
           </div>
         </div>
-        <div class="each-music-more">
+        <div class="each-music-more" @click="showMore(item)">
           <span class="icon-省略"></span>
         </div>
       </div>
     </div>
+    <more-msg :msg="$store.state.moreMsg" class="more-msg" v-if="isShow" @hidden="hideMore"></more-msg>
   </div>
 </template>
 
 <script>
+  import moreMsg from './moreMsg'
   export default {
+    data () {
+      return {
+        isShow: false
+      }
+    },
     props: ['songs'],
+    components: {
+      moreMsg
+    },
     methods: {
       playAllMusic () {
         const {id} = this.songs[0]
@@ -98,6 +108,14 @@
             }
             this.$store.dispatch('pushMusic', obj2)
           })
+      },
+      showMore (obj) {
+        this.$store.dispatch('getMoreMsg', obj)
+        this.isShow = !this.isShow
+        console.log(this.isShow)
+      },
+      hideMore () {
+        this.isShow = false
       }
     }
   }

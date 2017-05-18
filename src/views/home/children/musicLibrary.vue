@@ -6,7 +6,9 @@
       <router-link :to="{name: 'songList'}">主播电台</router-link>
       <router-link :to="{name: 'list'}">排行榜</router-link>
     </header>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

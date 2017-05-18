@@ -1,6 +1,8 @@
 <template>
   <div id="app" class="app">
-    <router-view :class="{'view-wrap': showController}"></router-view>
+    <keep-alive>
+      <router-view :class="{'view-wrap': showController}"></router-view>
+    </keep-alive>
     <music-controller class="player" v-show="showController"></music-controller>
   </div>
 </template>

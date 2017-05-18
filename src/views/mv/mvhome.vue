@@ -7,7 +7,9 @@
       <span @click="goComment">评论</span>
       <span @click="goSimilar">相关MV</span>
     </div>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

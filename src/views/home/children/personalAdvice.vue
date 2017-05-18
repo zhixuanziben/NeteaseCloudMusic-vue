@@ -97,7 +97,7 @@
         MVURL: ''
       }
     },
-    mounted () {
+    created () {
       this.$http.get('http://localhost:3000/personalized').then((res) => {
         this.songList = res.data.result
       })

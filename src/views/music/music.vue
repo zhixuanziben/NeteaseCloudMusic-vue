@@ -8,10 +8,7 @@
         <span class="header-music-name">
           {{musicName}}
         </span>
-        <div v-for="(item, index) in artists" class="header-music-artists">
-          {{item.name}}
-          <span v-if="index < (artists.length - 1)">/</span>
-        </div>
+        <artists :artists="artists"></artists>
       </div>
     </header>
     <section class="music-main">
@@ -43,7 +40,9 @@
       <span class="icon-next" @click="next"></span>
       <span class="icon-list"></span>
     </section>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive> 
     <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
   </div>
 </template>
@@ -155,7 +154,7 @@
       },
       getComment () {
         console.log('go comment')
-        this.$router.push({path: `/music/${this.$store.state.nowMusic.id}/musicComment`})
+        this.$router.push({path: `/comment/${this.$store.state.nowMusic.id}`})
       },
       getLyric (id) {
         /*eslint-disable */

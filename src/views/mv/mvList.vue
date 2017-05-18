@@ -5,7 +5,9 @@
       <div @click="goHotMV">排行榜</div>
       <div @click="goNewMV">最新MV</div>
     </div>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

@@ -1,38 +1,37 @@
 <template>
   <div>
-    <div>
-      评论({{total}}){{fromType}}
-    </div>
-    <div @click="playMusic()">
-      <div>
+    <list-title title="评论" :count="total"></list-title>
+    <header @click="playMusic()" class="comment-header">
+      <div class="comment-pic">
         <img :src="musicpic" alt="" style="width: 80px; height: 80px">
       </div>
-      <div>
-        {{musicname}}
-        <div v-for="(item, index) in artistname">{{item.name}}<span v-if="index < (artistname.length - 1)">/</span></div>
+      <div class="comment-msg">
+        <h3>{{musicname}}</h3>
+        <artists :artists="artists"></artists>
       </div>
-    </div>
+      <span class="icon-右键"></span>
+    </header>
     <comment :hotcomment="hotcomment" :comment="comment"></comment>
-    <span ref="fromtype"></span>
   </div>
 </template>
 
 <script>
+  import listTitle from '../../components/listTitle'
   import comment from '../../components/comment'
   export default {
     data () {
       return {
         musicname: '',
-        artistname: '',
+        artists: [],
         musicpic: '',
-        total: '',
+        total: 0,
         comment: [],
-        hotcomment: [],
-        fromType: ''
+        hotcomment: []
       }
     },
     components: {
-      comment
+      comment,
+      listTitle
     },
     // 导航进入评论页面后，隐藏底部音乐控制器
     beforeRouteEnter (to, from, next) {
@@ -41,10 +40,13 @@
       })
     },
     mounted () {
-      console.log(this.$refs.fromType)
-      this.musicname = this.$store.state.nowMusic.nowName
-      this.musicpic = this.$store.state.nowMusic.nowImgurl
-      this.artistname = this.$store.state.nowMusic.nowArtists
+      this.$http.get(`http://localhost:3000/song/detail?ids=${this.$route.params.id}`)
+        .then((res) => {
+          this.musicname = res.data.songs[0].name
+          this.musicpic = res.data.songs[0].al.picUrl
+          this.artists = res.data.songs[0].ar
+          console.log(this)
+        })
       this.$http.get(`http://localhost:3000/comment/music?id=${this.$route.params.id}&limit=20`)
         .then((res) => {
           // console.log(res)
@@ -62,6 +64,24 @@
   }
 </script>
 
-<style scoped>
-  
+<style lang="scss" scoped>
+  .comment-header {
+    display: flex;
+    .comment-pic {
+      padding: 0.1rem;
+    }
+    .comment-msg {
+      margin-left: 0.1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    > span {
+      width: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 </style>

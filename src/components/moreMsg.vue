@@ -18,13 +18,13 @@
     <div class="each-msg" @click="toArtist(msg.artists[0].id)">
       <span class="icon-我的"></span>
       <div class="each-msg-artist">
-        歌手：<artists :artists="msg.artists"></artists>
+        歌手：<artists :artists="artist"></artists>
       </div>   
     </div>
     <div class="each-msg" @click="toAlbum(msg.album.id)">
       <span class="icon-专辑"></span>
       <div>
-        专辑：{{msg.album.name}}
+        专辑：{{album.name}}
       </div>
     </div>
   </div>
@@ -35,6 +35,14 @@
     props: {
       msg: {
         type: Object
+      }
+    },
+    computed: {
+      artist () {
+        return this.msg.artists || this.msg.ar
+      },
+      album () {
+        return this.msg.album || this.msg.al
       }
     },
     methods: {
@@ -49,11 +57,13 @@
           ind
         }
         this.$store.dispatch('nextPlayMusic', obj)
+        this.$emit('hidden')
       },
       collection (id) {
         this.$http.get(`http://localhost:3000/playlist/tracks?op=add&pid=495727117&tracks=${id}`)
           .then((res) => {
             console.log(res.data)
+            this.$emit('hidden')
           })
       },
       toComment (id) {

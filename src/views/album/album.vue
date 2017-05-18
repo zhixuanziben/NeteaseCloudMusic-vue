@@ -40,6 +40,7 @@
       this.$http.get(`http://localhost:3000/album/?id=${this.$route.params.id}`)
         .then((res) => {
           this.data = res.data
+          console.log(this.data)
           this.info = res.data.album.info
         })
     }

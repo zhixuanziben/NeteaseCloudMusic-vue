@@ -13,7 +13,7 @@
       <span class="each-music-more icon-省略" @click="showMore(item)"></span>
     </div>
     <div v-if="isShow" class="more-msg-mask" @click="hideMore()"></div>
-    <more-msg :msg="$store.state.moreMsg" class="more-msg" v-if="isShow">cao</more-msg>
+    <more-msg :msg="$store.state.moreMsg" class="more-msg" v-if="isShow" @hidden="hideMore"></more-msg>
   </div>  
 </template>
 
@@ -30,7 +30,6 @@
       moreMsg
     },
     mounted () {
-      // console.log(this.$route.query.val)
       this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1`)
         .then((res) => {
           this.songs = res.data.result.songs

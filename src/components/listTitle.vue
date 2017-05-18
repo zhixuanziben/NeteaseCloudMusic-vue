@@ -6,6 +6,7 @@
     <span class="title-msg">
       <span>{{title}}</span>
       <span>{{copywriter}}</span>
+      <span v-if="count">({{count}})</span>
     </span>
   </div>
 </template>
@@ -19,11 +20,14 @@
       },
       copywriter: {
         type: String
+      },
+      count: {
+        type: Number
       }
     },
     methods: {
       back () {
-        this.$router.go(-1)
+        this.$router.back(-1)
       }
     }
   }

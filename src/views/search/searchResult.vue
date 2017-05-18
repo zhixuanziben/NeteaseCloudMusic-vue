@@ -17,7 +17,9 @@
       <router-link :to="{path: '/searchResult/radio', query: { val: val }}" replace>电台</router-link>
       <router-link :to="{path: '/searchResult/users', query: { val: val }}" replace>用户</router-link>
     </div>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

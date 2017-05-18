@@ -11,7 +11,9 @@
         <span class="icon-搜索_搜索"></span>
       </div>
     </header>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
