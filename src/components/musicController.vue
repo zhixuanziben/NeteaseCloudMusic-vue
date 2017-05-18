@@ -41,10 +41,16 @@
       artists: state => state.nowMusic.nowArtists,
       imgUrl: state => state.nowMusic.nowImgurl,
       musicId: state => state.nowMusic.id,
-      playStatus: state => state.isPlaying
+      playStatus: state => state.isPlaying,
+      playModel: state => state.playModel
     }),
     methods: {
       toNext () {
+        if (this.playModel === 2) {
+          const obj = {currentTime: '00', currentMin: '00', currentSec: '00', value1: '0'}
+          this.$store.dispatch('changeCurrent', obj)
+          return
+        }
         this.next()
       },
       getFullTime () {

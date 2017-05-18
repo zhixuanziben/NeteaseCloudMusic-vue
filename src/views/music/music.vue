@@ -24,7 +24,7 @@
     </section>
     <section class="music-section-time">
       <span>{{currentMin}}:{{currentSec}}</span>
-      <mu-slider v-model="value1" class="slider"></mu-slider>
+      <mu-slider v-model="value" class="slider" @change="hi"></mu-slider>
       <span>{{fullMin}}:{{fullSec}}</span>
     </section>
     <div class="lyric-content">
@@ -33,7 +33,9 @@
       </span>
     </div>
     <section class="music-section-contro">
-      <span class="icon-列表循环"></span>
+      <span class="icon-列表循环" v-if="playModel[0]" @click="changePlayModel(1)"></span>
+      <span class="icon-随机播放" v-if="playModel[1]" @click="changePlayModel(2)"></span>
+      <span class="icon-singlecycle" v-if="playModel[2]" @click="changePlayModel(0)"></span>
       <span class="icon-prewmusic" @click="prew"></span>
       <span class="icon-pause" @click="play" v-if="isPlaying"></span>
       <span class="icon-play" @click="play" v-else></span>
@@ -52,7 +54,6 @@
   export default {
     data () {
       return {
-        value: 50,
         musicUrl: '',
         urlArr: [],
         // ind是播放的曲目，在当前播放列表的序列
@@ -61,7 +62,9 @@
         // pattern,0代表列表循环模式，1代表随机播放，2代表单曲循环
         pattern: 0,
         lyric: '',
-        arr: []
+        arr: [],
+        // 代表三种模式，1.列表循环 2.随机播放 3.单曲循环
+        playModel: [true, false, false]
       }
     },
     computed: mapState({
@@ -75,7 +78,10 @@
       fullMin: state => state.full.fullMin,
       fullSec: state => state.full.fullSec,
       value1: state => state.current.value1,
-      isPlaying: state => state.isPlaying
+      isPlaying: state => state.isPlaying,
+      value () {
+        return this.value1
+      }
     }),
     mounted () {
       this.getLyric(this.id)
@@ -96,6 +102,11 @@
       }
     },
     methods: {
+      changePlayModel (ind) {
+        this.playModel = [false, false, false]
+        this.playModel[ind] = true
+        this.$store.dispatch('genghuanPlayModel', ind)
+      },
       play () {
         const audio = document.querySelector('#audio')
         if (!this.$store.state.isPlaying) {
@@ -185,6 +196,16 @@
       },
       back () {
         this.$router.go(-1)
+      },
+      hi (value) {
+        const currentTime = (value * this.fullTime) / 100
+        const currentMin = Math.floor(currentTime / 60).toString().padStart(2, '0')
+        const currentSec = Math.floor(currentTime % 60).toString().padStart(2, '0')
+        const obj = { currentTime, currentMin, currentSec, value1: value }
+        const audio = document.querySelector('#audio')
+        audio.currentTime = currentTime
+        this.$store.dispatch('changeCurrent', obj)
+        [this.currentMin, this.currentSec, this.value] = [currentMin, currentSec, value]
       }
     }
   }

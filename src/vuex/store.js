@@ -27,7 +27,8 @@ const store = new vuex.Store({
       value1: ''
     },
     mvId: 0,
-    moreMsg: {}
+    moreMsg: {},
+    playModel: 0
   },
   mutations: {
     oldMusicList (state) {
@@ -80,6 +81,9 @@ const store = new vuex.Store({
     },
     saveMoreMsg (state, obj) {
       state.moreMsg = obj
+    },
+    changePlayModel (state, num) {
+      state.playModel = num
     }
   },
   actions: {
@@ -115,6 +119,9 @@ const store = new vuex.Store({
     },
     nextPlayMusic (context, obj) {
       context.commit('insertMusic', obj)
+    },
+    genghuanPlayModel (context, num) {
+      context.commit('changePlayModel', num)
     }
   }
 })
