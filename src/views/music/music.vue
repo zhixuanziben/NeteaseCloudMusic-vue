@@ -79,6 +79,7 @@
       fullSec: state => state.full.fullSec,
       value1: state => state.current.value1,
       isPlaying: state => state.isPlaying,
+      playModelNum: state => state.playModel,
       value () {
         return this.value1
       }
@@ -117,9 +118,18 @@
         this.$store.dispatch('changePlayStatus')
       },
       prew () {
-        const ind = this.$store.state.nowMusic.ind === 0 ? this.$store.state.musicUrlList.length : this.$store.state.nowMusic.ind
+        let ind = 0
         // 获得下一首歌曲的id
-        const id = this.$store.state.musicUrlList[ind - 1].id
+        let id = 0
+        if (this.playModelNum === 0 || this.playModelNum === 2) {
+          // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
+          ind = this.$store.state.nowMusic.ind === 0 ? this.$store.state.musicUrlList.length : this.$store.state.nowMusic.ind
+          id = this.$store.state.musicUrlList[ind - 1].id
+        } else {
+          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1))
+          id = this.$store.state.musicUrlList[ind].id
+        }
+        console.log(this.$store.state.musicUrlList[ind - 1].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
@@ -140,10 +150,18 @@
           })
       },
       next () {
-        // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
-        const ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
+        let ind = 0
         // 获得下一首歌曲的id
-        const id = this.$store.state.musicUrlList[ind + 1].id
+        let id = 0
+        if (this.playModelNum === 0 || this.playModelNum === 2) {
+          // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
+          ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
+          id = this.$store.state.musicUrlList[ind + 1].id
+        } else {
+          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1))
+          id = this.$store.state.musicUrlList[ind].id
+        }
+        console.log(this.$store.state.musicUrlList[ind + 1].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
@@ -202,10 +220,10 @@
         const currentMin = Math.floor(currentTime / 60).toString().padStart(2, '0')
         const currentSec = Math.floor(currentTime % 60).toString().padStart(2, '0')
         const obj = { currentTime, currentMin, currentSec, value1: value }
+        // 改变播放器进度
         const audio = document.querySelector('#audio')
         audio.currentTime = currentTime
         this.$store.dispatch('changeCurrent', obj)
-        [this.currentMin, this.currentSec, this.value] = [currentMin, currentSec, value]
       }
     }
   }

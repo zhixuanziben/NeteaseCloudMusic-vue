@@ -42,16 +42,18 @@
       imgUrl: state => state.nowMusic.nowImgurl,
       musicId: state => state.nowMusic.id,
       playStatus: state => state.isPlaying,
-      playModel: state => state.playModel
+      playModelNum: state => state.playModel
     }),
     methods: {
       toNext () {
-        if (this.playModel === 2) {
-          const obj = {currentTime: '00', currentMin: '00', currentSec: '00', value1: '0'}
-          this.$store.dispatch('changeCurrent', obj)
+        if (this.playModel === 0) {
+          this.next()
+        } else if (this.playModel === 2) {
+          const audio = document.querySelector('#audio')
+          audio.currentTime = 0
+          audio.play()
           return
         }
-        this.next()
       },
       getFullTime () {
         const audio = document.querySelector('#audio')
@@ -83,11 +85,18 @@
         this.$store.dispatch('changePlayStatus')
       },
       next () {
-        // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
-        const ind = this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1) ? -1 : this.$store.state.nowMusic.ind
+        let ind = 0
         // 获得下一首歌曲的id
-        console.log(this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1))
-        const id = this.$store.state.musicUrlList[ind + 1].id
+        let id = 0
+        if (this.playModelNum === 0 || this.playModelNum === 2) {
+          // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
+          ind = this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1) ? -1 : this.$store.state.nowMusic.ind
+          id = this.$store.state.musicUrlList[ind + 1].id
+        } else {
+          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1))
+          id = this.$store.state.musicUrlList[ind].id
+        }
+        console.log(this.$store.state.musicUrlList[ind + 1].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
