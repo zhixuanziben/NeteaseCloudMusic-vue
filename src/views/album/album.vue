@@ -1,14 +1,14 @@
 <template>
   <div>
     <list-title title="专辑"></list-title>
-    <div>
-      <div>
+    <div class="album-msg-wrap">
+      <div class="album-pic">
         <img :src="data.album.picUrl">
       </div>
-      <div>
-        <div>{{data.album.name}}</div>
-        <div>歌手：<span v-for="item in data.album.artists">{{item.name}}</span> ></div>
-        <div>发行时间：{{(new Date(data.album.publishTime)).getFullYear()}}.{{(new Date(data.album.publishTime)).getMonth()+1}}.{{(new Date(data.album.publishTime)).getDate()}}</div>
+      <div class="album-msg">
+        <h3>{{data.album.name}}</h3>
+        <p>歌手：<span v-for="item in data.album.artists">{{item.name}}</span> ></p>
+        <p>发行时间：{{(new Date(data.album.publishTime)).getFullYear()}}.{{(new Date(data.album.publishTime)).getMonth()+1}}.{{(new Date(data.album.publishTime)).getDate()}}</p>
       </div>
     </div>
     <musiclist-bar 
@@ -40,13 +40,25 @@
       this.$http.get(`http://localhost:3000/album/?id=${this.$route.params.id}`)
         .then((res) => {
           this.data = res.data
-          console.log(this.data)
           this.info = res.data.album.info
         })
     }
   }
 </script>
 
-<style>
-  
+<style lang="scss" scoped>
+  .album-msg-wrap {
+    display: flex;
+    .album-pic {
+      width: 40%;
+      padding: 0.2rem;
+      img {
+        width: 100%;
+      }
+    }
+    .album-msg {
+      flex: 1;
+      padding: 0.2rem;
+    }
+  }
 </style>

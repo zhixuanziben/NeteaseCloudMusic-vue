@@ -33,7 +33,7 @@
         desc: ''
       }
     },
-    mounted () {
+    activated () {
       this.$http.get(`http://localhost:3000/mv?mvid=${this.$route.params.id}`).then((res) => {
         this.MVURL = `http://localhost:3000/mv/url?url=${res.data.data.brs[240]}`
         console.log(res.data.data)
@@ -44,6 +44,15 @@
         this.publishTime = res.data.data.publishTime
         this.desc = res.data.data.desc
       })
+    },
+    created: function () {
+      console.log(1)
+    },
+    mounted: function () {
+      console.log(2)
+    },
+    deactivated: function () {
+      console.log(4)
     }
   }
 </script>

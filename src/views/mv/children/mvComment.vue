@@ -17,7 +17,7 @@
     components: {
       comment
     },
-    mounted () {
+    activated () {
       this.$http.get(`http://localhost:3000/comment/mv?id=${this.$route.params.id}&limit=20`)
         .then((res) => {
           // console.log(res)

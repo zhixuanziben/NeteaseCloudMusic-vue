@@ -1,0 +1,48 @@
+<template>
+  <div>
+    <section class="artist-msg-section">
+      <h3>歌手简介</h3>
+      <p>
+        {{desc}}
+      </p>
+    </section>
+    <section v-for="item of intro" class="artist-msg-section">
+      <h3>{{item.ti}}</h3>
+      <p>
+        {{item.txt}}
+      </p>
+    </section>
+  </div>
+</template>
+
+<script>
+  export default {
+    data () {
+      return {
+        desc: '',
+        intro: []
+      }
+    },
+    mounted () {
+      this.$http.get(`http://localhost:3000/artist/desc?id=${this.$route.params.id}`)
+        .then((res) => {
+          this.desc = res.data.briefDesc
+          this.intro = res.data.introduction
+        })
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  .artist-msg-section {
+    padding: 0.1rem;
+    margin: 0.1rem 0;
+    > h3 {
+      border-left: 3px solid red;
+      padding-left: 0.1rem;
+    }
+    > p {
+      color: #666;
+    }
+  }
+</style>

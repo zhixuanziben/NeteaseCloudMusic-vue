@@ -46,6 +46,14 @@
     components: {
       musicList
     },
+    // 导航离开音乐详细信息后，显示底部音乐控制器
+    beforeRouteLeave (to, from, next) {
+      // 导航离开该组件的对应路由时调用
+      // 可以访问组件实例 `this`
+      this.$route.meta.notKeepAlive = false
+      console.log(from)
+      next()
+    },
     mounted () {
       this.id = this.$route.params.id
       this.$http.get(`http://localhost:3000/playlist/detail?id=${this.id}`)

@@ -15,8 +15,8 @@
     components: {
       mvList
     },
-    activated () {
-      this.$http.get(`http://localhost:3000/simi/mv?mvid=${this.$route.params.id}`)
+    mounted () {
+      this.$http.get(`http://localhost:3000/artist/mv?id=${this.$route.params.id}`)
         .then((res) => {
           this.allMV = res.data.mvs
         })
@@ -25,4 +25,5 @@
 </script>
 
 <style lang="scss" scoped>
+  
 </style>

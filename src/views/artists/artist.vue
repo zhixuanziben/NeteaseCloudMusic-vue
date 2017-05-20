@@ -1,29 +1,34 @@
  <template>
   <div>
     <div>
-      <div>
-        <span>返回</span>
-        <span>{{data.artist.name}}</span>
-        <img :src="data.artist.img1v1Url" alt="">
-      </div>
-      <div>
-        <div>
-          热门{{data.hotSongs.length}}
-        </div>
-        <div>
+      <header class="artist-header">
+        <list-title :title="data.artist.name"></list-title>
+        <img :src="data.artist.img1v1Url">
+      </header>
+      <div class="artist-router">
+        <router-link :to="{name: 'artistHotmusic'}">
+          热门50
+        </router-link>
+        <router-link :to="{name: 'artistAlbum'}">
           专辑{{data.artist.albumSize}}
-        </div>
-        <div>
+        </router-link>
+        <router-link :to="{name: 'artistMV'}">
           MV
-        </div>
+        </router-link>
+        <router-link :to="{name: 'artistMsg'}">
+          歌手信息
+        </router-link>
+        <router-link :to="{name: 'artistSimi'}">
+          相似歌手
+        </router-link>
       </div>
     </div>
-    <music-list :songs="data.hotSongs"></music-list>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import musicList from '../../components/musicList'
+  import listTitle from '../../components/listTitle'
   export default {
     data () {
       return {
@@ -31,24 +36,55 @@
           artist: {
             name: '',
             img1v1Url: ''
-          },
-          hotSongs: []
+          }
         }
       }
     },
     components: {
-      musicList
+      listTitle
+    },
+    watch: {
+      $route (to, from) {
+        if (to.params.id !== from.params.id) {
+          console.log('歌手id变化')
+          this.ajax()
+        }
+      }
     },
     mounted () {
-      this.$http.get(`http://localhost:3000/artists/?id=${this.$route.params.id}`)
-        .then((res) => {
-          this.data = res.data
-          this.data.hotSongs = res.data.hotSongs
-        })
+      this.ajax()
+    },
+    methods: {
+      ajax () {
+        this.$http.get(`http://localhost:3000/artists/?id=${this.$route.params.id}`)
+          .then((res) => {
+            this.data = res.data
+          })
+      }
     }
   }
 </script>
 
-<style>
-  
+<style lang="scss" scoped>
+  .artist-header {
+    width: 100%;
+    img {
+      width: 100%;
+    }
+  }
+  .artist-router {
+    display: flex;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    > a {
+      flex: 1;
+      text-align: center;
+      color: #666;
+    }
+    .router-link-active {
+      color: #df2d2d;
+      text-decoration: none;
+      border-bottom: 2px solid #df2d2d;
+    }
+  }
 </style>

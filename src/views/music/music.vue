@@ -42,9 +42,6 @@
       <span class="icon-next" @click="next"></span>
       <span class="icon-list"></span>
     </section>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive> 
     <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
   </div>
 </template>
@@ -88,6 +85,13 @@
       this.getLyric(this.id)
       console.log(this.lyric)
     },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        console.log(to)
+        console.log(from)
+        console.log(vm)
+      })
+    },
     // 导航离开音乐详细信息后，显示底部音乐控制器
     beforeRouteLeave (to, from, next) {
       // 导航离开该组件的对应路由时调用
@@ -126,8 +130,8 @@
           ind = this.$store.state.nowMusic.ind === 0 ? this.$store.state.musicUrlList.length : this.$store.state.nowMusic.ind
           id = this.$store.state.musicUrlList[ind - 1].id
         } else {
-          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1))
-          id = this.$store.state.musicUrlList[ind].id
+          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1)) - 1
+          id = this.$store.state.musicUrlList[ind - 1].id
         }
         console.log(this.$store.state.musicUrlList[ind - 1].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
@@ -158,8 +162,8 @@
           ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
           id = this.$store.state.musicUrlList[ind + 1].id
         } else {
-          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1))
-          id = this.$store.state.musicUrlList[ind].id
+          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1)) - 1
+          id = this.$store.state.musicUrlList[ind + 1].id
         }
         console.log(this.$store.state.musicUrlList[ind + 1].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
@@ -209,7 +213,6 @@
                 lyric: eachlyric
               }
             }
-            console.log(this.arr)
           })
       },
       back () {

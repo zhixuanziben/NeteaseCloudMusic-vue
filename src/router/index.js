@@ -9,10 +9,14 @@ import list from '../views/list/list'
 import listContent from '../views/list/listContent'
 import playList from '../views/list/playList'
 import music from '../views/music/music'
-import musicComment from '../views/music/children/musicComment'
 import album from '../views/album/album'
 import albumList from '../views/album/albumList'
 import artist from '../views/artists/artist'
+import artistMsg from '../views/artists/children/artistMsg'
+import artistAlbum from '../views/artists/children/artistAlbum'
+import artistHotmusic from '../views/artists/children/artistHotmusic'
+import artistMV from '../views/artists/children/artistMV'
+import artistSimi from '../views/artists/children/artistSimi'
 import mine from '../views/user/mine'
 import comment from '../views/comment/comment'
 import serchPage from '../views/search/serchPage'
@@ -68,7 +72,8 @@ export default new Router({
     {
       path: '/album/:id',
       name: 'album',
-      component: album
+      component: album,
+      meta: { notKeepAlive: true }
     },
     {
       path: '/albumList',
@@ -78,17 +83,51 @@ export default new Router({
     {
       path: '/artist/:id',
       name: 'artist',
-      component: artist
+      component: artist,
+      meta: { notKeepAlive: true },
+      children: [
+        {
+          path: '',
+          redirect: 'artistHotmusic'
+        },
+        {
+          path: 'artistMsg',
+          name: 'artistMsg',
+          component: artistMsg
+        },
+        {
+          path: 'artistAlbum',
+          name: 'artistAlbum',
+          component: artistAlbum
+        },
+        {
+          path: 'artistHotmusic',
+          name: 'artistHotmusic',
+          component: artistHotmusic
+        },
+        {
+          path: 'artistMV',
+          name: 'artistMV',
+          component: artistMV
+        },
+        {
+          path: 'artistSimi',
+          name: 'artistSimi',
+          component: artistSimi
+        }
+      ]
     },
     {
       path: '/listContent/:id',
       name: 'listContent',
-      component: listContent
+      component: listContent,
+      meta: { notKeepAlive: true }
     },
     {
       path: '/playList/:id',
       name: 'playList',
-      component: playList
+      component: playList,
+      meta: { notKeepAlive: true }
     },
     {
       path: '/user',
@@ -104,41 +143,49 @@ export default new Router({
       path: '/searchResult',
       name: 'searchResult',
       component: searchResult,
+      meta: { notKeepAlive: true },
       children: [
         {
           path: 'music',
           name: 'searchResultMusic',
-          component: searchResultMusic
+          component: searchResultMusic,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'albums',
           name: 'searchResultAlbum',
-          component: searchResultAlbum
+          component: searchResultAlbum,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'artists',
           name: 'searchResultArtist',
-          component: searchResultArtist
+          component: searchResultArtist,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'mvs',
           name: 'searchResultMV',
-          component: searchResultMV
+          component: searchResultMV,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'radio',
           name: 'searchResultRadio',
-          component: searchResultRadio
+          component: searchResultRadio,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'songlist',
           name: 'searchResultSonglist',
-          component: searchResultSonglist
+          component: searchResultSonglist,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'users',
           name: 'searchResultUser',
-          component: searchResultUser
+          component: searchResultUser,
+          meta: { notKeepAlive: true }
         }
       ]
     },
@@ -146,18 +193,13 @@ export default new Router({
       path: '/music/:id',
       name: 'music',
       component: music,
-      children: [
-        {
-          path: 'musicComment',
-          name: 'musicComment',
-          component: musicComment
-        }
-      ]
+      meta: { notKeepAlive: true }
     },
     {
       path: '/comment/:id',
       name: 'comment',
-      component: comment
+      component: comment,
+      meta: { notKeepAlive: true }
     },
     {
       path: '/recommendSongs',
@@ -168,25 +210,30 @@ export default new Router({
       path: '/mv/:id',
       name: 'mv',
       component: mvhome,
+      meta: { notKeepAlive: true },
       children: [
         {
           path: '',
-          component: mvdetails
+          component: mvdetails,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'details',
           name: 'details',
-          component: mvdetails
+          component: mvdetails,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'mvcomment',
           name: 'mvcomment',
-          component: mvcomment
+          component: mvcomment,
+          meta: { notKeepAlive: true }
         },
         {
           path: 'similarMV',
           name: 'similarMV',
-          component: similarMV
+          component: similarMV,
+          meta: { notKeepAlive: true }
         }
       ]
     },

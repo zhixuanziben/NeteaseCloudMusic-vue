@@ -36,6 +36,8 @@
     // 导航进入评论页面后，隐藏底部音乐控制器
     beforeRouteEnter (to, from, next) {
       next(vm => {
+        console.log(to)
+        console.log(from)
         vm.$store.dispatch('changeControllerStatus')
       })
     },

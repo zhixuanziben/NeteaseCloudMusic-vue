@@ -1,8 +1,9 @@
 <template>
   <div id="app" class="app">
     <keep-alive>
-      <router-view :class="{'view-wrap': showController}"></router-view>
+      <router-view v-if="!$route.meta.notKeepAlive"></router-view>
     </keep-alive>
+    <router-view v-if="$route.meta.notKeepAlive"></router-view>
     <music-controller class="player" v-show="showController"></music-controller>
   </div>
 </template>
