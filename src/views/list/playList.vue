@@ -1,8 +1,25 @@
  <template>
   <div class="list-content-wrap">
     <header class="list-content-header">
-      <div>{{data.name}}</div>
-      <div>最近更新：4月16日</div>
+      <list-title title="歌单"></list-title>
+      <div class="list-desc">
+        <div class="list-pic">
+          <img :src="data.picUrl">
+          <span v-if="data.playCount > 100000">
+            {{Math.floor(data.playCount/10000)}}万
+          </span>
+          <span v-else>
+            {{data.playCount}}
+          </span>
+        </div>
+        <div class="list-msg">
+          <h3>{{data.name}}</h3>
+          <div>
+            <img :src="creator.avatarUrl">
+            {{creator.nickname}} >
+          </div>
+        </div>
+      </div>
       <div class="listData">
         <div>
           <div>
@@ -30,41 +47,40 @@
         </div>
       </div>
     </header>
-    <music-list :songs="data"></music-list>
+    <music-list :songs="tracks"></music-list>
   </div>  
 </template>
 
 <script>
+  import listTitle from '../../components/listTitle'
   import musicList from '../../components/musicList'
   export default {
     data () {
       return {
         id: '',
-        data: ''
+        tracks: [],
+        data: '',
+        creator: ''
       }
     },
     components: {
-      musicList
-    },
-    // 导航离开音乐详细信息后，显示底部音乐控制器
-    beforeRouteLeave (to, from, next) {
-      // 导航离开该组件的对应路由时调用
-      // 可以访问组件实例 `this`
-      this.$route.meta.notKeepAlive = false
-      console.log(from)
-      next()
+      musicList,
+      listTitle
     },
     mounted () {
       this.id = this.$route.params.id
       this.$http.get(`http://localhost:3000/playlist/detail?id=${this.id}`)
         .then((res) => {
-          this.data = res.data.playlist.tracks
+          this.data = res.data.playlist
+          console.log(this.data)
+          this.tracks = res.data.playlist.tracks
+          this.creator = res.data.playlist.creator
         })
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .list-content-wrap {
     font-size: 0.15rem;
   }
@@ -119,5 +135,33 @@
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
+  }
+  .list-desc {
+    display: flex;
+    .list-pic {
+      width: 40%;
+      margin: 0.2rem;
+      position: relative;
+      > img {
+        width: 100%;
+      }
+      > span {
+        position: absolute;
+        top: 0;
+        right: 0.1rem;
+      }
+    }
+    .list-msg {
+      flex: 1;
+      margin-top: 0.2rem;
+      > h3 {
+        font-size: 0.25rem;
+        margin-bottom: 0.1rem;
+      }
+      img {
+        width: 0.5rem;
+        border-radius: 50%;
+      }
+    }
   }
 </style>

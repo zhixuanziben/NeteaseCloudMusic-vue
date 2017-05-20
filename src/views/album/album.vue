@@ -3,12 +3,12 @@
     <list-title title="专辑"></list-title>
     <div class="album-msg-wrap">
       <div class="album-pic">
-        <img :src="data.album.picUrl">
+        <img :src="album.picUrl">
       </div>
       <div class="album-msg">
-        <h3>{{data.album.name}}</h3>
-        <p>歌手：<span v-for="item in data.album.artists">{{item.name}}</span> ></p>
-        <p>发行时间：{{(new Date(data.album.publishTime)).getFullYear()}}.{{(new Date(data.album.publishTime)).getMonth()+1}}.{{(new Date(data.album.publishTime)).getDate()}}</p>
+        <h3>{{album.name}}</h3>
+        <p>歌手：<span v-for="item in album.artists">{{item.name}}</span> ></p>
+        <p>发行时间：{{(new Date(album.publishTime)).getFullYear()}}.{{(new Date(album.publishTime)).getMonth()+1}}.{{(new Date(album.publishTime)).getDate()}}</p>
       </div>
     </div>
     <musiclist-bar 
@@ -28,6 +28,7 @@
     data () {
       return {
         data: '',
+        album: '',
         info: ''
       }
     },
@@ -40,6 +41,7 @@
       this.$http.get(`http://localhost:3000/album/?id=${this.$route.params.id}`)
         .then((res) => {
           this.data = res.data
+          this.album = res.data.album
           this.info = res.data.album.info
         })
     }

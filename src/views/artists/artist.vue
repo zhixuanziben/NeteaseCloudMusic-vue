@@ -3,22 +3,22 @@
     <div>
       <header class="artist-header">
         <list-title :title="data.artist.name"></list-title>
-        <img :src="data.artist.img1v1Url">
+        <img :src="data.artist.picUrl">
       </header>
       <div class="artist-router">
-        <router-link :to="{name: 'artistHotmusic'}">
+        <router-link :to="{name: 'artistHotmusic'}" replace>
           热门50
         </router-link>
-        <router-link :to="{name: 'artistAlbum'}">
+        <router-link :to="{name: 'artistAlbum'}" replace>
           专辑{{data.artist.albumSize}}
         </router-link>
-        <router-link :to="{name: 'artistMV'}">
+        <router-link :to="{name: 'artistMV'}" replace>
           MV
         </router-link>
-        <router-link :to="{name: 'artistMsg'}">
+        <router-link :to="{name: 'artistMsg'}" replace>
           歌手信息
         </router-link>
-        <router-link :to="{name: 'artistSimi'}">
+        <router-link :to="{name: 'artistSimi'}" replace>
           相似歌手
         </router-link>
       </div>
