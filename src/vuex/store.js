@@ -28,7 +28,12 @@ const store = new vuex.Store({
     },
     mvId: 0,
     moreMsg: {},
-    playModel: 0
+    // 播放模式, 0代表列表顺序播放，1随机播放，2单曲循环
+    playModel: 0,
+    // 存储comment页面的来源, 0代表音乐，1代表歌单，2代表专辑，3代表mv
+    commentType: 0,
+    // 存储评论页面头部信息
+    commentHeader: {}
   },
   mutations: {
     oldMusicList (state) {
@@ -84,6 +89,12 @@ const store = new vuex.Store({
     },
     changePlayModel (state, num) {
       state.playModel = num
+    },
+    changeCommentType (state, num) {
+      state.commentType = num
+    },
+    changeCommentHeader (state, obj) {
+      state.commentHeader = obj
     }
   },
   actions: {
@@ -122,6 +133,12 @@ const store = new vuex.Store({
     },
     genghuanPlayModel (context, num) {
       context.commit('changePlayModel', num)
+    },
+    saveCommentType (context, num) {
+      context.commit('changeCommentType', num)
+    },
+    saveCommentHeader (context, obj) {
+      context.commit('changeCommentHeader', obj)
     }
   }
 })

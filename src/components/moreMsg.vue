@@ -67,6 +67,7 @@
           })
       },
       toComment (id) {
+        this.$store.dispatch('saveCommentType', 0)
         this.$router.push({path: `/comment/${id}`})
       },
       toArtist (id) {

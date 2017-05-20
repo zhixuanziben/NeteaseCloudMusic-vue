@@ -187,6 +187,13 @@
       },
       getComment () {
         console.log('go comment')
+        let obj = {
+          name: this.musicName,
+          artists: this.artists,
+          musicpic: this.imgUrl
+        }
+        this.$store.dispatch('saveCommentHeader', obj)
+        this.$store.dispatch('saveCommentType', 0)
         this.$router.push({path: `/comment/${this.$store.state.nowMusic.id}`})
       },
       getLyric (id) {

@@ -27,7 +27,7 @@
           </div>
           {{data.subscribedCount}}
         </div>
-        <div>
+        <div @click="goComment(data.id)">
           <div>
             <span class="icon-comment"></span>
           </div>
@@ -76,6 +76,18 @@
           this.tracks = res.data.playlist.tracks
           this.creator = res.data.playlist.creator
         })
+    },
+    methods: {
+      goComment () {
+        let obj = {
+          name: this.data.name,
+          artists: [{name: this.creator.nickname}],
+          musicpic: this.data.picUrl
+        }
+        this.$store.dispatch('saveCommentHeader', obj)
+        this.$store.dispatch('saveCommentType', 1)
+        this.$router.push({name: 'comment'})
+      }
     }
   }
 </script>

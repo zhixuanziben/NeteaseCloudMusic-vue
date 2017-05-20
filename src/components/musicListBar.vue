@@ -33,6 +33,10 @@
       shareCount: {
         type: Number,
         default: 0
+      },
+      fromType: {
+        type: Number,
+        default: 0
       }
     },
     methods: {
