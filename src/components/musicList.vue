@@ -34,13 +34,13 @@
         <mu-sub-header>
           歌曲: {{msg.name}}
         </mu-sub-header>
-        <mu-list-item title="下一首播放">
+        <mu-list-item title="下一首播放" @click="next(msg)">
         </mu-list-item>
-        <mu-list-item title="收藏到歌单"/>
+        <mu-list-item title="收藏到歌单" @click="collection(msg.id)"/>
         <mu-list-item title="评论" @click="toComment(msg.id)"/>
-        <mu-list-item :title="'歌手:' + artists">
+        <mu-list-item :title="'歌手:' + artists" @click="toArtist(msg.artists[0].id)">
         </mu-list-item>
-        <mu-list-item :title="'专辑:' + album">
+        <mu-list-item :title="'专辑:' + album" @click="toAlbum(msg.album.id)">
         </mu-list-item>
       </mu-list>
     </mu-bottom-sheet>
