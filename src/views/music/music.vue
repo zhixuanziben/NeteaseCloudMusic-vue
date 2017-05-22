@@ -254,7 +254,8 @@
       right: 0;
       height: 100%;
       width: 100%;
-      filter: blur(0.4rem);
+      filter: blur(1.2rem);
+      background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
       z-index: -1;

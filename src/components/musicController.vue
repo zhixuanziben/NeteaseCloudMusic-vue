@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="player-main-right">
-          <span class="icon-list"></span>
+          <span class="icon-list" @click="openBottomSheet"></span>
           <span class="icon-next" @click="next"></span>
           <span class="icon-pause" @click="play" v-if="playStatus"></span>
           <span class="icon-play" @click="play" v-else></span>
@@ -22,6 +22,20 @@
       </div>
       <mu-linear-progress :value="value1" mode="determinate"></mu-linear-progress>
     </div>
+    <mu-bottom-sheet :open="bottomSheet" @close="closeBottomSheet">
+      <mu-list :value="musicId" @itemClick="closeBottomSheet">
+        <mu-sub-header>
+          播放列表({{musicUrlList.length}})
+        </mu-sub-header>
+        <mu-list-item v-for="(item, index) of musicUrlList"
+          :title="item.name + ' - ' + item.artists[0].name"
+          :value="item.id"
+          class="demo-list"
+          @click="changeMusic(index, item.id)">
+          <mu-icon value="ic_close" slot="right"/>
+        </mu-list-item>
+      </mu-list>
+    </mu-bottom-sheet>
     <audio :src="musicUrl" id="audio" autoplay @ended="toNext" @loadedmetadata="getFullTime" @timeupdate="getCurrentTime"></audio>
   </div>
 </template>
@@ -32,10 +46,12 @@
     data () {
       return {
         ind: '',
-        value1: 0
+        value1: 0,
+        bottomSheet: false
       }
     },
     computed: mapState({
+      musicUrlList: state => state.musicUrlList,
       musicUrl: state => state.nowMusic.nowMusicUrl,
       musicName: state => state.nowMusic.nowName,
       artists: state => state.nowMusic.nowArtists,
@@ -119,6 +135,32 @@
       toMusicMsg (id) {
         this.$store.dispatch('changeControllerStatus')
         this.$router.push({path: `/music/${id}`})
+      },
+      closeBottomSheet () {
+        this.bottomSheet = false
+      },
+      openBottomSheet () {
+        this.bottomSheet = true
+      },
+      changeMusic (ind, id) {
+        console.log(ind)
+        this.$http.get(`http://localhost:3000/music/url?id=${id}`)
+          .then((res) => {
+            // 下一首歌曲的url
+            const url = res.data.data[0].url
+            const {name, artists, imgUrl} = this.musicUrlList[ind]
+            const Obj = {
+              id,
+              ind: ind,
+              nowMusicUrl: url,
+              nowName: name,
+              nowArtists: artists,
+              nowImgurl: imgUrl
+            }
+            // this.$router.push({path: `/music/${id}`})
+            this.$store.dispatch('changePlayStatus', true)
+            this.$store.dispatch('changeMusic', Obj)
+          })
       }
     }
   }
@@ -163,5 +205,8 @@
         color: #df2d2d;
       }
     }
+  }
+  .demo-list {
+    border-bottom: 0.1px solid #999;
   }
 </style>

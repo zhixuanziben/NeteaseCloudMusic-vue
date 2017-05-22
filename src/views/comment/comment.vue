@@ -1,7 +1,7 @@
 <template>
   <div>
     <list-title title="评论" :count="total"></list-title>
-    <header @click="playMusic()" class="comment-header">
+    <header @click="playMusic()" class="comment-header" v-if="commentMsg">
       <div class="comment-pic">
         <img :src="commentMsg.musicpic" alt="" style="width: 80px; height: 80px">
       </div>
@@ -36,7 +36,23 @@
     },
     computed: {
       commentMsg () {
-        return this.$store.state.commentHeader
+        // 如果vuex中没有存储相关的评论头部信息，则重新加载
+        if (!this.$store.state.commentHeader.artists) {
+          this.$http.get(`http://localhost:3000/song/detail?ids=${this.$route.params.id}`)
+            .then((res) => {
+              let artists = res.data.songs[0].ar ? res.data.songs[0].ar : res.data.songs.artists
+              let obj = {
+                artists: artists,
+                musicpic: res.data.songs[0].al.picUrl,
+                name: res.data.songs[0].name
+              }
+              this.$store.dispatch('saveCommentHeader', obj)
+              this.$store.dispatch('saveCommentType', 0)
+              return this.$store.state.commentHeader
+            })
+        } else {
+          return this.$store.state.commentHeader
+        }
       }
     },
     // 导航进入评论页面后，隐藏底部音乐控制器

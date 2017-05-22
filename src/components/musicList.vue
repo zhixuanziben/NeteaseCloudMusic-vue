@@ -24,11 +24,26 @@
             </div>
           </div>
         </div>
-        <div class="each-music-more" @click="showMore(item)">
+        <div class="each-music-more"  @click="openBottomSheet(item)">
           <span class="icon-省略"></span>
         </div>
       </div>
     </div>
+    <mu-bottom-sheet :open="bottomSheet" @close="closeBottomSheet">
+      <mu-list @itemClick="closeBottomSheet">
+        <mu-sub-header>
+          歌曲: {{msg.name}}
+        </mu-sub-header>
+        <mu-list-item title="下一首播放">
+        </mu-list-item>
+        <mu-list-item title="收藏到歌单"/>
+        <mu-list-item title="评论" @click="toComment(msg.id)"/>
+        <mu-list-item :title="'歌手:' + artists">
+        </mu-list-item>
+        <mu-list-item :title="'专辑:' + album">
+        </mu-list-item>
+      </mu-list>
+    </mu-bottom-sheet>
     <more-msg :msg="$store.state.moreMsg" class="more-msg" v-if="isShow" @hidden="hideMore"></more-msg>
   </div>
 </template>
@@ -38,12 +53,20 @@
   export default {
     data () {
       return {
-        isShow: false
+        isShow: false,
+        bottomSheet: false,
+        artists: '',
+        album: ''
       }
     },
     props: ['songs'],
     components: {
       moreMsg
+    },
+    computed: {
+      msg () {
+        return this.$store.state.moreMsg
+      }
     },
     methods: {
       playAllMusic () {
@@ -111,11 +134,55 @@
       },
       showMore (obj) {
         this.$store.dispatch('getMoreMsg', obj)
-        this.isShow = !this.isShow
+        // this.isShow = !this.isShow
         console.log(this.isShow)
       },
       hideMore () {
         this.isShow = false
+      },
+      closeBottomSheet () {
+        this.bottomSheet = false
+      },
+      openBottomSheet (obj) {
+        this.$store.dispatch('getMoreMsg', obj)
+        const ar = this.msg.ar ? this.msg.ar : this.msg.artists
+        let arr = []
+        for (var item of ar) {
+          arr.push(item.name)
+        }
+        this.artists = arr.join('/')
+        this.album = this.msg.al ? this.msg.al.name : this.msg.album.name
+        this.bottomSheet = true
+      },
+      next ({artists, id, name, album: {picUrl}, mp3Url}) {
+        const ind = this.$store.state.nowMusic.ind
+        const obj = {
+          artists,
+          id,
+          imgurl: picUrl,
+          name,
+          url: mp3Url,
+          ind
+        }
+        this.$store.dispatch('nextPlayMusic', obj)
+        this.$emit('hidden')
+      },
+      collection (id) {
+        this.$http.get(`http://localhost:3000/playlist/tracks?op=add&pid=495727117&tracks=${id}`)
+          .then((res) => {
+            console.log(res.data)
+            this.$emit('hidden')
+          })
+      },
+      toComment (id) {
+        this.$store.dispatch('saveCommentType', 0)
+        this.$router.push({path: `/comment/${id}`})
+      },
+      toArtist (id) {
+        this.$router.push({path: `/artist/${id}`})
+      },
+      toAlbum (id) {
+        this.$router.push({path: `/album/${id}`})
       }
     }
   }
