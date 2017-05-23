@@ -136,6 +136,7 @@
               artists: artists
             }
             this.$store.dispatch('changeMusic', obj1)
+            this.$store.dispatch('changePlayStatus', true)
             this.$store.dispatch('changeControllerStatus', true)
             if (ifAdd) {
               return

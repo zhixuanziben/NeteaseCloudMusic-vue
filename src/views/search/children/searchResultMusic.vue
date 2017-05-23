@@ -54,13 +54,12 @@
     methods: {
       playMusic (id, ind, name, ar, pic) {
         console.log(id)
-        const that = this
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
-        .then(function (res) {
-          that.url = res.data.url
+        .then((res) => {
+          this.url = res.data.url
           const obj1 = {
             id: id,
-            ind: that.$store.state.musicUrlList.length,
+            ind: this.$store.state.musicUrlList.length,
             nowMusicUrl: res.data.data[0].url,
             nowName: name,
             nowArtists: ar,
@@ -73,8 +72,10 @@
             name: name,
             artists: ar
           }
-          that.$store.dispatch('changeMusic', obj1)
-          that.$store.dispatch('pushMusic', obj2)
+          this.$store.dispatch('changePlayStatus', true)
+          this.$store.dispatch('changeMusic', obj1)
+          this.$store.dispatch('changeControllerStatus', true)
+          this.$store.dispatch('pushMusic', obj2)
         })
       },
       showMore (obj) {
