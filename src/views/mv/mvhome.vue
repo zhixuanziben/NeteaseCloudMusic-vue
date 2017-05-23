@@ -38,13 +38,16 @@
         this.ajax()
       }
     },
-    // 导航进入评论页面后，隐藏底部音乐控制器
+    // 导航进入mv页面后，隐藏底部音乐控制器
     beforeRouteEnter (to, from, next) {
       next(vm => {
+        const audio = document.querySelector('#audio')
+        audio.pause()
+        vm.$store.dispatch('changePlayStatus', false)
         vm.$store.dispatch('changeControllerStatus', false)
       })
     },
-    // 导航进入评论页面后，显示底部音乐控制器
+    // 导航进入mv页面后，显示底部音乐控制器
     beforeRouteLeave (to, from, next) {
       this.$store.dispatch('changeControllerStatus', true)
       next()
