@@ -42,7 +42,7 @@
         </mu-list-item>
         <mu-list-item :title="'专辑:' + album" @click="toAlbum(albums.id)">
         </mu-list-item>
-        <mu-list-item title="查看MV" @click="toMV(msg.mvid)">
+        <mu-list-item title="查看MV" @click="toMV(mvid)" v-if="mvid">
         </mu-list-item>
       </mu-list>
     </mu-bottom-sheet>
@@ -74,6 +74,9 @@
       },
       albums () {
         return this.$store.state.moreMsg.album || this.$store.state.moreMsg.al
+      },
+      mvid () {
+        return this.$store.state.moreMsg.mvid || this.$store.state.moreMsg.mv
       }
     },
     methods: {
