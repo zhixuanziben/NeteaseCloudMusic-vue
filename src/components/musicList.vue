@@ -38,9 +38,9 @@
         </mu-list-item>
         <mu-list-item title="收藏到歌单" @click="collection(msg.id)"/>
         <mu-list-item title="评论" @click="toComment(msg.id)"/>
-        <mu-list-item :title="'歌手:' + artists" @click="toArtist(msg.artists[0].id)">
+        <mu-list-item :title="'歌手:' + artists" @click="toArtist(artist[0].id)">
         </mu-list-item>
-        <mu-list-item :title="'专辑:' + album" @click="toAlbum(msg.album.id)">
+        <mu-list-item :title="'专辑:' + album" @click="toAlbum(albums.id)">
         </mu-list-item>
       </mu-list>
     </mu-bottom-sheet>
@@ -66,6 +66,12 @@
     computed: {
       msg () {
         return this.$store.state.moreMsg
+      },
+      artist () {
+        return this.$store.state.moreMsg.artists || this.$store.state.moreMsg.ar
+      },
+      albums () {
+        return this.$store.state.moreMsg.album || this.$store.state.moreMsg.al
       }
     },
     methods: {
@@ -179,6 +185,7 @@
         this.$router.push({path: `/comment/${id}`})
       },
       toArtist (id) {
+        console.log(id)
         this.$router.push({path: `/artist/${id}`})
       },
       toAlbum (id) {

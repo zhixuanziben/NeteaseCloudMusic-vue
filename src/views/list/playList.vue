@@ -16,7 +16,7 @@
           <h3>{{data.name}}</h3>
           <div>
             <img :src="creator.avatarUrl">
-            {{creator.nickname}} >
+            <span @click="goUser(creator.userId)">{{creator.nickname}} ></span>
           </div>
         </div>
       </div>
@@ -72,9 +72,9 @@
       this.$http.get(`http://localhost:3000/playlist/detail?id=${this.id}`)
         .then((res) => {
           this.data = res.data.playlist
-          console.log(this.data)
           this.tracks = res.data.playlist.tracks
           this.creator = res.data.playlist.creator
+          console.log(this.creator)
         })
     },
     methods: {
@@ -87,6 +87,10 @@
         this.$store.dispatch('saveCommentHeader', obj)
         this.$store.dispatch('saveCommentType', 1)
         this.$router.push({name: 'comment'})
+      },
+      goUser (id) {
+        console.log(id)
+        this.$router.push({path: `/userHome/${id}`})
       }
     }
   }

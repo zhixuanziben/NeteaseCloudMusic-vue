@@ -1,6 +1,7 @@
 <template>
   <div>
     <mv-list :allMV="allMV"></mv-list>
+    <p v-if="allMV.length === 0">该歌手没还没有mv</p>
   </div>
 </template>
 

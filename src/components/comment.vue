@@ -3,7 +3,7 @@
     <section class="all-comment">
       <div class="type" v-if="hotcomment.length != 0">精彩评论</div>
       <div v-for="item in hotcomment" class="each-comment">
-        <div class="each-comment-avatar">
+        <div class="each-comment-avatar" @click="goUser(item.user.userId)">
           <img :src="item.user.avatarUrl">
         </div>
         <div class="each-comment-msg">
@@ -28,7 +28,7 @@
     <section class="all-comment">
       <div class="type" v-if="comment.length != 0">最新评论</div>
       <div v-for="item in comment" class="each-comment">
-        <div class="each-comment-avatar">
+        <div class="each-comment-avatar" @click="goUser(item.user.userId)">
           <img :src="item.user.avatarUrl">
         </div>
         <div class="each-comment-msg">
@@ -74,6 +74,9 @@
         this.$http.get(`http://localhost:3000/comment/like?id=${id}&cid=${cid}&t=${t}&type=${type}`).then((res) => {
           console.log(res)
         })
+      },
+      goUser (id) {
+        this.$router.push({path: `/userHome/${id}`})
       }
     }
   }

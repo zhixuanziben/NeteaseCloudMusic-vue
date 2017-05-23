@@ -45,7 +45,8 @@
     },
     watch: {
       $route (to, from) {
-        if (to.params.id !== from.params.id) {
+        // 通过观察id是否变化，来进行数据更新，同时保证是在artist页面内的id变化
+        if ((to.params.id !== from.params.id) && to.name === 'artistHotmusic') {
           console.log('歌手id变化')
           this.ajax()
         }

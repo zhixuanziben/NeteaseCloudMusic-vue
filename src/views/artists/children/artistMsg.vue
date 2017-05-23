@@ -5,6 +5,7 @@
       <p>
         {{desc}}
       </p>
+      <p>{{resNull}}</p>
     </section>
     <section v-for="item of intro" class="artist-msg-section">
       <h3>{{item.ti}}</h3>
@@ -20,7 +21,8 @@
     data () {
       return {
         desc: '',
-        intro: []
+        intro: [],
+        resNull: ''
       }
     },
     mounted () {
@@ -28,6 +30,9 @@
         .then((res) => {
           this.desc = res.data.briefDesc
           this.intro = res.data.introduction
+          if (!res.data.briefDesc) {
+            this.resNull = '该歌手还没有相关信息'
+          }
         })
     }
   }

@@ -17,7 +17,6 @@ import artistAlbum from '../views/artists/children/artistAlbum'
 import artistHotmusic from '../views/artists/children/artistHotmusic'
 import artistMV from '../views/artists/children/artistMV'
 import artistSimi from '../views/artists/children/artistSimi'
-import mine from '../views/user/mine'
 import comment from '../views/comment/comment'
 import serchPage from '../views/search/serchPage'
 import searchResult from '../views/search/searchResult'
@@ -35,6 +34,8 @@ import mvcomment from '../views/mv/children/mvComment'
 import similarMV from '../views/mv/children/similarMV'
 import hotMV from '../views/mv/children/hotMV'
 import newMV from '../views/mv/children/newMV'
+import mine from '../views/user/mine'
+import userHome from '../views/user/userHome'
 
 Vue.use(Router)
 
@@ -133,6 +134,11 @@ export default new Router({
       path: '/user',
       name: 'mine',
       component: mine
+    },
+    {
+      path: '/userHome/:id',
+      name: 'userHome',
+      component: userHome
     },
     {
       path: '/serchPage',

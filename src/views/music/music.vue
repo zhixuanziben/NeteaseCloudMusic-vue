@@ -42,7 +42,9 @@
       <span class="icon-next" @click="next"></span>
       <span class="icon-list"></span>
     </section>
-    <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
+    <div class="mask">
+      <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
+    </div>
   </div>
 </template>
 
@@ -246,19 +248,29 @@
     justify-content: center;
   }
   .music-audio-wrap {
-    .music-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      height: 100%;
+    .mask {
       width: 100%;
-      filter: blur(1.2rem);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+      height: 100%;
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      top: 0;
       z-index: -1;
+      background-color: #666;
+      .music-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        filter: blur(1.2rem);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: -2;
+      }
     }
     > header {
       display: flex;
