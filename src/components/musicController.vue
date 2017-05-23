@@ -16,8 +16,8 @@
         <div class="player-main-right">
           <span class="icon-list" @click="openBottomSheet"></span>
           <span class="icon-next" @click="next"></span>
-          <span class="icon-pause" @click="play" v-if="playStatus"></span>
-          <span class="icon-play" @click="play" v-else></span>
+          <span class="icon-pause" @click="play(false)" v-if="playStatus"></span>
+          <span class="icon-play" @click="play(true)" v-else></span>
         </div>
       </div>
       <mu-linear-progress :value="value1" mode="determinate"></mu-linear-progress>
@@ -91,14 +91,15 @@
         const obj = { currentTime, currentMin, currentSec, value1 }
         this.$store.dispatch('changeCurrent', obj)
       },
-      play () {
+      play (bol) {
+        console.log(bol)
         const audio = document.querySelector('#audio')
         if (!this.$store.state.isPlaying) {
           audio.play()
         } else {
           audio.pause()
         }
-        this.$store.dispatch('changePlayStatus')
+        this.$store.dispatch('changePlayStatus', bol)
       },
       next () {
         let ind = 0
@@ -133,7 +134,7 @@
           })
       },
       toMusicMsg (id) {
-        this.$store.dispatch('changeControllerStatus')
+        this.$store.dispatch('changeControllerStatus', false)
         this.$router.push({path: `/music/${id}`})
       },
       closeBottomSheet () {

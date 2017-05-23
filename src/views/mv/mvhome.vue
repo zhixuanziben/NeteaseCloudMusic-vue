@@ -38,6 +38,17 @@
         this.ajax()
       }
     },
+    // 导航进入评论页面后，隐藏底部音乐控制器
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.$store.dispatch('changeControllerStatus', false)
+      })
+    },
+    // 导航进入评论页面后，显示底部音乐控制器
+    beforeRouteLeave (to, from, next) {
+      this.$store.dispatch('changeControllerStatus', true)
+      next()
+    },
     methods: {
       ajax () {
         this.$http.get(`http://localhost:3000/mv?mvid=${this.$route.params.id}`).then((res) => {

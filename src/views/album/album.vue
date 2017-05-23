@@ -8,7 +8,12 @@
         </div>
         <div class="album-msg">
           <h3>{{album.name}}</h3>
-          <p>歌手：<span v-for="item in album.artists">{{item.name}}</span> ></p>
+          <p>歌手：
+            <span v-for="item in album.artists" 
+              @click="goArtist(item.id)">
+                {{item.name}}
+              </span> >
+          </p>
           <p>发行时间：{{(new Date(album.publishTime)).getFullYear()}}.{{(new Date(album.publishTime)).getMonth()+1}}.{{(new Date(album.publishTime)).getDate()}}</p>
         </div>
       </div>
@@ -76,6 +81,9 @@
         this.$store.dispatch('saveCommentHeader', obj)
         this.$store.dispatch('saveCommentType', 2)
         this.$router.push({name: 'comment'})
+      },
+      goArtist (id) {
+        this.$router.push({path: `/artist/${id}`})
       }
     }
   }

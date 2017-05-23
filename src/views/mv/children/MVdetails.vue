@@ -5,7 +5,7 @@
     </div>
     <div class="mv-details-msg">
       <div class="mv-details-arts">
-        歌手：<span v-for="(artist, index) in artists">{{artist.name}}<span v-if="index < (artists.length - 1)">/</span></span>
+        歌手：<span v-for="(artist, index) in artists" @click="goArtist(artist.id)">{{artist.name}}<span v-if="index < (artists.length - 1)">/</span></span>
       </div>
       <div class="mv-details-count">
         播放：{{playCount}}次
@@ -45,14 +45,11 @@
         this.desc = res.data.data.desc
       })
     },
-    created: function () {
-      console.log(1)
-    },
-    mounted: function () {
-      console.log(2)
-    },
-    deactivated: function () {
-      console.log(4)
+    methods: {
+      goArtist (id) {
+        console.log(id)
+        this.$router.push({path: `/artist/${id}`})
+      }
     }
   }
 </script>

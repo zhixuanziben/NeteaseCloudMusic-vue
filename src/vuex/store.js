@@ -67,19 +67,11 @@ const store = new vuex.Store({
       state.current.currentSec = obj.currentSec
       state.current.value1 = obj.value1
     },
-    play (state, fromNext) {
-      if (fromNext) {
-        state.isPlaying = true
-      } else {
-        state.isPlaying = !state.isPlaying
-      }
+    play (state, bol) {
+      state.isPlaying = bol
     },
     showController (state, playMusic) {
-      if (playMusic) {
-        state.isController = true
-      } else {
-        state.isController = !state.isController
-      }
+      state.isController = playMusic
     },
     saveMvId (state, obj) {
       state.mvId = obj
@@ -113,8 +105,8 @@ const store = new vuex.Store({
     changeCurrent (context, obj) {
       context.commit('current', obj)
     },
-    changePlayStatus (context, obj) {
-      context.commit('play', obj)
+    changePlayStatus (context, bol) {
+      context.commit('play', bol)
     },
     pushMusic (context, obj) {
       context.commit('musicPush', obj)

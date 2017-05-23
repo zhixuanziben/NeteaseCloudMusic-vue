@@ -37,8 +37,8 @@
       <span class="icon-随机播放" v-if="playModel[1]" @click="changePlayModel(2)"></span>
       <span class="icon-singlecycle" v-if="playModel[2]" @click="changePlayModel(0)"></span>
       <span class="icon-prewmusic" @click="prew"></span>
-      <span class="icon-pause" @click="play" v-if="isPlaying"></span>
-      <span class="icon-play" @click="play" v-else></span>
+      <span class="icon-pause" @click="play(false)" v-if="isPlaying"></span>
+      <span class="icon-play" @click="play(true)" v-else></span>
       <span class="icon-next" @click="next"></span>
       <span class="icon-list"></span>
     </section>
@@ -87,18 +87,14 @@
       this.getLyric(this.id)
       console.log(this.lyric)
     },
+    // 导航进入评论页面后，隐藏底部音乐控制器
     beforeRouteEnter (to, from, next) {
       next(vm => {
-        console.log(to)
-        console.log(from)
-        console.log(vm)
+        vm.$store.dispatch('changeControllerStatus', false)
       })
     },
-    // 导航离开音乐详细信息后，显示底部音乐控制器
+    // 导航进入评论页面后，显示底部音乐控制器
     beforeRouteLeave (to, from, next) {
-      // 导航离开该组件的对应路由时调用
-      // 可以访问组件实例 `this`
-      console.log('good')
       this.$store.dispatch('changeControllerStatus', true)
       next()
     },
@@ -114,14 +110,14 @@
         this.playModel[ind] = true
         this.$store.dispatch('genghuanPlayModel', ind)
       },
-      play () {
+      play (bol) {
         const audio = document.querySelector('#audio')
         if (!this.$store.state.isPlaying) {
           audio.play()
         } else {
           audio.pause()
         }
-        this.$store.dispatch('changePlayStatus')
+        this.$store.dispatch('changePlayStatus', bol)
       },
       prew () {
         let ind = 0

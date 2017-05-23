@@ -42,6 +42,8 @@
         </mu-list-item>
         <mu-list-item :title="'专辑:' + album" @click="toAlbum(albums.id)">
         </mu-list-item>
+        <mu-list-item title="查看MV" @click="toMV(msg.mvid)">
+        </mu-list-item>
       </mu-list>
     </mu-bottom-sheet>
     <more-msg :msg="$store.state.moreMsg" class="more-msg" v-if="isShow" @hidden="hideMore"></more-msg>
@@ -190,6 +192,9 @@
       },
       toAlbum (id) {
         this.$router.push({path: `/album/${id}`})
+      },
+      toMV (id) {
+        this.$router.push({path: `/mv/${id}`})
       }
     }
   }

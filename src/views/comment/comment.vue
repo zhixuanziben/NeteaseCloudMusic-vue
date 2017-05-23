@@ -58,8 +58,13 @@
     // 导航进入评论页面后，隐藏底部音乐控制器
     beforeRouteEnter (to, from, next) {
       next(vm => {
-        vm.$store.dispatch('changeControllerStatus')
+        vm.$store.dispatch('changeControllerStatus', false)
       })
+    },
+    // 导航进入评论页面后，显示底部音乐控制器
+    beforeRouteLeave (to, from, next) {
+      this.$store.dispatch('changeControllerStatus', true)
+      next()
     },
     mounted () {
       const type = this.commentType[this.$store.state.commentType]

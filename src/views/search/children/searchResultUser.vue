@@ -5,7 +5,10 @@
         <img :src="item.avatarUrl">
       </div>
       <div class="each-user-right">
-        <h3 class="each-user-name">{{item.nickname}}</h3>
+        <h3 class="each-user-name">
+          {{item.nickname}}
+          <span>{{item.gender}}</span>
+        </h3>
         <p class="each-user-msg">{{item.signature}}</p>
       </div>
     </div>
