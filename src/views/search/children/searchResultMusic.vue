@@ -93,13 +93,17 @@
   .each-music {
     display: flex;
     margin-left: 0.1rem;
-    border-bottom: 1px solid #666;
+    border-bottom: 1px solid #F9FAFC;
     padding: 0.1rem 0;
     .each-music-msg {
       flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      > h3 {
+        font-size: 0.20rem;
+        font-weight: 400;
+      }
       .each-music-artists {
         display: flex;
       }

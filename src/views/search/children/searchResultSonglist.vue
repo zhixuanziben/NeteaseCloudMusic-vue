@@ -68,9 +68,10 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid #F9FAFC;
       .each-songlist-name {
-        font-size: 0.25rem;
+        font-size: 0.20rem;
+        font-weight: 400;
       }
       .each-songlist-msg {
         font-size: 0.15rem;

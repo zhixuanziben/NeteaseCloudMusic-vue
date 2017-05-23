@@ -64,7 +64,7 @@
       margin-left: 0.1rem;
       flex: 1;
       line-height: 1rem;
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid #F9FAFC;
     }
   }
 </style>

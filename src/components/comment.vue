@@ -108,7 +108,7 @@
       }
       .each-comment-msg {
         flex: 1;
-        border-bottom: 1px solid #999;
+        border-bottom: 1px solid #F9FAFC;
         .each-comment-nickname {
           font-size: 0.16rem;
         }
