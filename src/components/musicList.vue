@@ -1,7 +1,7 @@
 <template>
   <div class="music-list-wrap">
     <div>
-      <div @click="playAllMusic" class="play-all">
+      <div @click="playAllMusic" class="play-all" v-if="playallShow">
         <div class="play-all-icon">
           <span class="icon-play"></span>
         </div>
@@ -10,7 +10,7 @@
         </div>
       </div>
       <div v-for="(item, index) in songs" class="each-music">
-        <div class="each-music-index">{{index + 1}}</div>
+        <div class="each-music-index" v-if="indShow">{{index + 1}}</div>
         <div class="each-music-msg" @click="playMusic(item.id, index)">
           <div class="each-music-name">{{item.name}}</div>
           <div class="each-music-artists">
@@ -61,7 +61,19 @@
         album: ''
       }
     },
-    props: ['songs'],
+    props: {
+      songs: {
+        type: Array
+      },
+      indShow: {
+        type: Boolean,
+        default: true
+      },
+      playallShow: {
+        type: Boolean,
+        default: true
+      }
+    },
     components: {
       moreMsg
     },

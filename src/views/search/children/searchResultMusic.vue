@@ -1,33 +1,17 @@
 <template>
-  <div class="songs-wrap">
-    <div v-for="(item, index) in songs" 
-      class="each-music">
-      <div class="each-music-msg"
-        @click="playMusic(item.id, index, item.name, item.artists, item.album.blurPicUrl)" >
-        <h3>{{item.name}}</h3>
-        <div class="each-music-artists">
-          <artists :artists="item.artists"></artists>-
-          <span>{{item.album.name}}</span>
-        </div>
-      </div>
-      <span class="each-music-more icon-省略" @click="showMore(item)"></span>
-    </div>
-    <div v-if="isShow" class="more-msg-mask" @click="hideMore()"></div>
-    <more-msg :msg="$store.state.moreMsg" class="more-msg" v-if="isShow" @hidden="hideMore"></more-msg>
-  </div>  
+  <music-list :songs="songs" :indShow="false" :playallShow="false"></music-list>  
 </template>
 
 <script>
-  import moreMsg from '../../../components/moreMsg'
+  import musicList from '../../../components/musicList'
   export default {
     data () {
       return {
-        songs: '',
-        isShow: false
+        songs: []
       }
     },
     components: {
-      moreMsg
+      musicList
     },
     mounted () {
       this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1`)
@@ -49,42 +33,6 @@
         .then((res) => {
           this.songs = res.data.result.songs
         })
-      }
-    },
-    methods: {
-      playMusic (id, ind, name, ar, pic) {
-        console.log(id)
-        this.$http.get(`http://localhost:3000/music/url?id=${id}`)
-        .then((res) => {
-          this.url = res.data.url
-          const obj1 = {
-            id: id,
-            ind: this.$store.state.musicUrlList.length,
-            nowMusicUrl: res.data.data[0].url,
-            nowName: name,
-            nowArtists: ar,
-            nowImgurl: pic
-          }
-          const obj2 = {
-            imgUrl: pic,
-            id: id,
-            url: res.data.data[0].url,
-            name: name,
-            artists: ar
-          }
-          this.$store.dispatch('changePlayStatus', true)
-          this.$store.dispatch('changeMusic', obj1)
-          this.$store.dispatch('changeControllerStatus', true)
-          this.$store.dispatch('pushMusic', obj2)
-        })
-      },
-      showMore (obj) {
-        this.$store.dispatch('getMoreMsg', obj)
-        this.isShow = !this.isShow
-        console.log(this.isShow)
-      },
-      hideMore () {
-        this.isShow = false
       }
     }
   }
