@@ -108,23 +108,22 @@
         // 获得下一首歌曲的id
         let id = 0
         if (this.playModelNum === 0 || this.playModelNum === 2) {
-          // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
-          ind = this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1) ? -1 : this.$store.state.nowMusic.ind
-          id = this.$store.state.musicUrlList[ind + 1].id
+          // 如果是歌曲的最后一首，则ind为0，以便下次取到的是第一首
+          ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? 0 : this.$store.state.nowMusic.ind + 1
+          id = this.$store.state.musicUrlList[ind].id
         } else {
-          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1)) - 1
+          ind = Math.floor(Math.random() * this.$store.state.musicUrlList.length)
           id = this.$store.state.musicUrlList[ind].id
         }
-        console.log(this.$store.state.musicUrlList[ind + 1].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
             // 下一首歌曲的url
             const url = res.data.data[0].url
-            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind + 1]
+            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind]
             const nextObj = {
               id,
-              ind: ind + 1,
+              ind: ind,
               nowMusicUrl: url,
               nowName: name,
               nowArtists: artists,

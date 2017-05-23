@@ -34,15 +34,29 @@
       </span>
     </div>
     <section class="music-section-contro">
-      <span class="icon-列表循环" v-if="playModel[0]" @click="changePlayModel(1)"></span>
-      <span class="icon-随机播放" v-if="playModel[1]" @click="changePlayModel(2)"></span>
-      <span class="icon-singlecycle" v-if="playModel[2]" @click="changePlayModel(0)"></span>
+      <span class="icon-列表循环" v-if="playModelNum === 0" @click="changePlayModel(1)"></span>
+      <span class="icon-随机播放" v-if="playModelNum === 1" @click="changePlayModel(2)"></span>
+      <span class="icon-singlecycle" v-if="playModelNum === 2" @click="changePlayModel(0)"></span>
       <span class="icon-prewmusic" @click="prew"></span>
       <span class="icon-pause" @click="play(false)" v-if="isPlaying"></span>
       <span class="icon-play" @click="play(true)" v-else></span>
       <span class="icon-next" @click="next"></span>
-      <span class="icon-list"></span>
+      <span class="icon-list" @click="openBottomSheet"></span>
     </section>
+    <mu-bottom-sheet :open="bottomSheet" @close="closeBottomSheet">
+      <mu-list :value="musicId" @itemClick="closeBottomSheet">
+        <mu-sub-header>
+          播放列表({{musicUrlList.length}})
+        </mu-sub-header>
+        <mu-list-item v-for="(item, index) of musicUrlList"
+          :title="item.name + ' - ' + item.artists[0].name"
+          :value="item.id"
+          class="demo-list"
+          @click="changeMusic(index, item.id)">
+          <mu-icon value="ic_close" slot="right"/>
+        </mu-list-item>
+      </mu-list>
+    </mu-bottom-sheet>
     <div class="mask">
       <div class="music-bg" :style="{'background-image':'url(' + imgUrl + '?param=500y500' + ')'}"></div>
     </div>
@@ -64,7 +78,8 @@
         lyric: '',
         arr: [],
         // 代表三种模式，1.列表循环 2.随机播放 3.单曲循环
-        playModel: [true, false, false]
+        playModel: [false, false, false],
+        bottomSheet: false
       }
     },
     computed: mapState({
@@ -80,6 +95,8 @@
       value1: state => state.current.value1,
       isPlaying: state => state.isPlaying,
       playModelNum: state => state.playModel,
+      musicUrlList: state => state.musicUrlList,
+      musicId: state => state.nowMusic.id,
       value () {
         return this.value1
       }
@@ -125,23 +142,24 @@
         // 获得下一首歌曲的id
         let id = 0
         if (this.playModelNum === 0 || this.playModelNum === 2) {
-          // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
-          ind = this.$store.state.nowMusic.ind === 0 ? this.$store.state.musicUrlList.length : this.$store.state.nowMusic.ind
-          id = this.$store.state.musicUrlList[ind - 1].id
+          // 如果是歌曲的第一首，则ind为音乐列表长度减一，以便下次取到的是最后一首
+          ind = this.$store.state.nowMusic.ind === 0 ? this.$store.state.musicUrlList.length - 1 : this.$store.state.nowMusic.ind - 1
+          id = this.$store.state.musicUrlList[ind].id
         } else {
-          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1)) - 1
-          id = this.$store.state.musicUrlList[ind - 1].id
+          ind = Math.floor(Math.random() * this.$store.state.musicUrlList.length)
+          id = this.$store.state.musicUrlList[ind].id
         }
-        console.log(this.$store.state.musicUrlList[ind - 1].name)
+        console.log(this.$store.state.musicUrlList[ind].name)
+        console.log(ind)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
             // 下一首歌曲的url
             const url = res.data.data[0].url
-            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind - 1]
+            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind]
             const nextObj = {
               id,
-              ind: ind - 1,
+              ind: ind,
               nowMusicUrl: url,
               nowName: name,
               nowArtists: artists,
@@ -157,23 +175,24 @@
         // 获得下一首歌曲的id
         let id = 0
         if (this.playModelNum === 0 || this.playModelNum === 2) {
-          // 如果是歌曲的最后一首，则ind为-1，以便下次取到的是第一首
-          ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? -1 : this.$store.state.nowMusic.ind
-          id = this.$store.state.musicUrlList[ind + 1].id
+          // 如果是歌曲的最后一首，则ind为0，以便下次取到的是第一首
+          ind = this.$store.state.nowMusic.ind === this.$store.state.musicUrlList.length - 1 ? 0 : this.$store.state.nowMusic.ind + 1
+          id = this.$store.state.musicUrlList[ind].id
         } else {
-          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1)) - 1
-          id = this.$store.state.musicUrlList[ind + 1].id
+          ind = Math.floor(Math.random() * this.$store.state.musicUrlList.length)
+          id = this.$store.state.musicUrlList[ind].id
         }
-        console.log(this.$store.state.musicUrlList[ind + 1].name)
+        console.log(this.$store.state.musicUrlList[ind].name)
         // 由于获取的歌单，没有歌曲的url，需要先ajax请求url，再发送
+        console.log(ind)
         this.$http.get(`http://localhost:3000/music/url?id=${id}`)
           .then((res) => {
             // 下一首歌曲的url
             const url = res.data.data[0].url
-            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind + 1]
+            const {name, artists, imgUrl} = this.$store.state.musicUrlList[ind]
             const nextObj = {
               id,
-              ind: ind + 1,
+              ind: ind,
               nowMusicUrl: url,
               nowName: name,
               nowArtists: artists,
@@ -233,6 +252,32 @@
         const audio = document.querySelector('#audio')
         audio.currentTime = currentTime
         this.$store.dispatch('changeCurrent', obj)
+      },
+      closeBottomSheet () {
+        this.bottomSheet = false
+      },
+      openBottomSheet () {
+        this.bottomSheet = true
+      },
+      changeMusic (ind, id) {
+        console.log(ind)
+        this.$http.get(`http://localhost:3000/music/url?id=${id}`)
+          .then((res) => {
+            // 下一首歌曲的url
+            const url = res.data.data[0].url
+            const {name, artists, imgUrl} = this.musicUrlList[ind]
+            const Obj = {
+              id,
+              ind: ind,
+              nowMusicUrl: url,
+              nowName: name,
+              nowArtists: artists,
+              nowImgurl: imgUrl
+            }
+            // this.$router.push({path: `/music/${id}`})
+            this.$store.dispatch('changePlayStatus', true)
+            this.$store.dispatch('changeMusic', Obj)
+          })
       }
     }
   }
