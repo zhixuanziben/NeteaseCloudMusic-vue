@@ -49,7 +49,9 @@
     },
     // 导航进入mv页面后，显示底部音乐控制器
     beforeRouteLeave (to, from, next) {
-      this.$store.dispatch('changeControllerStatus', true)
+      if (this.$store.state.musicUrlList.length !== 0) {
+        this.$store.dispatch('changeControllerStatus', true)
+      }
       next()
     },
     methods: {

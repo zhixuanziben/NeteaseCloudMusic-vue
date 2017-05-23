@@ -8,9 +8,10 @@
         <span class="header-music-name">
           {{musicName}}
         </span>
-        <artists :artists="artists"></artists>
+        <artists :artists="artists" fontcolor="white"></artists>
       </div>
     </header>
+    <div class="bar-line"></div>
     <section class="music-main">
       <img src="../../assets/imgs/stick_bg.png" class="music-main-stick">
       <div class="music-main-pic">
@@ -252,7 +253,7 @@
       left: 0;
       top: 0;
       z-index: -1;
-      background-color: #666;
+      background-color: #444;
       .music-bg {
         position: absolute;
         top: 0;
@@ -271,7 +272,6 @@
     > header {
       display: flex;
       height: 1rem;
-      border-bottom: 1px solid #fff9e8;
       .header-iconback {
         width: 0.55rem;
         display: flex;
@@ -283,7 +283,7 @@
         flex: 1;
         @include element-center;
         .header-music-name {
-          font-size: 0.15rem;
+          font-size: 0.25rem;
           color: #fff9e8;
         }
         .header-music-artists {
@@ -291,6 +291,14 @@
           color: #665a3b;
         }
       }
+    }
+    .bar-line {
+      display: block;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: .05rem;
+      background: radial-gradient(#d3d3d3 -90%,transparent 100%);
     }
     .music-main {
       .music-main-stick {

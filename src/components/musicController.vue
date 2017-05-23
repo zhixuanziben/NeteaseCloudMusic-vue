@@ -62,9 +62,11 @@
     }),
     methods: {
       toNext () {
-        if (this.playModel === 0) {
+        if (this.playModelNum === 0 || this.playModelNum === 1) {
+          console.log('列表循环模式播放或随机播放')
           this.next()
-        } else if (this.playModel === 2) {
+        } else if (this.playModelNum === 2) {
+          console.log('单曲模式播放')
           const audio = document.querySelector('#audio')
           audio.currentTime = 0
           audio.play()
@@ -110,7 +112,7 @@
           ind = this.$store.state.nowMusic.ind === (this.$store.state.musicUrlList.length - 1) ? -1 : this.$store.state.nowMusic.ind
           id = this.$store.state.musicUrlList[ind + 1].id
         } else {
-          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1))
+          ind = Math.floor(Math.random() * (this.$store.state.musicUrlList.length - 1)) - 1
           id = this.$store.state.musicUrlList[ind].id
         }
         console.log(this.$store.state.musicUrlList[ind + 1].name)
