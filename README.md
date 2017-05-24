@@ -1,6 +1,7 @@
 # music
 
 > a vue project about music
+> 临时预览地址 http://www.zhixuanvip.com
 
 ## Build Setup
 
