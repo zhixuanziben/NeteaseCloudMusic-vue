@@ -22,7 +22,7 @@
       </div>
       <mu-linear-progress :value="value1" mode="determinate"></mu-linear-progress>
     </div>
-    <mu-bottom-sheet :open="bottomSheet" @close="closeBottomSheet">
+    <mu-bottom-sheet :open="bottomSheet" @close="closeBottomSheet" :sheetClass="{maxHeight: bottomSheet}">
       <mu-list :value="musicId" @itemClick="closeBottomSheet">
         <mu-sub-header>
           播放列表({{musicUrlList.length}})
@@ -210,5 +210,9 @@
   }
   .demo-list {
     border-bottom: 0.1px solid #999;
+  }
+  .maxHeight {
+    max-height: 5rem;
+    overflow-y: scroll;
   }
 </style>

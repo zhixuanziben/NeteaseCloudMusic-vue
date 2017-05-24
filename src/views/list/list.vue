@@ -210,8 +210,8 @@
       position: relative;
       padding: 0.1rem;
       img {
-        width: 0.9rem;
-        height: 0.9rem;
+        width: 2rem;
+        height: 2rem;
       }
       .uptime {
         position: absolute;
