@@ -1,16 +1,18 @@
 <template>
   <div class="home-wrap">
-    <header class="home-header">
-      <div @click="showLibrary">
-        <span class="icon-网易云音乐_自制"></span>
-      </div>
-      <div @click="mine">
-        <span class="icon-我的"></span>
-      </div>
-      <div @click="serch">
-        <span class="icon-搜索_搜索"></span>
-      </div>
-    </header>
+    <div class="home-headerwrap">
+      <header class="home-header">
+        <div @click="showLibrary">
+          <span class="icon-网易云音乐_自制"></span>
+        </div>
+        <div @click="mine">
+          <span class="icon-我的"></span>
+        </div>
+        <div @click="serch">
+          <span class="icon-搜索_搜索"></span>
+        </div>
+      </header>
+    </div> 
     <router-view></router-view>
   </div>
 </template>
@@ -31,11 +33,17 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .home-wrap {
     width: 100%;
     height: 100%;
     font-size: 0.3rem;
+    .home-headerwrap {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+    }
   }
   .home-header {
     display: flex;

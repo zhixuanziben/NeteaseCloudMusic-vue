@@ -72,6 +72,11 @@
       flex-direction: column;
       justify-content: center;
       border-bottom: 1px solid #999;
+      > h3 {
+        font-size: 0.25rem;
+        font-weight: 400;
+        color: black;
+      }
       > p {
         font-size: 0.12rem;
         color: #999;
