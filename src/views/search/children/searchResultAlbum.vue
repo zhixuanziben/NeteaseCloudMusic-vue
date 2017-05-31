@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="item in data.albums" @click="toAlbumMsg(item.id)" class="each-album">
+    <div v-for="item in albums" @click="toAlbumMsg(item.id)" class="each-album">
       <div class="each-album-pic">
         <img :src="item.blurPicUrl" alt="">
       </div>
@@ -13,6 +13,10 @@
         </p>
       </div>
     </div>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
@@ -20,16 +24,13 @@
   export default {
     data () {
       return {
-        data: ''
+        albums: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     mounted () {
-      // console.log(this.$route.query.val)
-      this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=10`)
-        .then((res) => {
-          console.log(res.data.result)
-          this.data = res.data.result
-        })
+      this.fetchData()
     },
     // 计算当前搜索的值
     computed: {
@@ -40,15 +41,25 @@
     // query变化重新搜索
     watch: {
       query () {
-        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=10`)
-        .then((res) => {
-          this.data = res.data.result
-        })
+        this.albums = []
+        this.fetchData()
       }
     },
     methods: {
       toAlbumMsg (id) {
         this.$router.push({path: `/album/${id}`})
+      },
+      fetchData () {
+        const offset = this.albums.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=10&limit=15&offset=${offset}`)
+          .then((res) => {
+            this.data = res.data.result.albums
+            for (let album of res.data.result.albums) {
+              this.albums.push(album)
+            }
+            this.loading = false
+          })
       }
     }
   }

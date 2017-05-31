@@ -12,6 +12,10 @@
         <p class="each-user-msg">{{item.signature}}</p>
       </div>
     </div>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
@@ -19,16 +23,13 @@
   export default {
     data () {
       return {
-        data: ''
+        data: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     mounted () {
-      // console.log(this.$route.query.val)
-      this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1002`)
-        .then((res) => {
-          console.log(res.data.result.userprofiles)
-          this.data = res.data.result.userprofiles
-        })
+      this.fetchData()
     },
     // 计算当前搜索的值
     computed: {
@@ -39,19 +40,24 @@
     // query变化重新搜索
     watch: {
       query () {
-        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=100`)
-        .then((res) => {
-          this.data = res.data.result
-          console.log(this.data)
-        })
+        this.data = []
+        this.fetchData()
       }
     },
     methods: {
-      toArtistMsg (id) {
-        this.$router.push({path: `/artist/${id}`})
-      },
       toUser (id) {
         this.$router.push({path: `/userHome/${id}`})
+      },
+      fetchData () {
+        const offset = this.data.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1002&limit=15&offset=${offset}`)
+          .then((res) => {
+            for (let user of res.data.result.userprofiles) {
+              this.data.push(user)
+            }
+            this.loading = false
+          })
       }
     }
   }

@@ -14,6 +14,10 @@
         </p>
       </div>
     </div>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
@@ -21,15 +25,31 @@
   export default {
     data () {
       return {
-        albums: []
+        albums: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     mounted () {
-      this.$http.get(`http://localhost:3000/artist/album?id=${this.$route.params.id}`)
-        .then((res) => {
-          console.log(res.data)
-          this.albums = res.data.hotAlbums
-        })
+      this.fetchData()
+    },
+    methods: {
+      fetchData () {
+        const offset = this.albums.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/artist/album?id=${this.$route.params.id}&limit=30&offset=${offset}`)
+          .then((res) => {
+            if (res.data.hotAlbums.length === 0) {
+              this.loadingText = '已经加载所有数据'
+              this.loading = false
+              return
+            }
+            for (let album of res.data.hotAlbums) {
+              this.albums.push(album)
+            }
+            this.loading = false
+          })
+      }
     }
   }
 </script>

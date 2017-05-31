@@ -24,7 +24,10 @@
         </div>
       </div>
     </div>
-    <mu-infinite-scroll :scroller="scroller" :loadingText="loadingText" :loading="loading" @load="fetchData"/>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 

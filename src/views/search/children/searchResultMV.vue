@@ -1,6 +1,6 @@
 <template>
   <div class="result-mvs">
-    <div v-for="item in data" @click="toMv(item.id)" class="each-mv">
+    <div v-for="item in mvs" @click="toMv(item.id)" class="each-mv">
       <div class="each-mv-pic">
         <img :src="item.cover">
         <p class="each-mv-duration">{{Math.floor(item.duration*0.001/60).toString().padStart(2, '0')}}:{{(item.duration*0.001%60).toString().padStart(2, '0')}}</p>
@@ -10,6 +10,10 @@
         <artists :artists="item.artists" class="artists"></artists>
       </div>
     </div>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
@@ -18,19 +22,16 @@
   export default {
     data () {
       return {
-        data: ''
+        mvs: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     components: {
       artists
     },
     mounted () {
-      // console.log(this.$route.query.val)
-      this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1004`)
-        .then((res) => {
-          console.log(res.data)
-          this.data = res.data.result.mvs
-        })
+      this.fetchData()
     },
     // 计算当前搜索的值
     computed: {
@@ -41,17 +42,25 @@
     // query变化重新搜索
     watch: {
       query () {
-        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=100`)
-        .then((res) => {
-          this.data = res.data.mvs
-          // console.log(this.data)
-        })
+        this.mvs = []
+        this.fetchData()
       }
     },
     methods: {
       toMv (id) {
         this.$store.dispatch('getmvId', id)
         this.$router.push({path: `/mv/${id}`})
+      },
+      fetchData () {
+        const offset = this.mvs.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1004&limit=15&offset=${offset}`)
+          .then((res) => {
+            for (let mv of res.data.result.mvs) {
+              this.mvs.push(mv)
+            }
+            this.loading = false
+          })
       }
     }
   }

@@ -1,5 +1,11 @@
 <template>
-  <music-list :songs="songs" :indShow="false" :playallShow="false"></music-list>  
+  <div>
+    <music-list :songs="songs" :indShow="false" :playallShow="false"></music-list>  
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
+  </div>
 </template>
 
 <script>
@@ -7,18 +13,16 @@
   export default {
     data () {
       return {
-        songs: []
+        songs: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     components: {
       musicList
     },
     mounted () {
-      this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1`)
-        .then((res) => {
-          this.songs = res.data.result.songs
-          console.log(this.songs)
-        })
+      this.fetchData()
     },
     // 计算当前搜索的值
     computed: {
@@ -29,10 +33,22 @@
     // query变化重新搜索
     watch: {
       query () {
-        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1`)
-        .then((res) => {
-          this.songs = res.data.result.songs
-        })
+        this.songs = []
+        this.fetchData()
+      }
+    },
+    methods: {
+      fetchData () {
+        const offset = this.songs.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1&limit=15&offset=${offset}`)
+          .then((res) => {
+            // this.songs = res.data.result.songs
+            for (let song of res.data.result.songs) {
+              this.songs.push(song)
+            }
+            this.loading = false
+          })
       }
     }
   }

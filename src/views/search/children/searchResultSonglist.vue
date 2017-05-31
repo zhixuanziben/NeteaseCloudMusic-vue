@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="item in data.playlists" @click="toAlbum(item.id)" class="each-songlist">
+    <div v-for="item in playlists" @click="toAlbum(item.id)" class="each-songlist">
       <div class="each-songlist-left">
         <img :src="item.coverImgUrl" alt="">
       </div>
@@ -14,6 +14,10 @@
         </div>
       </div>
     </div>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
@@ -21,14 +25,13 @@
   export default {
     data () {
       return {
-        data: ''
+        playlists: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     mounted () {
-      this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1000`)
-        .then((res) => {
-          this.data = res.data.result
-        })
+      this.fetchData()
     },
     // 计算当前搜索的值
     computed: {
@@ -39,15 +42,24 @@
     // query变化重新搜索
     watch: {
       query () {
-        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1000`)
-        .then((res) => {
-          this.data = res.data.result
-        })
+        this.playlists = []
+        this.fetchData()
       }
     },
     methods: {
       toAlbum (id) {
         this.$router.push({path: `/playlist/${id}`})
+      },
+      fetchData () {
+        const offset = this.playlists.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/search?keywords=${this.$route.query.val}&type=1000&limit=15&offset=${offset}`)
+          .then((res) => {
+            for (let list of res.data.result.playlists) {
+              this.playlists.push(list)
+            }
+            this.loading = false
+          })
       }
     }
   }

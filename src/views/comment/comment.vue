@@ -11,7 +11,11 @@
       </div>
       <span class="icon-右键"></span>
     </header>
-    <comment :hotcomment="hotcomment" :comment="comment"></comment>
+    <comment :hotcomment="hotcomment" :comment="comments"></comment>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData(commentType[type])"/>
   </div>
 </template>
 
@@ -25,9 +29,11 @@
         artists: [],
         musicpic: '',
         total: 0,
-        comment: [],
+        comments: [],
         hotcomment: [],
-        commentType: ['music', 'playList', 'album']
+        commentType: ['music', 'playList', 'album'],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     components: {
@@ -35,6 +41,9 @@
       listTitle
     },
     computed: {
+      type () {
+        return this.$store.state.commentType
+      },
       commentMsg () {
         // 如果vuex中没有存储相关的评论头部信息，则重新加载
         if (!this.$store.state.commentHeader.artists) {
@@ -69,7 +78,7 @@
       next()
     },
     mounted () {
-      const type = this.commentType[this.$store.state.commentType]
+      const type = this.commentType[this.type]
       this.fetchData(type)
     },
     methods: {
@@ -77,13 +86,17 @@
         this.$router.go(-1)
       },
       fetchData (type) {
-        this.$http.get(`http://localhost:3000/comment/${type}?id=${this.$route.params.id}&limit=20`)
+        const offset = this.comments.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/comment/${type}?id=${this.$route.params.id}&limit=10&offset=${offset}`)
           .then((res) => {
-            // console.log(res)
             this.total = res.data.total
-            this.comment = res.data.comments
-            this.hotcomment = res.data.hotComments
-            // console.log(res.data)
+            // 因为如果offset不是0的话，返回的数据就没有hotcomment了，所以要进行判断
+            this.hotcomment = res.data.hotComments || this.hotcomment
+            for (let comment of res.data.comments) {
+              this.comments.push(comment)
+            }
+            this.loading = false
           })
       }
     }
