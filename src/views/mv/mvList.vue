@@ -2,12 +2,10 @@
   <div>
     <list-title title="MV频道"></list-title>
     <div class="mv-router">
-      <div @click="goHotMV">排行榜</div>
-      <div @click="goNewMV">最新MV</div>
+      <router-link :to="{path: '/mvLibrary/hotMv'}">排行榜</router-link>
+      <router-link :to="{path: '/mvLibrary/newMv'}">最新MV</router-link>
     </div>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -16,14 +14,6 @@
   export default {
     components: {
       listTitle
-    },
-    methods: {
-      goHotMV () {
-        this.$router.push({path: '/mvLibrary/hotMv'})
-      },
-      goNewMV () {
-        this.$router.push({path: '/mvLibrary/newMv'})
-      }
     }
   }
 </script>
@@ -31,12 +21,18 @@
 <style lang="scss" scoped>
   .mv-router {
     display: flex;
-    > div {
+    > a {
+      color: #666;
       width: 50%;
       text-align: center;
-      height: 0.5rem;
-      line-height: 0.5rem;
+      height: 0.8rem;
+      line-height: 0.8rem;
       font-size: 0.25rem;
+    }
+    .router-link-active {
+      color: #df2d2d;
+      text-decoration: none;
+      border-bottom: 2px solid #df2d2d;
     }
   }
 </style>

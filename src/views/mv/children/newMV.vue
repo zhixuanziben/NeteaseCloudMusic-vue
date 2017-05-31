@@ -14,23 +14,24 @@
       </div>
       <div class="box"></div>
     </div>
-    <mugen-scroll :handler="fetchData" :should-handle="!loading" :handleOnMount="false">
-      loading...
-    </mugen-scroll>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
 <script>
-  import MugenScroll from 'vue-mugen-scroll'
   export default {
     data () {
       return {
         mvList: [],
-        loading: false
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
-    components: {
-      MugenScroll
+    mounted () {
+      this.fetchData()
     },
     methods: {
       playMV (id) {
@@ -40,10 +41,11 @@
       fetchData () {
         const offset = this.mvList.length
         this.loading = true
-        this.$http.get(`http://localhost:3000/top/mv?limit=10&offset=${offset}`).then((res) => {
+        this.$http.get(`http://localhost:3000/mv/first?limit=10&offset=${offset}`).then((res) => {
           for (let mv of res.data.data) {
             this.mvList.push(mv)
           }
+          console.log(res.data.data)
           this.loading = false
         })
       }

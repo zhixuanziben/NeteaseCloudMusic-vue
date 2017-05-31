@@ -1,8 +1,5 @@
 <template>
   <div class="mv-library">
-    <div>
-      更新时间:{{(new Date(upTime)).getMonth() + 1}}月{{new Date(upTime).getDate()}}日
-    </div>
     <div v-for="(item, index) of mvList" class="each-mv-wrap" @click="playMV(item.id)">
       <img :src="item.cover">
       <div class="each-mv-count">
@@ -20,9 +17,10 @@
       </div>
       <div class="box"></div>
     </div>
-    <mugen-scroll :handler="fetchData" :should-handle="!loading" :handleOnMount="false">
-      loading...
-    </mugen-scroll>
+    <mu-infinite-scroll 
+      :loadingText="loadingText" 
+      :loading="loading" 
+      @load="fetchData"/>
   </div>
 </template>
 
@@ -32,14 +30,17 @@
   export default {
     data () {
       return {
-        upTime: '',
         mvList: [],
-        loading: false
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     components: {
       MugenScroll,
       artists
+    },
+    mounted () {
+      this.fetchData()
     },
     methods: {
       playMV (id) {
@@ -50,7 +51,6 @@
         const offset = this.mvList.length
         this.loading = true
         this.$http.get(`http://localhost:3000/top/mv?limit=10&offset=${offset}`).then((res) => {
-          this.upTime = res.data.updateTime
           for (let mv of res.data.data) {
             this.mvList.push(mv)
           }

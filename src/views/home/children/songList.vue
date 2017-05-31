@@ -24,6 +24,7 @@
         </div>
       </div>
     </div>
+    <mu-infinite-scroll :scroller="scroller" :loadingText="loadingText" :loading="loading" @load="fetchData"/>
   </div>
 </template>
 
@@ -31,17 +32,29 @@
   export default {
     data () {
       return {
-        data: []
+        data: [],
+        loading: false,
+        loadingText: '努力加载中...'
       }
     },
     mounted () {
-      this.$http.get('http://localhost:3000/top/playlist?limit=10&order=hot')
-        .then((res) => {
-          this.data = res.data.playlists
-          console.log(res.data)
-        })
+      this.fetchData()
+      // this.scroller = this.$el
     },
     methods: {
+      fetchData () {
+        const offset = this.data.length
+        this.loading = true
+        this.$http.get(`http://localhost:3000/top/playlist?limit=10&order=hot&offset=${offset}`)
+          .then((res) => {
+            // this.data = res.data.playlists
+            for (let list of res.data.playlists) {
+              this.data.push(list)
+            }
+            this.loading = false
+            console.log(res.data)
+          })
+      },
       goListContent (ind) {
         console.log(`/playList/${ind}`)
         this.$router.push({path: `/playList/${ind}`})
