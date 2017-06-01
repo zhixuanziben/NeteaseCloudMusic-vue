@@ -1,7 +1,10 @@
 <template>
   <div>
     <list-title :title="name"></list-title>
-    <video :src="this.MVURL" controls="" width="100%"></video>
+    <video-player  ref="videoPlayer"
+                   :options="playerOptions"
+                   title="you can listen some event if you need">
+    </video-player>
     <div class="each-section-wrap">
       <span @click="goDetails">详情</span>
       <span @click="goComment">评论</span>
@@ -14,23 +17,46 @@
 </template>
 
 <script>
+  import { videoPlayer } from 'vue-video-player'
   import listTitle from '../../components/listTitle.vue'
   export default {
     data () {
       return {
         MVURL: '',
-        name: ''
+        name: '',
+        playerOptions: {
+          // component options
+          start: 0,
+          playsinline: false,
+          // videojs options
+          muted: true,
+          language: 'en',
+          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          sources: [{
+            type: 'video/mp4',
+            src: ''
+          }],
+          poster: ''
+        }
       }
     },
     components: {
-      listTitle
+      listTitle,
+      videoPlayer
     },
     mounted () {
       this.ajax()
+      setTimeout(() => {
+        // console.log('dynamic change options', this)
+        this.playerOptions.muted = false
+      }, 2000)
     },
     computed: {
       mvid () {
         return this.$store.state.mvId
+      },
+      player () {
+        return this.$refs.videoPlayer.player
       }
     },
     watch: {
@@ -58,7 +84,9 @@
       ajax () {
         this.$http.get(`http://localhost:3000/mv?mvid=${this.$route.params.id}`).then((res) => {
           this.MVURL = `http://localhost:3000/mv/url?url=${res.data.data.brs[240]}`
+          this.playerOptions.sources[0].src = `http://localhost:3000/mv/url?url=${res.data.data.brs[240]}`
           this.name = res.data.data.name
+          this.playerOptions.poster = res.data.cover
         })
       },
       goDetails () {
