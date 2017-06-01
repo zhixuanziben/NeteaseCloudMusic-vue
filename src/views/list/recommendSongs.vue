@@ -1,7 +1,8 @@
 <template>
   <div>
     <list-title title="每日歌曲推荐"></list-title>
-    <music-list :songs="data.recommend"></music-list>
+    <mu-circular-progress :size="90" color="red" v-if="loding" class="loding"/>
+    <music-list :songs="data.recommend" v-else></music-list>
   </div>  
 </template>
 
@@ -11,7 +12,8 @@
   export default {
     data () {
       return {
-        data: ''
+        data: '',
+        loding: true
       }
     },
     components: {
@@ -22,6 +24,7 @@
       this.$http.get('http://localhost:3000/recommend/songs')
         .then((res) => {
           this.data = res.data
+          this.loding = false
         })
     },
     methods: {
@@ -32,6 +35,11 @@
   }
 </script>
 
-<style>
-  
+<style lang="scss" scoped>
+  .loding {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 </style>
