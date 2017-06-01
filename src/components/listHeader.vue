@@ -100,6 +100,8 @@
   }
   .listData {
     display: flex;
+    height: 1rem;
+    align-items: center;
   }
   .listData > div {
     flex: 1;
