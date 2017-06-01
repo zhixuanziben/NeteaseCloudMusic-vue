@@ -6,9 +6,9 @@
                   :options="playerOptions">
     </video-player>
     <div class="each-section-wrap">
-      <router-link :to="{path: `/mv/${this.$route.params.id}/details`}">详情</router-link>
-      <router-link :to="{path: `/mv/${this.$route.params.id}/mvcomment`}">评论</router-link>
-      <router-link :to="{path: `/mv/${this.$route.params.id}/similarMV`}">相关MV</router-link>
+      <router-link :to="{path: `/mv/${this.$route.params.id}/details`}" replace>详情</router-link>
+      <router-link :to="{path: `/mv/${this.$route.params.id}/mvcomment`}" replace>评论</router-link>
+      <router-link :to="{path: `/mv/${this.$route.params.id}/similarMV`}" replace>相关MV</router-link>
     </div>
     <keep-alive>
       <router-view></router-view>
