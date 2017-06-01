@@ -49,6 +49,9 @@
             }
             this.loading = false
           })
+      },
+      toAlbumMsg (id) {
+        this.$router.push({path: `/album/${id}`})
       }
     }
   }
