@@ -1,25 +1,28 @@
  <template>
-  <div class="list-content-wrap">
-    <header class="list-content-header">
-      <div>{{data.name}}</div>
-      <div>最近更新：4月16日</div>
-      <div class="listData">
-        <div>
-          {{data.subscribedCount}}
+  <div>
+    <mu-circular-progress :size="90" color="red" v-if="loding" class="loding"/>
+    <div class="list-content-wrap" v-else>
+      <header class="list-content-header">
+        <div>{{data.name}}</div>
+        <div>最近更新：4月16日</div>
+        <div class="listData">
+          <div>
+            {{data.subscribedCount}}
+          </div>
+          <div>
+            {{data.commentCount}}
+          </div>
+          <div>
+            {{data.shareCount}}
+          </div>
+          <div>
+            下载
+          </div>
         </div>
-        <div>
-          {{data.commentCount}}
-        </div>
-        <div>
-          {{data.shareCount}}
-        </div>
-        <div>
-          下载
-        </div>
-      </div>
-    </header>
-    <music-list :songs="data.tracks"></music-list>
-  </div>  
+      </header>
+      <music-list :songs="data.tracks"></music-list>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -28,7 +31,8 @@
     data () {
       return {
         id: '',
-        data: ''
+        data: '',
+        loding: true
       }
     },
     components: {
@@ -39,12 +43,19 @@
       this.$http.get(`http://localhost:3000/top/list?idx=${this.id}`)
         .then((res) => {
           this.data = res.data.result
+          this.loding = false
         })
     }
   }
 </script>
 
 <style scoped>
+  .loding {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   .list-content-wrap {
     font-size: 0.15rem;
   }

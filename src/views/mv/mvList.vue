@@ -2,8 +2,8 @@
   <div>
     <list-title title="MV频道"></list-title>
     <div class="mv-router">
-      <router-link :to="{path: '/mvLibrary/hotMv'}">排行榜</router-link>
-      <router-link :to="{path: '/mvLibrary/newMv'}">最新MV</router-link>
+      <router-link :to="{path: '/mvLibrary/hotMv'}" replace>排行榜</router-link>
+      <router-link :to="{path: '/mvLibrary/newMv'}" replace>最新MV</router-link>
     </div>
     <router-view></router-view>
   </div>

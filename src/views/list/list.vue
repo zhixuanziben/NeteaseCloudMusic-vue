@@ -10,11 +10,14 @@
           </span>
         </div>
         <div class="gov-each-list-top">
+          <mu-circular-progress :size="30" color="red" v-if="item.loding" class="loding"/>
           <div v-for="(it, inde) of keyValue1[index].music">
-            {{inde + 1}}. {{it.name}}
-            <span v-for="(i, ind) of it.artists">
-              {{i.name}}<span v-if="ind !== (it.artists.length - 1)">/</span>
-            </span>
+            <div>
+              {{inde + 1}}. {{it.name}}
+              <span v-for="(i, ind) of it.artists">
+                {{i.name}}<span v-if="ind !== (it.artists.length - 1)">/</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -52,28 +55,32 @@
             'val': '新歌榜',
             'url': 'http://p3.music.126.net/N2HO5xfYEqyQ8q6oxCw8IQ==/18713687906568048.jpg?param=150y150',
             'music': [],
-            'upTime': '每天更新'
+            'upTime': '每天更新',
+            'loding': true
           },
           {
             'key': 1,
             'val': '热歌榜',
             'url': 'http://p3.music.126.net/GhhuF6Ep5Tq9IEvLsyCN7w==/18708190348409091.jpg?param=150y150',
             'music': [],
-            'upTime': '每周四更新'
+            'upTime': '每周四更新',
+            'loding': true
           },
           {
             'key': 2,
             'val': '原创榜',
             'url': 'http://p4.music.126.net/sBzD11nforcuh1jdLSgX7g==/18740076185638788.jpg?param=150y150',
             'music': [],
-            'upTime': '每周四更新'
+            'upTime': '每周四更新',
+            'loding': true
           },
           {
             'key': 3,
             'val': '飙升榜',
             'url': 'http://p3.music.126.net/DrRIg6CrgDfVLEph9SNh7w==/18696095720518497.jpg?param=150y150',
             'music': [],
-            'upTime': '每天更新'
+            'upTime': '每天更新',
+            'loding': true
           }
         ],
         keyValue2: [
@@ -183,6 +190,7 @@
           let [{name: name1, artists: ar1}, {name: name2, artists: ar2}, {name: name3, artists: ar3}] = res.data.result.tracks
           this.keyValue1[ind].music = [{name: name1, artists: ar1}, {name: name2, artists: ar2}, {name: name3, artists: ar3}]
           console.log(this.keyValue1[ind])
+          this.keyValue1[ind].loding = false
         })
       },
       goListContent (ind) {
@@ -229,6 +237,9 @@
       border-bottom: 1px solid #dce1df;
       color: #6d6d6d;
       font-size: 0.14rem;
+      .loding {
+        margin: 0 auto;
+      }
     }
   }
   .each-list-wrap {

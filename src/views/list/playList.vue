@@ -1,53 +1,56 @@
  <template>
   <div class="list-content-wrap">
-    <header class="list-content-header">
-      <list-title title="歌单"></list-title>
-      <div class="list-desc">
-        <div class="list-pic">
-          <img :src="data.picUrl">
-          <span v-if="data.playCount > 100000">
-            {{Math.floor(data.playCount/10000)}}万
-          </span>
-          <span v-else>
-            {{data.playCount}}
-          </span>
-        </div>
-        <div class="list-msg">
-          <h3>{{data.name}}</h3>
-          <div>
-            <img :src="creator.avatarUrl">
-            <span @click="goUser(creator.userId)">{{creator.nickname}} ></span>
+    <mu-circular-progress :size="90" color="red" v-if="loding" class="loding"/>
+    <div v-else>
+      <header class="list-content-header">
+        <list-title title="歌单"></list-title>
+        <div class="list-desc">
+          <div class="list-pic">
+            <img :src="data.picUrl">
+            <span v-if="data.playCount > 100000">
+              {{Math.floor(data.playCount/10000)}}万
+            </span>
+            <span v-else>
+              {{data.playCount}}
+            </span>
+          </div>
+          <div class="list-msg">
+            <h3>{{data.name}}</h3>
+            <div>
+              <img :src="creator.avatarUrl">
+              <span @click="goUser(creator.userId)">{{creator.nickname}} ></span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="listData">
-        <div>
+        <div class="listData">
           <div>
-            <span class="icon-collection"></span>
+            <div>
+              <span class="icon-collection"></span>
+            </div>
+            {{data.subscribedCount}}
           </div>
-          {{data.subscribedCount}}
-        </div>
-        <div @click="goComment(data.id)">
+          <div @click="goComment(data.id)">
+            <div>
+              <span class="icon-comment"></span>
+            </div>
+            {{data.commentCount}}
+          </div>
           <div>
-            <span class="icon-comment"></span>
+            <div>
+              <span class="icon-share"></span>
+            </div>
+            {{data.shareCount}}
           </div>
-          {{data.commentCount}}
-        </div>
-        <div>
           <div>
-            <span class="icon-share"></span>
+            <div>
+              <span class="icon-download"></span>
+            </div>
+            下载
           </div>
-          {{data.shareCount}}
         </div>
-        <div>
-          <div>
-            <span class="icon-download"></span>
-          </div>
-          下载
-        </div>
-      </div>
-    </header>
-    <music-list :songs="tracks"></music-list>
+      </header>
+      <music-list :songs="tracks"></music-list>
+    </div>
   </div>  
 </template>
 
@@ -60,7 +63,8 @@
         id: '',
         tracks: [],
         data: '',
-        creator: ''
+        creator: '',
+        loding: true
       }
     },
     components: {
@@ -74,7 +78,7 @@
           this.data = res.data.playlist
           this.tracks = res.data.playlist.tracks
           this.creator = res.data.playlist.creator
-          console.log(this.creator)
+          this.loding = false
         })
     },
     methods: {
@@ -97,6 +101,12 @@
 </script>
 
 <style lang="scss" scoped>
+  .loding {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   .list-content-wrap {
     font-size: 0.15rem;
   }

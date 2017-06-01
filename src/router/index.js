@@ -244,11 +244,8 @@ export default new Router({
       path: '/mvLibrary',
       name: 'mvLibrary',
       component: mvLibrary,
+      redirect: { path: '/mvLibrary/hotMv' },
       children: [
-        {
-          path: '',
-          component: hotMV
-        },
         {
           path: 'hotMV',
           name: 'hotMV',
