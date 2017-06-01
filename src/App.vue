@@ -30,4 +30,10 @@
   .view-wrap {
     padding-bottom: 0.8rem;
   }
+  .loding {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 </style>
