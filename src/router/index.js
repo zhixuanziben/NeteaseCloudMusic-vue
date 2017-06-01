@@ -217,13 +217,9 @@ export default new Router({
       path: '/mv/:id',
       name: 'mv',
       component: mvhome,
+      redirect: { name: 'details' },
       meta: { notKeepAlive: true },
       children: [
-        {
-          path: '',
-          component: mvdetails,
-          meta: { notKeepAlive: true }
-        },
         {
           path: 'details',
           name: 'details',

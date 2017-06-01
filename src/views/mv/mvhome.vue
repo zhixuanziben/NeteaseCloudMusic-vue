@@ -1,14 +1,14 @@
 <template>
   <div>
     <list-title :title="name"></list-title>
-    <video-player  ref="videoPlayer"
-                   :options="playerOptions"
-                   title="you can listen some event if you need">
+    <video-player ref="videoPlayer"
+                  class="video"
+                  :options="playerOptions">
     </video-player>
     <div class="each-section-wrap">
-      <span @click="goDetails">详情</span>
-      <span @click="goComment">评论</span>
-      <span @click="goSimilar">相关MV</span>
+      <router-link :to="{path: `/mv/${this.$route.params.id}/details`}">详情</router-link>
+      <router-link :to="{path: `/mv/${this.$route.params.id}/mvcomment`}">评论</router-link>
+      <router-link :to="{path: `/mv/${this.$route.params.id}/similarMV`}">相关MV</router-link>
     </div>
     <keep-alive>
       <router-view></router-view>
@@ -105,9 +105,18 @@
 <style lang="scss" scoped>
   .each-section-wrap {
     display: flex;
-    > span {
+    height: 0.8rem;
+    line-height: 0.8rem;
+    > a {
       flex: 1;
+      color: #666;
+      line-height: 0.8rem;
       text-align: center;
+    }
+    .router-link-active {
+      color: #df2d2d;
+      text-decoration: none;
+      border-bottom: 2px solid #df2d2d;
     }
   }
 </style>
