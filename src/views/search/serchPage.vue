@@ -4,13 +4,13 @@
       <span class="icon-左箭头" @click="notSubmit()"></span>
       <input id="inp" 
         v-model="query"
-        @keyup.enter="submit()" 
+        @keyup.enter="submit" 
         autofocus="autofocus" 
         placeholder="搜索音乐·歌手·歌词·用户">
     </div>
     <div class="hot-search">
       <h3>热门搜索</h3>
-      <button v-for="item in hotSearch" @click="serch(item.id)">{{item.name}}</button>
+      <button v-for="item in hotSearch" @click="submit(item)">{{item}}</button>
     </div>
   </div>
 </template>
@@ -20,24 +20,16 @@
     data () {
       return {
         query: '',
-        hotSearch: [
-          {name: '我想和你唱', id: '25765735'},
-          {name: '人民的名义', id: '6873143'},
-          {name: 'Good Life', id: '20471852'},
-          {name: '我爱你', id: '26145033'},
-          {name: '随便你', id: '25934014'},
-          {name: '成都', id: '26354572'}
-        ]
+        hotSearch: ['冯提莫', '陈奕迅', '姐姐', 'samsara', '童话镇', '阿婆说', 'Taylor Swift', '周杰伦', '成都', '薛之谦', 'Coldplay']
       }
     },
     methods: {
-      submit: function () {
-        this.$router.push({path: '/searchResult', query: { val: this.query }})
+      submit: function (str) {
+        if (str) {
+          this.query = str
+        }
+        this.$router.replace({path: '/searchResult', query: { val: this.query }})
         this.query = ''
-      },
-      serch: function (str) {
-        const path = '/movie/' + str
-        this.$router.push({path: path})
       },
       notSubmit: function () {
         this.$router.go(-1)
@@ -83,12 +75,11 @@
   }
   .hot-search button {
     background-color: white;
-    border-style: none;
-    padding: 5px;
+    border: 1px solid #666;
+    padding: 5px 10px;
     margin-right: 5px;
-    border-radius: 10px;
+    border-radius: 20px;
     margin-bottom: 5px;
     margin-top: 5px;
-    color: #e54847;
   }
 </style>

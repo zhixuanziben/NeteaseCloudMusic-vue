@@ -150,6 +150,7 @@ export default new Router({
       path: '/searchResult',
       name: 'searchResult',
       component: searchResult,
+      redirect: { name: 'searchResultMusic' },
       meta: { notKeepAlive: true },
       children: [
         {

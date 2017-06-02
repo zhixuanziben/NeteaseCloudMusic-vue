@@ -4,7 +4,6 @@
       <header class="library-header">
         <router-link :to="{name: 'personalAdvice'}">个性推荐</router-link>
         <router-link :to="{name: 'songList'}">歌单</router-link>
-        <router-link :to="{name: 'songList'}">主播电台</router-link>
         <router-link :to="{name: 'list'}">排行榜</router-link>
       </header>
     </div> 

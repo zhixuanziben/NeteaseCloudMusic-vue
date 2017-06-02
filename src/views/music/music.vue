@@ -43,6 +43,7 @@
       <span class="icon-next" @click="next"></span>
       <span class="icon-list" @click="openBottomSheet"></span>
     </section>
+    <mu-toast v-if="toast" message="一段简单的文本" @close="hideToast"/>
     <mu-bottom-sheet :open="bottomSheet" @close="closeBottomSheet">
       <mu-list :value="musicId" @itemClick="closeBottomSheet">
         <mu-sub-header>
@@ -79,7 +80,8 @@
         arr: [],
         // 代表三种模式，1.列表循环 2.随机播放 3.单曲循环
         playModel: [false, false, false],
-        bottomSheet: false
+        bottomSheet: false,
+        toast: false
       }
     },
     computed: mapState({
@@ -124,6 +126,7 @@
     },
     methods: {
       changePlayModel (ind) {
+        this.toast = true
         this.playModel = [false, false, false]
         this.playModel[ind] = true
         this.$store.dispatch('genghuanPlayModel', ind)
@@ -278,6 +281,10 @@
             this.$store.dispatch('changePlayStatus', true)
             this.$store.dispatch('changeMusic', Obj)
           })
+      },
+      hideToast () {
+        this.toast = false
+        if (this.toastTimer) clearTimeout(this.toastTimer)
       }
     }
   }
