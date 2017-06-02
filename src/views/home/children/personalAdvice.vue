@@ -29,7 +29,7 @@
       </div>
       <div class="advice-songList-box">
         <div v-for="item in songList" @click="goListContent(item.id)" class="advice-songList">
-          <img :src="item.picUrl" alt="">
+          <img v-lazy="item.picUrl" alt="">
           <span class="advice-songList-count">
             <span class="icon-耳机"></span>
             <span v-if="item.playCount > 100000">
@@ -52,7 +52,7 @@
       </div>
       <div class="each-new-music-wrap">
         <div v-for="item in newAlbums" @click="toAlbumMsg(item.id)" class="each-new-music">
-          <img :src="item.picUrl" alt="">
+          <img v-lazy="item.picUrl" alt="">
           <div class="each-new-music-name">{{item.name}}</div>
           <div class="each-new-music-artists">
             <span v-for="(artists, index) in item.artists">{{artists.name}}<span v-if="index < (item.artists.length - 1)">/</span></span>
@@ -69,7 +69,7 @@
       </div>
       <div class="advice-songList-box">
         <div v-for="item in MVList" @click="getMvUrl(item.id)" class="advice-songList">
-          <img :src="item.picUrl" alt="">
+          <img v-lazy="item.picUrl" alt="">
           <span class="advice-songList-count">
             <span class="icon-视频"></span>
             <span v-if="item.playCount > 100000">

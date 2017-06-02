@@ -3,7 +3,7 @@
     <div>
       <header class="artist-header">
         <list-title :title="data.artist.name"></list-title>
-        <img :src="data.artist.picUrl">
+        <img v-lazy="data.artist.picUrl">
       </header>
       <div class="artist-router">
         <router-link :to="{name: 'artistHotmusic'}" replace>

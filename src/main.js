@@ -11,7 +11,14 @@ import artists from './components/artists'
 // import 'element-ui/lib/theme-default/index.css'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
+import VueLazyload from 'vue-lazyload'
 Vue.use(MuseUI)
+Vue.use(VueLazyload)
+Vue.use(VueLazyload, {
+  error: require('./assets/imgs/404.png'),
+  loading: require('./assets/imgs/loading.jpg'),
+  attempt: 1
+})
 
 Vue.prototype.$http = axios
 axios.defaults.withCredentials = true

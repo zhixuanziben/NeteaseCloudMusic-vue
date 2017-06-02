@@ -6,7 +6,7 @@
         <list-title title="专辑"></list-title>
         <div class="album-msg-wrap">
           <div class="album-pic">
-            <img :src="album.picUrl">
+            <img v-lazy="album.picUrl">
           </div>
           <div class="album-msg">
             <h3>{{album.name}}</h3>

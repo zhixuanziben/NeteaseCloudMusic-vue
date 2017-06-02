@@ -4,7 +4,7 @@
     <div class="all-songlist-wrap">
       <div v-for="item in data"  @click="goListContent(item.id)" class="each-songlist-wrap">
         <div class="img-wrap">
-          <img :src="item.coverImgUrl" alt="">
+          <img v-lazy="item.coverImgUrl" alt="">
           <span class="user-icon">
             <span class="icon-我的"></span>
             {{item.creator.nickname}}

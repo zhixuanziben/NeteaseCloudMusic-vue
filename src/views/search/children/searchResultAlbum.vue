@@ -2,7 +2,7 @@
   <div>
     <div v-for="item in albums" @click="toAlbumMsg(item.id)" class="each-album">
       <div class="each-album-pic">
-        <img :src="item.blurPicUrl" alt="">
+        <img v-lazy="item.blurPicUrl" alt="">
       </div>
       <div class="each-album-msg">
         <h3>

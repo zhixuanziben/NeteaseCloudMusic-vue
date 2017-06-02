@@ -2,7 +2,7 @@
   <div>
     <div v-for="item in playlists" @click="toAlbum(item.id)" class="each-songlist">
       <div class="each-songlist-left">
-        <img :src="item.coverImgUrl" alt="">
+        <img v-lazy="item.coverImgUrl" alt="">
       </div>
       <div class="each-songlist-right">
         <h3 class="each-songlist-name">{{item.name}}</h3>

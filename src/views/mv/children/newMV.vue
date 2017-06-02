@@ -1,7 +1,7 @@
 <template>
   <div class="mv-library">
     <div v-for="(item, index) of mvList" class="each-mv-wrap" @click="playMV(item.id)">
-      <img :src="item.cover">
+      <img v-lazy="item.cover">
       <div class="each-mv-count">
         <span class="icon-视频"></span>
         {{item.playCount}}

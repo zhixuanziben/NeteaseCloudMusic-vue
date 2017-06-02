@@ -2,8 +2,8 @@
   <div>
     <section v-for="item of allMV" class="each-mv" @click="getMvUrl(item.id)">
       <div class="each-mv-left">
-        <img v-if="item.cover" :src="item.cover">
-        <img v-if="item.imgurl" :src="item.imgurl">
+        <img v-if="item.cover" v-lazy="item.cover">
+        <img v-if="item.imgurl" v-lazy="item.imgurl">
         <span class="each-mv-count">
           <span class="icon-视频"></span>
           <span v-if="item.playCount > 100000">

@@ -2,7 +2,7 @@
   <div class="result-mvs">
     <div v-for="item in mvs" @click="toMv(item.id)" class="each-mv">
       <div class="each-mv-pic">
-        <img :src="item.cover">
+        <img v-lazy="item.cover">
         <p class="each-mv-duration">{{Math.floor(item.duration*0.001/60).toString().padStart(2, '0')}}:{{(item.duration*0.001%60).toString().padStart(2, '0')}}</p>
       </div>
       <div class="each-mv-msg">

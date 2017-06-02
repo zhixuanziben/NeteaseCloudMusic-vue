@@ -4,7 +4,7 @@
       <div class="type" v-if="hotcomment.length != 0">精彩评论</div>
       <div v-for="item in hotcomment" class="each-comment">
         <div class="each-comment-avatar" @click="goUser(item.user.userId)">
-          <img :src="item.user.avatarUrl">
+          <img v-lazy="item.user.avatarUrl">
         </div>
         <div class="each-comment-msg">
           <div class="each-comment-nickname">
@@ -29,7 +29,7 @@
       <div class="type" v-if="comment.length != 0">最新评论</div>
       <div v-for="item in comment" class="each-comment">
         <div class="each-comment-avatar" @click="goUser(item.user.userId)">
-          <img :src="item.user.avatarUrl">
+          <img v-lazy="item.user.avatarUrl">
         </div>
         <div class="each-comment-msg">
           <div class="each-comment-nickname">

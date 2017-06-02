@@ -3,7 +3,7 @@
     <list-title title="评论" :count="total"></list-title>
     <header @click="playMusic()" class="comment-header" v-if="commentMsg">
       <div class="comment-pic">
-        <img :src="commentMsg.musicpic" alt="" style="width: 80px; height: 80px">
+        <img v-lazy="commentMsg.musicpic" alt="" style="width: 80px; height: 80px">
       </div>
       <div class="comment-msg">
         <h3>{{commentMsg.name}}</h3>

@@ -15,7 +15,7 @@
     <section class="music-main">
       <img src="../../assets/imgs/stick_bg.png" class="music-main-stick">
       <div class="music-main-pic">
-        <img :src="imgUrl">
+        <img v-lazy="imgUrl">
       </div>
     </section>
     <section class="music-section-icon">

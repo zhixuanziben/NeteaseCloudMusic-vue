@@ -1,7 +1,7 @@
 <template>
   <div class="all-artist">
     <div v-for="item of artists" class="each-artist" @click="goArtist(item.id)">
-      <img :src="item.img1v1Url">
+      <img v-lazy="item.img1v1Url">
       <p>{{item.name}}</p>
     </div>
   </div>

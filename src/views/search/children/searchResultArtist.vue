@@ -2,7 +2,7 @@
   <div>
     <div v-for="item in data.artists" @click="toArtistMsg(item.id)" class="each-artist">
       <div class="each-artist-pic">
-        <img :src="item.img1v1Url" alt="">
+        <img v-lazy="item.img1v1Url" alt="">
       </div>
       <div class="each-artist-name">
         {{item.name}}

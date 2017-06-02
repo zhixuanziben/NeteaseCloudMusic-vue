@@ -4,7 +4,7 @@
       <h2 class="list-type">官方榜</h2>
       <div v-for="(item, index) of keyValue1" @click="goListContent(item.key)" class="gov-each-list-wrap">
         <div class="gov-each-list-img-wrap">
-          <img :src="item.url">
+          <img v-lazy="item.url">
           <span class="uptime">
             {{item.upTime}}
           </span>
@@ -26,7 +26,7 @@
       <h2 class="list-type">全球榜</h2>
       <div v-for="item of keyValue2" @click="goListContent(item.key)" class="each-list-wrap">
         <div class="each-list-img">
-          <img :src="item.url">
+          <img v-lazy="item.url">
         </div>
         <div class="each-list-msg">
           <div class="each-list-name">

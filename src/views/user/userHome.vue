@@ -4,7 +4,7 @@
       :style="{'background-image':'url(' + userMsg.backgroundUrl + '?param=500y500' + ')'}">
       <span class="icon-左箭头" @click="back"></span>
       <div class="user-msg-wrap">
-        <img :src="userMsg.avatarUrl">
+        <img v-lazy="userMsg.avatarUrl">
         <p>
           {{userMsg.nickname}}
           <span>{{userMsg.gender}}</span>
@@ -21,7 +21,7 @@
       v-if="playlistShow" 
       v-for="item of playlist" class="each-playlist" @click="goPlaylist(item.id)">
       <div class="each-playlist-img">
-        <img :src="item.coverImgUrl">
+        <img v-lazy="item.coverImgUrl">
       </div>
       <div class="each-playlist-msg">
         <p class="playlist-name">{{item.name}}</p>

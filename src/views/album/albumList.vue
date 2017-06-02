@@ -3,7 +3,7 @@
     <list-title title="新碟上架"></list-title>
     <div class="all-album-wrap">
       <div v-for="item of albums" @click="toAlbumMsg(item.id)" class="each-album">
-        <img :src="item.picUrl">
+        <img v-lazy="item.picUrl">
         <p class="each-album-name">
           {{item.name}}
         </p>

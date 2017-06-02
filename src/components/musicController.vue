@@ -3,7 +3,7 @@
     <div class="player">
       <div class="player-main">
         <div class="player-main-left" @click="toMusicMsg(musicId)">
-          <img :src="imgUrl">
+          <img v-lazy="imgUrl">
         </div>
         <div class="player-main-main" @click="toMusicMsg(musicId)">
           <div>

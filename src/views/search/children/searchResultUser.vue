@@ -2,7 +2,7 @@
   <div>
     <div v-for="item in data" @click="toUser(item.userId)" class="each-user">
       <div class="each-user-left">
-        <img :src="item.avatarUrl">
+        <img v-lazy="item.avatarUrl">
       </div>
       <div class="each-user-right">
         <h3 class="each-user-name">
