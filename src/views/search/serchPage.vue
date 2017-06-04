@@ -4,7 +4,7 @@
       <span class="icon-左箭头" @click="notSubmit()"></span>
       <input id="inp" 
         v-model="query"
-        @keyup.enter="submit" 
+        @keyup.enter="submit()" 
         autofocus="autofocus" 
         placeholder="搜索音乐·歌手·歌词·用户">
     </div>
