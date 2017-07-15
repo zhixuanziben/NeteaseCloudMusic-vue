@@ -6,7 +6,7 @@
 vue2 + vuex + vue-router + axios + ES6/7 + sass + flex + icomoon
 
 # 预览地址
-[网易云音乐vue版](http://www.zhixuanvip.com)（请用chrome手机模式预览）
+[网易云音乐vue版](http://www.zhixuanvip.com)（域名没有备案，没办法使用，预览请在本地跑这个项目）
 
 # 关于后台数据
 数据是真实的网易云音乐的数据，利用[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)提供的node.js版接口！感谢Binaryify的付出！
